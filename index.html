@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sannidhi's Bakery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:      #fdf6ee;
+      --beige:      #f2e4cf;
+      --beige-dark: #e8d5b7;
+      --rose-gold:  #c9956c;
+      --rose-deep:  #b07a54;
+      --brown:      #6b4226;
+      --text:       #3d2b1f;
+      --text-light: #7a5c47;
+      --white:      #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background-color: var(--cream);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--beige-dark);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+      box-shadow: 0 2px 12px rgba(180,120,80,0.08);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--brown);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--rose-gold); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--brown);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--beige) 0%, var(--cream) 60%, #f9ede0 100%);
+      text-align: center;
+      padding: 100px 2rem 90px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(201,149,108,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(201,149,108,0.10) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-emoji {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 1rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      color: var(--brown);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+      color: var(--text-light);
+      max-width: 520px;
+      margin: 0 auto 2.2rem;
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--rose-gold);
+      color: var(--white);
+      padding: 0.85rem 2.4rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+      box-shadow: 0 4px 18px rgba(201,149,108,0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--rose-deep);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201,149,108,0.45);
+    }
+
+    /* ── Section shared ── */
+    section {
+      padding: 80px 2rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--brown);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 3rem;
+      font-size: 1.05rem;
+    }
+
+    .divider {
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: var(--rose-gold);
+      border-radius: 2px;
+      margin: 0.7rem auto 2.5rem;
+    }
+
+    /* ── Menu ── */
+    #menu { background: var(--white); }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.8rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .menu-card {
+      background: var(--cream);
+      border: 1px solid var(--beige-dark);
+      border-radius: 16px;
+      padding: 1.8rem 1.6rem;
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--rose-gold);
+      border-radius: 4px 0 0 4px;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(180,120,80,0.14);
+    }
+
+    .menu-card:hover::before { opacity: 1; }
+
+    .menu-card-emoji {
+      font-size: 2rem;
+      margin-bottom: 0.7rem;
+      display: block;
+    }
+
+    .menu-card h3 {
+      font-size: 1.2rem;
+      color: var(--brown);
+      margin-bottom: 0.4rem;
+    }
+
+    .menu-card p {
+      font-size: 0.93rem;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .menu-price {
+      font-weight: 700;
+      color: var(--rose-gold);
+      font-size: 1.05rem;
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* ── Order Form ── */
+    #order { background: var(--beige); }
+
+    .form-container {
+      max-width: 640px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2.8rem 2.4rem;
+      box-shadow: 0 8px 40px rgba(180,120,80,0.12);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.3rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--beige-dark);
+      border-radius: 10px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.97rem;
+      color: var(--text);
+      background: var(--cream);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--rose-gold);
+      box-shadow: 0 0 0 3px rgba(201,149,108,0.15);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23c9956c' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .confirmation {
+      display: none;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .confirmation .check {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .confirmation h3 {
+      font-size: 1.5rem;
+      color: var(--brown);
+      margin-bottom: 0.5rem;
+    }
+
+    .confirmation p {
+      color: var(--text-light);
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* ── About ── */
+    #about { background: var(--cream); }
+
+    .about-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .about-inner .about-emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-inner p {
+      font-size: 1.08rem;
+      color: var(--text-light);
+      line-height: 1.85;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-inner .instagram-link {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: var(--rose-gold);
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1rem;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .about-inner .instagram-link:hover {
+      border-color: var(--rose-gold);
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--brown);
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      padding: 2.8rem 2rem;
+    }
+
+    footer .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+    }
+
+    footer p {
+      font-size: 0.93rem;
+      margin-bottom: 0.4rem;
+    }
+
+    footer a {
+      color: var(--beige);
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--white); }
+
+    footer .pickup-note {
+      display: inline-block;
+      margin-top: 0.8rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+    }
+
+    footer .copyright {
+      margin-top: 1.5rem;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 68px; left: 0; right: 0;
+        background: var(--white);
+        border-bottom: 1px solid var(--beige-dark);
+        padding: 1rem 2rem 1.5rem;
+        gap: 1.1rem;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+      }
+
+      .nav-links.open { display: flex; }
+
+      .hamburger { display: flex; }
+
+      nav { position: relative; }
+
+      .form-row { grid-template-columns: 1fr; }
+
+      .form-container { padding: 2rem 1.4rem; }
+
+      section { padding: 60px 1.2rem; }
+
+      .hero { padding: 70px 1.2rem 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">🧁 Sannidhi's Bakery</a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#order">Order</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section id="hero" class="hero">
+    <span class="hero-emoji">🎂</span>
+    <h1>Sannidhi's Bakery</h1>
+    <p>A proud family owned bakery. Homemade with love.</p>
+    <a href="#order" class="btn-primary">Order Now</a>
+  </section>
+
+  <!-- ── Menu ── -->
+  <section id="menu">
+    <h2 class="section-title">Our Menu</h2>
+    <span class="divider"></span>
+    <p class="section-subtitle">Everything is made fresh to order with the finest ingredients</p>
+    <div class="menu-grid">
+
+      <div class="menu-card">
+        <span class="menu-card-emoji">🎂</span>
+        <h3>Custom Birthday Cake</h3>
+        <p>Personalized decorated cake for any occasion. Your design, your flavors, your celebration.</p>
+        <span class="menu-price">Starting at $45</span>
+      </div>
+
+      <div class="menu-card">
+        <span class="menu-card-emoji">🦋</span>
+        <h3>Butterfly Themed Cake</h3>
+        <p>Elegant 2-tier cake adorned with beautiful butterfly decorations. A showstopper at any event.</p>
+        <span class="menu-price">Starting at $85</span>
+      </div>
+
+      <div class="menu-card">
+        <span class="menu-card-emoji">🍓</span>
+        <h3>Strawberry Cream Cake</h3>
+        <p>Fresh strawberries layered with light whipped cream on a soft, moist vanilla sponge.</p>
+        <span class="menu-price">Starting at $50</span>
+      </div>
+
+      <div class="menu-card">
+        <span class="menu-card-emoji">🍪</span>
+        <h3>Chocolate Chip Cookies</h3>
+        <p>Homemade thick and chewy cookies loaded with chocolate chips. Baked fresh for every order.</p>
+        <span class="menu-price">$12 / dozen</span>
+      </div>
+
+      <div class="menu-card">
+        <span class="menu-card-emoji">🧁</span>
+        <h3>Cupcakes (set of 6)</h3>
+        <p>Assorted flavors topped with silky smooth buttercream frosting. Perfect for any occasion.</p>
+        <span class="menu-price">$18 / set of 6</span>
+      </div>
+
+      <div class="menu-card">
+        <span class="menu-card-emoji">✨</span>
+        <h3>Custom Theme Cake</h3>
+        <p>Tell us your vision and we'll make it happen. No idea is too creative for our kitchen!</p>
+        <span class="menu-price">Starting at $60</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Order Form ── -->
+  <section id="order">
+    <h2 class="section-title">Place an Order</h2>
+    <span class="divider"></span>
+    <p class="section-subtitle">We'll confirm your order within 24 hours</p>
+
+    <div class="form-container">
+      <form id="order-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Jane Doe" required />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="item">Item Ordered</label>
+            <select id="item" name="item" required>
+              <option value="" disabled selected>Select an item…</option>
+              <option value="custom-birthday-cake">Custom Birthday Cake — from $45</option>
+              <option value="butterfly-cake">Butterfly Themed Cake — from $85</option>
+              <option value="strawberry-cream-cake">Strawberry Cream Cake — from $50</option>
+              <option value="cookies">Chocolate Chip Cookies — $12/doz</option>
+              <option value="cupcakes">Cupcakes (set of 6) — $18</option>
+              <option value="custom-theme-cake">Custom Theme Cake — from $60</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="size">Cake Size</label>
+            <select id="size" name="size">
+              <option value="" disabled selected>Select size…</option>
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+              <option value="na">N/A (cookies / cupcakes)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="pickup">Pickup Date</label>
+          <input type="date" id="pickup" name="pickup" required />
+        </div>
+
+        <div class="form-group">
+          <label for="message">Custom Message or Special Requests</label>
+          <textarea id="message" name="message" placeholder="Tell us your cake flavor, design ideas, writing on the cake, allergies, etc."></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary btn-submit">Submit Order</button>
+      </form>
+
+      <div class="confirmation" id="confirmation">
+        <span class="check">🎉</span>
+        <h3>Order Received!</h3>
+        <p>Thank you! We'll contact you within 24 hours to confirm your order.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── About ── -->
+  <section id="about">
+    <h2 class="section-title">About Us</h2>
+    <span class="divider"></span>
+    <div class="about-inner">
+      <span class="about-emoji">🏡</span>
+      <p>
+        Welcome to Sannidhi's Bakery! We are a proud family owned business specializing in
+        homemade cakes, cookies, and custom baked goods. Every item is made fresh with love
+        and the finest ingredients.
+      </p>
+      <p>
+        From custom birthday cakes to delicate butterfly-themed creations, each order is
+        crafted with care and attention to detail. We believe that every celebration deserves
+        something truly special and homemade.
+      </p>
+      <a href="https://www.instagram.com/sannidhis_bakerytx" target="_blank" rel="noopener" class="instagram-link">
+        📸 Follow us on Instagram @sannidhis_bakerytx
+      </a>
+    </div>
+  </section>
+
+  <!-- ── Footer / Contact ── -->
+  <footer id="contact">
+    <div class="footer-logo">🧁 Sannidhi's Bakery</div>
+    <p>
+      <a href="https://www.instagram.com/sannidhis_bakerytx" target="_blank" rel="noopener">
+        📸 @sannidhis_bakerytx
+      </a>
+    </p>
+    <span class="pickup-note">🚗 Pickup orders only — no delivery at this time</span>
+    <p class="copyright">&copy; 2026 Sannidhi's Bakery. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Hamburger toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // Close nav on link click (mobile)
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    // Set min pickup date to tomorrow
+    const pickupInput = document.getElementById('pickup');
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    pickupInput.min = tomorrow.toISOString().split('T')[0];
+
+    // Order form submission
+    document.getElementById('order-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      this.style.display = 'none';
+      document.getElementById('confirmation').style.display = 'block';
+      // Scroll confirmation into view smoothly
+      document.getElementById('confirmation').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  </script>
+</body>
+</html>
