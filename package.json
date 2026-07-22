@@ -1,0 +1,31 @@
+{
+  "name": "sannidhis-bakery",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "npm run check:images",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "images:crop": "node scripts/crop-chrome.mjs",
+    "images:build": "node scripts/build-images.mjs",
+    "check:images": "node scripts/check-images.mjs"
+  },
+  "overrides": {
+    "sharp": "^0.35.3",
+    "postcss": "^8.5.6"
+  },
+  "dependencies": {
+    "next": "^16.2.11",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
+    "sharp": "^0.35.3",
+    "typescript": "5.7.2"
+  }
+}

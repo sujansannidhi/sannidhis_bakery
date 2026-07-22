@@ -370,6 +370,343 @@
       font-family: 'Playfair Display', serif;
     }
 
+    /* ── Cake Customizer – Inline trigger ── */
+    .customize-cake-wrap {
+      display: none;
+      margin-top: -0.6rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .customize-cake-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: none;
+      border: 1.5px solid var(--rose-gold);
+      color: var(--rose-gold);
+      padding: 0.5rem 1.3rem;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.22s;
+      font-family: 'Lato', sans-serif;
+    }
+
+    .customize-cake-btn:hover {
+      background: var(--rose-gold);
+      color: var(--white);
+    }
+
+    /* ── Cake Preview Card (shown after saving design) ── */
+    .cake-preview-card {
+      display: none;
+      align-items: center;
+      gap: 1rem;
+      border: 1.5px solid var(--beige-dark);
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+      margin-bottom: 1.3rem;
+      background: var(--cream);
+    }
+
+    .cake-preview-card.visible {
+      display: flex;
+    }
+
+    .cake-preview-card .mini-svg-wrap {
+      flex-shrink: 0;
+      width: 90px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--white);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--beige-dark);
+    }
+
+    .cake-preview-card .mini-svg-wrap svg {
+      width: 90px;
+      height: 90px;
+    }
+
+    .cake-preview-card-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cake-preview-card-info h4 {
+      font-size: 0.95rem;
+      color: var(--brown);
+      margin-bottom: 0.3rem;
+    }
+
+    .cake-preview-card-info p {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    .cake-preview-edit-btn {
+      background: none;
+      border: 1.5px solid var(--beige-dark);
+      border-radius: 8px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Lato', sans-serif;
+      letter-spacing: 0.03em;
+      flex-shrink: 0;
+    }
+
+    .cake-preview-edit-btn:hover {
+      border-color: var(--rose-gold);
+      color: var(--rose-gold);
+    }
+
+    /* ── Cake Customizer Modal ── */
+    .cake-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(25, 12, 4, 0.6);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+      backdrop-filter: blur(3px);
+    }
+
+    .cake-modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .cake-modal {
+      background: var(--white);
+      border-radius: 24px;
+      max-width: 860px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 90px rgba(80, 40, 10, 0.35);
+      transform: translateY(24px) scale(0.98);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .cake-modal-overlay.open .cake-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .cake-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--beige);
+    }
+
+    .cake-modal-header h3 {
+      font-size: 1.4rem;
+      color: var(--brown);
+    }
+
+    .modal-close-btn {
+      background: var(--beige);
+      border: none;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--text-light);
+      transition: all 0.2s;
+      line-height: 1;
+    }
+
+    .modal-close-btn:hover {
+      background: var(--beige-dark);
+      color: var(--brown);
+    }
+
+    .cake-modal-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* Preview panel */
+    .cake-preview-panel {
+      background: linear-gradient(160deg, var(--cream), var(--beige));
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0 0 0 24px;
+      min-height: 380px;
+    }
+
+    .cake-preview-panel svg {
+      width: 100%;
+      max-width: 300px;
+      filter: drop-shadow(0 8px 20px rgba(100,60,20,0.18));
+    }
+
+    .preview-label {
+      margin-top: 1.2rem;
+      font-size: 0.82rem;
+      color: var(--text-light);
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Controls panel */
+    .cake-controls-panel {
+      padding: 2rem 2rem 2rem;
+      border-left: 1px solid var(--beige);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .cake-control-group {
+      margin-bottom: 1.6rem;
+    }
+
+    .cake-control-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 0.75rem;
+    }
+
+    /* Size buttons */
+    .size-btns {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .size-btn {
+      flex: 1;
+      padding: 0.55rem 0;
+      border: 1.5px solid var(--beige-dark);
+      border-radius: 50px;
+      background: none;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .size-btn:hover {
+      border-color: var(--rose-gold);
+      color: var(--rose-gold);
+    }
+
+    .size-btn.active {
+      background: var(--rose-gold);
+      border-color: var(--rose-gold);
+      color: var(--white);
+    }
+
+    /* Color swatches */
+    .color-swatches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .swatch-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      cursor: pointer;
+    }
+
+    .swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.18s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.13);
+      outline: none;
+      background: none;
+      padding: 0;
+    }
+
+    .swatch:hover { transform: scale(1.14); }
+
+    .swatch.active {
+      border-color: var(--rose-gold);
+      box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--rose-gold);
+    }
+
+    .swatch-name {
+      font-size: 0.68rem;
+      color: var(--text-light);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    /* Text input */
+    .cake-text-input {
+      width: 100%;
+      padding: 0.72rem 1rem;
+      border: 1.5px solid var(--beige-dark);
+      border-radius: 10px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text);
+      background: var(--cream);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .cake-text-input:focus {
+      border-color: var(--rose-gold);
+      box-shadow: 0 0 0 3px rgba(201,149,108,0.15);
+    }
+
+    .char-count {
+      text-align: right;
+      font-size: 0.76rem;
+      color: var(--text-light);
+      margin-top: 0.3rem;
+    }
+
+    /* Save btn */
+    .save-design-btn {
+      width: 100%;
+      margin-top: auto;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
     /* ── About ── */
     #about { background: var(--cream); }
 
@@ -479,6 +816,22 @@
       section { padding: 60px 1.2rem; }
 
       .hero { padding: 70px 1.2rem 60px; }
+
+      .cake-modal-body {
+        grid-template-columns: 1fr;
+      }
+
+      .cake-preview-panel {
+        border-radius: 0;
+        min-height: 280px;
+        padding: 1.8rem 1.5rem;
+      }
+
+      .cake-controls-panel {
+        border-left: none;
+        border-top: 1px solid var(--beige);
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
@@ -607,6 +960,29 @@
           </div>
         </div>
 
+        <!-- Customize button — shown when a cake is selected -->
+        <div class="customize-cake-wrap" id="customizeCakeWrap">
+          <button type="button" class="customize-cake-btn" id="openCakeModal">
+            ✨ Customize Your Cake
+          </button>
+        </div>
+
+        <!-- Cake preview card — shown after saving design -->
+        <div class="cake-preview-card" id="cakePreviewCard">
+          <div class="mini-svg-wrap">
+            <svg id="miniCakeSvg" viewBox="0 0 320 290" xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
+          <div class="cake-preview-card-info">
+            <h4>Your Cake Design</h4>
+            <p id="cakePreviewSummary"></p>
+          </div>
+          <button type="button" class="cake-preview-edit-btn" id="editCakeDesign">Edit</button>
+        </div>
+
+        <!-- Hidden fields to capture cake design details -->
+        <input type="hidden" id="cakeFrostingHidden" name="Cake Frosting Color" />
+        <input type="hidden" id="cakeWritingHidden" name="Cake Writing" />
+
         <div class="form-group">
           <label for="pickup">Pickup Date</label>
           <input type="date" id="pickup" name="Pickup Date" required />
@@ -662,8 +1038,89 @@
     <p class="copyright">&copy; 2026 Sannidhi's Bakery. All rights reserved.</p>
   </footer>
 
+  <!-- ── Cake Customizer Modal ── -->
+  <div class="cake-modal-overlay" id="cakeModal" role="dialog" aria-modal="true" aria-label="Customize Your Cake">
+    <div class="cake-modal">
+      <div class="cake-modal-header">
+        <h3>🎂 Customize Your Cake</h3>
+        <button class="modal-close-btn" id="closeCakeModal" aria-label="Close">✕</button>
+      </div>
+      <div class="cake-modal-body">
+
+        <!-- Live SVG Preview -->
+        <div class="cake-preview-panel">
+          <svg id="cakeSvg" viewBox="0 0 320 290" xmlns="http://www.w3.org/2000/svg"></svg>
+          <p class="preview-label">Live preview updates as you design</p>
+        </div>
+
+        <!-- Controls -->
+        <div class="cake-controls-panel">
+
+          <div class="cake-control-group">
+            <label>Size</label>
+            <div class="size-btns">
+              <button type="button" class="size-btn" data-size="small">Small</button>
+              <button type="button" class="size-btn active" data-size="medium">Medium</button>
+              <button type="button" class="size-btn" data-size="large">Large</button>
+            </div>
+          </div>
+
+          <div class="cake-control-group">
+            <label>Frosting Color</label>
+            <div class="color-swatches" id="colorSwatches">
+              <div class="swatch-wrap">
+                <button type="button" class="swatch active" data-color="white" style="background:#fdf0dc;" aria-label="White frosting"></button>
+                <span class="swatch-name">White</span>
+              </div>
+              <div class="swatch-wrap">
+                <button type="button" class="swatch" data-color="pink" style="background:#ffb6c1;" aria-label="Pink frosting"></button>
+                <span class="swatch-name">Pink</span>
+              </div>
+              <div class="swatch-wrap">
+                <button type="button" class="swatch" data-color="purple" style="background:#d8b4fe;" aria-label="Purple frosting"></button>
+                <span class="swatch-name">Purple</span>
+              </div>
+              <div class="swatch-wrap">
+                <button type="button" class="swatch" data-color="blue" style="background:#93c5fd;" aria-label="Blue frosting"></button>
+                <span class="swatch-name">Blue</span>
+              </div>
+              <div class="swatch-wrap">
+                <button type="button" class="swatch" data-color="chocolate" style="background:#a0522d;" aria-label="Chocolate frosting"></button>
+                <span class="swatch-name">Choc</span>
+              </div>
+              <div class="swatch-wrap">
+                <button type="button" class="swatch" data-color="mint" style="background:#86efac;" aria-label="Mint frosting"></button>
+                <span class="swatch-name">Mint</span>
+              </div>
+              <div class="swatch-wrap">
+                <button type="button" class="swatch" data-color="yellow" style="background:#fde68a;" aria-label="Yellow frosting"></button>
+                <span class="swatch-name">Yellow</span>
+              </div>
+              <div class="swatch-wrap">
+                <button type="button" class="swatch" data-color="lavender" style="background:#c4b5fd;" aria-label="Lavender frosting"></button>
+                <span class="swatch-name">Lavender</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cake-control-group">
+            <label>Writing on Cake</label>
+            <input type="text" id="cakeTextInput" class="cake-text-input"
+                   placeholder="e.g. Happy Birthday Sarah!" maxlength="28" />
+            <div class="char-count"><span id="charCount">0</span> / 28</div>
+          </div>
+
+          <button type="button" class="btn-primary save-design-btn" id="saveDesignBtn">
+            Save Design ✓
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Hamburger toggle
+    // ── Hamburger toggle ──────────────────────────────────────────
     const hamburger = document.getElementById('hamburger');
     const navLinks  = document.getElementById('nav-links');
 
@@ -671,18 +1128,17 @@
       navLinks.classList.toggle('open');
     });
 
-    // Close nav on link click (mobile)
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => navLinks.classList.remove('open'));
     });
 
-    // Set min pickup date to tomorrow
+    // ── Set min pickup date to tomorrow ──────────────────────────
     const pickupInput = document.getElementById('pickup');
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     pickupInput.min = tomorrow.toISOString().split('T')[0];
 
-    // Order form submission — AJAX to Formspree so we can show inline confirmation
+    // ── Order form submission ─────────────────────────────────────
     document.getElementById('order-form').addEventListener('submit', async function(e) {
       e.preventDefault();
       const form = this;
@@ -711,6 +1167,317 @@
         btn.disabled = false;
         btn.textContent = 'Submit Order';
         alert('Network error. Please check your connection and try again.');
+      }
+    });
+
+    // ── Cake Customizer ──────────────────────────────────────────
+    const CAKE_ITEMS = new Set([
+      'custom-birthday-cake', 'butterfly-cake',
+      'strawberry-cream-cake', 'custom-theme-cake'
+    ]);
+
+    // Current design state
+    let design = { size: 'medium', color: 'white', text: '' };
+    let designSaved = false;
+
+    // SVG drawing helpers
+    function mk(tag, attrs) {
+      const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+      if (attrs) Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, String(v)));
+      return el;
+    }
+
+    // Frosting color palettes
+    const PAL = {
+      white:     { base: '#fff5e8', mid: '#fde8c8', dark: '#e8c89a', shadow: '#cfaa78', text: '#5a3820' },
+      pink:      { base: '#ffdde3', mid: '#ffb6c1', dark: '#e8909e', shadow: '#c06878', text: '#5a1828' },
+      purple:    { base: '#ecdcff', mid: '#d8b4fe', dark: '#b888e8', shadow: '#9060c0', text: '#3a1060' },
+      blue:      { base: '#cde8ff', mid: '#93c5fd', dark: '#5ca0e0', shadow: '#3870b8', text: '#102848' },
+      chocolate: { base: '#d4824a', mid: '#a0522d', dark: '#7a3c1e', shadow: '#5a2810', text: '#fff0e0' },
+      mint:      { base: '#bbf7d0', mid: '#86efac', dark: '#4ade80', shadow: '#22c55e', text: '#083820' },
+      yellow:    { base: '#fef9c3', mid: '#fde68a', dark: '#f0c040', shadow: '#c89010', text: '#4a2800' },
+      lavender:  { base: '#ede9ff', mid: '#c4b5fd', dark: '#9a80e0', shadow: '#7050b8', text: '#281060' },
+    };
+
+    // Tier width/height configs [halfWidth, height]
+    const TIER_CFG = {
+      small:  [[105, 95]],
+      medium: [[108, 72], [80, 62]],
+      large:  [[108, 60], [85, 54], [63, 48]],
+    };
+
+    // Deterministic drip lengths (cycles)
+    const DRIP_LENS = [11, 17, 9, 14, 19, 12, 16, 8, 15, 18, 10, 13];
+
+    function drawCake(svgTarget, opts) {
+      svgTarget.innerHTML = '';
+      const { size = 'medium', color = 'white', text = '' } = opts;
+
+      const W = 320, H = 290, cx = W / 2;
+      svgTarget.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+      const pal = PAL[color] || PAL.white;
+      const tiers = TIER_CFG[size] || TIER_CFG.medium;
+      const eRatio = 0.13; // ellipse ry/rx
+
+      const add = el => { svgTarget.appendChild(el); return el; };
+
+      // Plate
+      const plateY = H - 16;
+      add(mk('ellipse', { cx, cy: plateY + 3, rx: 126, ry: 13, fill: '#b89060', opacity: 0.35 }));
+      add(mk('ellipse', { cx, cy: plateY,     rx: 126, ry: 13, fill: '#d4a870' }));
+      add(mk('ellipse', { cx, cy: plateY - 3, rx: 124, ry: 11, fill: '#e8c090' }));
+      add(mk('ellipse', { cx, cy: plateY - 6, rx: 122, ry: 10, fill: '#f5d8a8' }));
+
+      // Compute tier positions (bottom → top)
+      let baseY = plateY - 7;
+      const positions = tiers.map(([hw, h]) => {
+        const p = { rx: hw, topY: baseY - h, botY: baseY };
+        baseY = p.topY;
+        return p;
+      });
+
+      for (let i = 0; i < positions.length; i++) {
+        const { rx, topY, botY } = positions[i];
+        const ry = Math.round(rx * eRatio);
+        const h  = botY - topY;
+        const isTop = i === positions.length - 1;
+
+        // Body (main rect)
+        add(mk('rect', { x: cx - rx, y: topY + ry, width: rx * 2, height: h - ry + 1, fill: pal.mid }));
+
+        // Left highlight (cylindrical shading)
+        add(mk('rect', {
+          x: cx - rx, y: topY + ry,
+          width: Math.round(rx * 0.32), height: h - ry + 1,
+          fill: pal.base, opacity: 0.45
+        }));
+
+        // Right shadow (cylindrical shading)
+        add(mk('rect', {
+          x: cx + Math.round(rx * 0.68), y: topY + ry,
+          width: Math.round(rx * 0.32), height: h - ry + 1,
+          fill: pal.shadow, opacity: 0.3
+        }));
+
+        // Cake layer stripe (shows the fill inside)
+        const stripeY = topY + Math.round(h * 0.52);
+        add(mk('rect', { x: cx - rx, y: stripeY - 2, width: rx * 2, height: 4, fill: '#fff5ea', opacity: 0.5 }));
+        add(mk('rect', { x: cx - rx, y: stripeY - 1, width: rx * 2, height: 2, fill: pal.dark,  opacity: 0.25 }));
+
+        // Bottom ellipse (3D depth)
+        add(mk('ellipse', { cx, cy: botY, rx, ry, fill: pal.dark }));
+
+        // Frosting top ellipse
+        add(mk('ellipse', { cx, cy: topY, rx, ry, fill: pal.base }));
+
+        // Frosting drips (hanging below top ellipse)
+        const numDrips = Math.min(Math.floor((rx * 1.6) / 14), 12);
+        const gap = numDrips > 1 ? (rx * 1.6) / numDrips : 0;
+        const dripStartX = cx - rx * 0.8;
+        for (let d = 0; d < numDrips; d++) {
+          const dripCx = dripStartX + d * gap + gap * 0.5;
+          const dripLen = DRIP_LENS[d % DRIP_LENS.length];
+          // teardrop drip shape
+          add(mk('ellipse', {
+            cx: dripCx,
+            cy: topY + 3 + dripLen * 0.5,
+            rx: 5.5,
+            ry: dripLen * 0.5 + 3,
+            fill: pal.base,
+            opacity: 0.88
+          }));
+        }
+
+        // Decorative pearls on top ellipse edge
+        if (isTop) {
+          const pearlAngles = [0, 40, 80, 120, 160, 200, 240, 280, 320];
+          pearlAngles.forEach(deg => {
+            const rad = (deg * Math.PI) / 180;
+            const px = cx + Math.cos(rad) * rx * 0.9;
+            const py = topY + Math.sin(rad) * ry * 0.85;
+            add(mk('circle', { cx: px, cy: py, r: 3, fill: pal.dark, opacity: 0.7 }));
+          });
+        }
+      }
+
+      // Candles on top tier
+      const topPos = positions[positions.length - 1];
+      const { rx: topRx, topY: topTierY } = topPos;
+      const topRy = Math.round(topRx * eRatio);
+
+      const candleCount = size === 'small' ? 1 : size === 'medium' ? 3 : 5;
+      const candleColors = ['#ff8080', '#80b8ff', '#80e0a0', '#ffd080', '#d080ff'];
+      const spreadFrac  = candleCount > 1 ? 1.1 : 0;
+      const candleSpacing = candleCount > 1 ? (topRx * spreadFrac) / (candleCount - 1) : 0;
+      const candleStartX  = cx - (candleCount > 1 ? topRx * spreadFrac * 0.5 : 0);
+
+      for (let c = 0; c < candleCount; c++) {
+        const ccx = candleStartX + c * candleSpacing;
+        const cBase = topTierY - topRy + 2;
+        const cH = 22;
+        const cCol = candleColors[c % candleColors.length];
+
+        // Candle body
+        add(mk('rect', { x: ccx - 4.5, y: cBase - cH, width: 9, height: cH, rx: 3, fill: cCol }));
+        // Stripe
+        add(mk('rect', { x: ccx - 4.5, y: cBase - cH + 5, width: 9, height: 3.5, rx: 1, fill: '#fff', opacity: 0.4 }));
+        // Wick
+        add(mk('line', { x1: ccx, y1: cBase - cH, x2: ccx, y2: cBase - cH - 7, stroke: '#5a2808', 'stroke-width': 1.5, 'stroke-linecap': 'round' }));
+        // Flame outer glow
+        add(mk('ellipse', { cx: ccx, cy: cBase - cH - 14, rx: 6, ry: 9,   fill: '#FFD700', opacity: 0.5 }));
+        // Flame outer
+        add(mk('ellipse', { cx: ccx, cy: cBase - cH - 13, rx: 4.5, ry: 7, fill: '#FFD700', opacity: 0.9 }));
+        // Flame inner
+        add(mk('ellipse', { cx: ccx, cy: cBase - cH - 11, rx: 2.5, ry: 4.5, fill: '#FF8800' }));
+        // Flame core
+        add(mk('ellipse', { cx: ccx, cy: cBase - cH - 9,  rx: 1.2, ry: 2.5, fill: '#fff', opacity: 0.8 }));
+      }
+
+      // Cake text (written on the top tier body)
+      if (text.trim()) {
+        const t = text.trim();
+        const topTierH = topPos.botY - topPos.topY;
+        const textY = topPos.topY + topTierH * 0.56;
+        const fontSize = t.length > 18 ? 11 : t.length > 12 ? 13 : 15;
+        const maxW = topRx * 1.7;
+
+        const textEl = mk('text', {
+          x: cx,
+          y: textY,
+          'text-anchor': 'middle',
+          'dominant-baseline': 'middle',
+          fill: pal.text,
+          'font-family': 'Playfair Display, Georgia, serif',
+          'font-size': fontSize,
+          'font-style': 'italic',
+          'font-weight': '600',
+        });
+
+        // Truncate if too long for the tier width
+        let display = t;
+        textEl.textContent = display;
+        svgTarget.appendChild(textEl);
+        // Simple length-based truncation
+        if (display.length > 22) {
+          textEl.textContent = display.substring(0, 21) + '…';
+        }
+      }
+    }
+
+    // ── Modal open / close ──────────────────────────────────────
+    const cakeModalOverlay = document.getElementById('cakeModal');
+
+    function openModal() {
+      // Sync size from form dropdown
+      const formSize = document.getElementById('size').value;
+      if (['small', 'medium', 'large'].includes(formSize)) {
+        design.size = formSize;
+        document.querySelectorAll('.size-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.size === formSize);
+        });
+      }
+      // Restore text input
+      document.getElementById('cakeTextInput').value = design.text;
+      document.getElementById('charCount').textContent = design.text.length;
+
+      cakeModalOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      refreshCakePreview();
+    }
+
+    function closeModal() {
+      cakeModalOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('openCakeModal').addEventListener('click', openModal);
+    document.getElementById('editCakeDesign').addEventListener('click', openModal);
+    document.getElementById('closeCakeModal').addEventListener('click', closeModal);
+
+    // Close on overlay click
+    cakeModalOverlay.addEventListener('click', e => {
+      if (e.target === cakeModalOverlay) closeModal();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && cakeModalOverlay.classList.contains('open')) closeModal();
+    });
+
+    // ── Live preview refresh ────────────────────────────────────
+    function refreshCakePreview() {
+      drawCake(document.getElementById('cakeSvg'), design);
+    }
+
+    // Size buttons
+    document.querySelectorAll('.size-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        design.size = btn.dataset.size;
+        // Sync to form dropdown
+        document.getElementById('size').value = design.size;
+        refreshCakePreview();
+      });
+    });
+
+    // Color swatches
+    document.querySelectorAll('#colorSwatches .swatch').forEach(s => {
+      s.addEventListener('click', () => {
+        document.querySelectorAll('#colorSwatches .swatch').forEach(x => x.classList.remove('active'));
+        s.classList.add('active');
+        design.color = s.dataset.color;
+        refreshCakePreview();
+      });
+    });
+
+    // Text input
+    const cakeTextInput = document.getElementById('cakeTextInput');
+    cakeTextInput.addEventListener('input', () => {
+      design.text = cakeTextInput.value;
+      document.getElementById('charCount').textContent = design.text.length;
+      refreshCakePreview();
+    });
+
+    // ── Save design ─────────────────────────────────────────────
+    document.getElementById('saveDesignBtn').addEventListener('click', () => {
+      designSaved = true;
+
+      // Update hidden form fields
+      const colorLabel = { white:'White', pink:'Pink', purple:'Purple', blue:'Blue',
+                            chocolate:'Chocolate', mint:'Mint', yellow:'Yellow', lavender:'Lavender' };
+      document.getElementById('cakeFrostingHidden').value = colorLabel[design.color] || design.color;
+      document.getElementById('cakeWritingHidden').value  = design.text;
+      // Sync size dropdown
+      document.getElementById('size').value = design.size;
+
+      // Draw the mini preview in the card
+      drawCake(document.getElementById('miniCakeSvg'), design);
+
+      // Build summary text
+      const sizeLabel = { small: 'Small', medium: 'Medium', large: 'Large' };
+      let summary = `${sizeLabel[design.size]} · ${colorLabel[design.color]} frosting`;
+      if (design.text.trim()) summary += ` · "${design.text.trim()}"`;
+      document.getElementById('cakePreviewSummary').textContent = summary;
+
+      // Show preview card, update button label
+      document.getElementById('cakePreviewCard').classList.add('visible');
+      document.getElementById('openCakeModal').textContent = '✏️ Edit Design';
+
+      closeModal();
+    });
+
+    // ── Show customizer button when a cake is selected ──────────
+    document.getElementById('item').addEventListener('change', function () {
+      const wrap = document.getElementById('customizeCakeWrap');
+      if (CAKE_ITEMS.has(this.value)) {
+        wrap.style.display = 'block';
+      } else {
+        wrap.style.display = 'none';
+        // Hide preview card if they switch to non-cake
+        document.getElementById('cakePreviewCard').classList.remove('visible');
+        designSaved = false;
       }
     });
   </script>
