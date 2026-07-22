@@ -234,12 +234,12 @@ enough to feature or lead. `B` = good in a grid. `C` = grid only, never large.
 
 | ID | Cropped | AR | Category | What it is | Rank | Use |
 |---|---|---|---|---|---|---|
-| `photo-21` | 1228×1852 | 0.66 | cakes | Two-tier white, pastel spheres, macarons, bear, gold stars | A | **Hero** |
+| `photo-21` | 1178×1698 | 0.69 | cakes | Two-tier white, pastel spheres, macarons, bear, gold stars | A | Menu, photo strip — see hero note |
 | `photo-19` | 1520×1828 | 0.83 | cakes | Green fondant football pitch, number five | A | Featured |
-| `photo-03` | 1486×1798 | 0.83 | cakes | Two-tier white, gold leaf seam, red roses | A | **Cakes category** |
+| `photo-03` | 1426×1798 | 0.83 | cakes | Two-tier white, gold leaf seam, red roses | A | **Hero** |
 | `photo-05` | 1324×1744 | 0.76 | cakes | Two-tier, butterflies, gold wings, macarons | A | Featured |
 | `photo-18` | 1788×1574 | 1.14 | cakes | Combed buttercream, pink blooms, gold fan | A | Featured |
-| `photo-01` | 1436×1674 | 0.86 | cakes | Gold leaf, sphere cluster, two fondant bears | A | Featured |
+| `photo-01` | 1378×1608 | 0.86 | cakes | Gold leaf, sphere cluster, two fondant bears | A | **Cakes category** |
 | `photo-16` | 1730×1504 | 1.15 | cakes | Chocolate drip, Oreos, white chocolate | A | Featured |
 | `photo-06` | 1476×1652 | 0.89 | cakes | Vertical piped buttercream, strawberries, blossom | A | Featured |
 | `photo-14` | 1548×1782 | 0.87 | cakes | Dark ganache pool, chocolate bars, Oreos | A | Story / strip |
@@ -274,22 +274,38 @@ browser bookmarks bar with personal bookmark names baked into the top band —
 removed. Six more had Instagram carousel arrows and action icons on the **right**
 edge, which Appendix A did not measure because it only looked at top and bottom.
 
-### Hero: `photo-21`
+### Hero: `photo-03` (Red Rose Two-Tier)
 
-- **Tallest portrait in the set at AR 0.66.** The hero photo column is a tall
-  portrait container; every other candidate would need cropping to fill it, and
-  cropping is banned. This one was shot for that shape.
-- **Brightest of the strong files** (luma 207) with a near-white ground, so it
-  sits continuously against `--paper` instead of cutting a rectangle into it.
+**This changed during the build, and the reason is worth recording.**
+
+The plan above chose `photo-21`. Once the chrome was actually removed, `photo-21`
+came out at 1178px wide — below the 1200px derivative threshold — leaving it with
+nothing above 768px. That is too soft to lead a page with, and the shortfall was
+caused by the crop, which could not be known before doing it. `check:images`
+caught the resulting stale OG reference immediately, which is what that gate is
+for.
+
+`photo-03` at 1426×1798 (AR 0.83) is the replacement:
+
+- **It survives the crop with a 1200px derivative**, so the hero is sharp at the
+  size it is actually displayed.
 - **No customer name is visible.** `photo-19`, the sharpest colourful file, has a
   child's first name piped across the front, and `photo-15` has another. Neither
-  belongs on a homepage hero. Both are still used further down.
+  belongs on a homepage. Both are still used further down.
 - **It shows two-tier custom work**, which is the actual business, rather than a
   single themed cake that narrows the brand on first impression.
-- **Trade-off, stated:** at 1228px it is the narrowest of the A-rank files. In a
-  682px CSS column that is 1.8× DPR, not 2×. For a photograph with no fine text
-  that is invisible; for the sharper-but-shorter alternatives the cost would be a
-  destructive crop, which is worse. Original camera files fix this for free.
+- The red roses sit against `--paper` in the hero and never share a viewport with
+  the `--currant` CTA band, so the two reds do not muddy.
+
+`photo-21` moved to the menu and the photo strip. `photo-01` took over the Cakes
+category block that `photo-03` was going to carry.
+
+**A second layout consequence.** At the full 55% column width a tall portrait
+stands over 1000px high and pushes the case card — the last beat of the load
+sequence — below the fold on a laptop. The hero photograph is therefore bounded
+by height rather than width and right-aligned in its column. It keeps its native
+ratio exactly; the alternative was cropping it to fit, which is the one thing
+this whole pipeline exists to avoid.
 
 ---
 
@@ -382,3 +398,29 @@ in `CONTENT-TODO.md`. But these are the facts I cannot invent:
 
 Confirmed already: Instagram `@sannidhis_bakerytx`, home bakery (cottage food),
 pickup only, quotes not prices, Formspree `mykbnddq`.
+
+
+---
+
+## 10. What changed after this plan was signed off
+
+Recorded so the document does not quietly disagree with the code.
+
+1. **Hero photograph** — `photo-21` to `photo-03`. Reasoning in §5 above.
+2. **A 2% safety inset on every image.** Row-wise band detection cannot see
+   Instagram's carousel dots, rounded corner masks or a sliver of the
+   neighbouring post, because none of them spans a full row. Two per cent of a
+   1800px file clears all of them. The outer edge of a screenshot was never part
+   of the picture.
+3. **Chrome detection now runs after the manual trim, and repeats.** The chrome
+   is layered — UI on top of a black band on top of the photograph — so detecting
+   first and trimming second left the black band intact on six files.
+4. **Fonts subsetted**, and only the display face is preloaded. Both faces
+   preloaded competed with the hero image on a throttled connection. Fraunces is
+   restricted to the axis ranges the stylesheets actually set; the unused `.wonk`
+   class was removed rather than carrying the full 9-144 optical range for it.
+5. **`next/image` replaced with a native `<picture>`.** The derivatives already
+   exist, so Next's optimiser would re-encode finished work, and it cannot art
+   direct across 16 aspect ratios. This ships no JavaScript for images at all.
+6. **JS budget missed.** 185KB against 90KB. It is framework baseline, not
+   application code — see README.
