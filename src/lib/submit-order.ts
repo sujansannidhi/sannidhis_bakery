@@ -12,9 +12,9 @@
  * change.
  */
 
-// TODO(owner): this is the Formspree form from the previous site. Replace it if
-// you create a new one — Formspree → your form → integration → endpoint.
-const ENDPOINT = 'https://formspree.io/f/mykbnddq'
+// To change this, create a form in Formspree and paste its endpoint here. This
+// is the only line in the project that knows where enquiries go.
+const ENDPOINT = 'https://formspree.io/f/xnjebdqe'
 
 export type OrderPayload = Record<string, string>
 

@@ -397,7 +397,7 @@ in `CONTENT-TODO.md`. But these are the facts I cannot invent:
 | Servings guide | sizes → number of servings, if you have the numbers |
 
 Confirmed already: Instagram `@sannidhis_bakerytx`, home bakery (cottage food),
-pickup only, quotes not prices, Formspree `mykbnddq`.
+pickup only, quotes not prices, Formspree `xnjebdqe`.
 
 
 ---

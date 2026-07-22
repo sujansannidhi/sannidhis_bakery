@@ -175,8 +175,12 @@ never in the project files.
 ## The order form
 
 Enquiries go to **Formspree** and arrive in whichever inbox that form is set to.
-The form is `mykbnddq`, carried over from the previous site — **check it still
-reaches an inbox you actually read.**
+The form is `xnjebdqe`.
+
+**Formspree activates a form on its first submission**, so send one test enquiry
+yourself before relying on it. Set the notification address in the Formspree
+dashboard, click the confirmation link it emails you, then submit the real form
+once and check it lands on your phone.
 
 Worth knowing:
 

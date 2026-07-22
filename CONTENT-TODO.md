@@ -148,6 +148,8 @@ be indexed by Google, which is a different level of exposure. The alt text
 describes them as "a child's name" without repeating it. Say the word and any of
 them can be dropped or swapped.
 
-**The Formspree endpoint is the one from your old site** (`mykbnddq`). Check it
-still delivers to an inbox you read. It is in `src/lib/submit-order.ts`, which is
-the only file that talks to it.
+**Send one test enquiry before relying on the form.** The endpoint is
+`xnjebdqe`, in `src/lib/submit-order.ts` — the only file that talks to it.
+Formspree activates a form on its first submission and requires you to confirm
+the notification address by email, so until you have submitted once and seen it
+arrive, delivery is unproven.
