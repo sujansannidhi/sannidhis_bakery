@@ -1,0 +1,143 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 250ms ease, border-color 250ms ease;
+}
+
+/* Settles into --paper with a hairline at 80px scroll. The wordmark does not
+   shrink — a resizing logo is fidgeting, not feedback. */
+.header[data-settled='true'] {
+  background: var(--paper);
+  border-bottom-color: var(--hairline);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-24);
+  min-height: 72px;
+}
+
+.wordmark {
+  font-family: var(--display);
+  font-size: var(--t-21);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variation-settings: 'SOFT' 90, 'WONK' 1, 'opsz' 36;
+  color: var(--currant);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.wordmark:hover {
+  color: var(--currant-deep);
+}
+
+.nav {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: var(--s-40);
+  }
+}
+
+.link {
+  font-family: var(--body);
+  font-size: var(--t-15);
+  font-weight: 400;
+  color: var(--ink);
+  text-decoration: none;
+  padding-block: 4px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 150ms ease;
+}
+
+.link:hover {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+.link[aria-current='page'] {
+  border-bottom-color: var(--currant);
+  color: var(--currant);
+}
+
+.cta {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .cta {
+    display: inline-flex;
+  }
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────────── */
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  margin-right: -10px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+@media (min-width: 900px) {
+  .toggle {
+    display: none;
+  }
+}
+
+.panel {
+  border-top: 1px solid var(--hairline);
+  background: var(--paper);
+  padding-block: var(--s-24) var(--s-40);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+}
+
+@media (min-width: 900px) {
+  .panel {
+    display: none;
+  }
+}
+
+.panelLink {
+  font-family: var(--display);
+  font-size: var(--t-27);
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 80, 'WONK' 0, 'opsz' 36;
+  color: var(--ink);
+  text-decoration: none;
+  padding-block: var(--s-8);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.panelLink[aria-current='page'] {
+  color: var(--currant);
+}
+
+.panelCta {
+  margin-top: var(--s-16);
+  align-self: flex-start;
+}

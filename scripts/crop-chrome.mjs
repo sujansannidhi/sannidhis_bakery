@@ -25,16 +25,34 @@ const OUT = path.join(ROOT, 'assets', 'cropped')
 /** A row/column is "flat" below this std-dev. */
 const FLAT_STDDEV = 6
 /**
- * A near-black line this dark, with no more variation than this, is a dark band.
- * Kept deliberately tight: dark *content* — a slate worktop, a wooden table, a
- * shaded fence — sits around luma 40-70 and must not be mistaken for chrome.
- */
-const DARK_BAND_LUMA = 14
-const DARK_BAND_STDDEV = 9
+ * Ceiling for the mean luma of a line that may be chrome. */
+const DARK_BAND_LUMA = 40
+/*
+  A dark band is rarely perfectly uniform — a rounded screenshot corner, a
+  scrollbar sliver or a compression artefact lifts its variance well past the
+  flatness threshold. Measured across these files, chrome rows sit at mean 1-25
+  with std-dev 14-21, while genuinely dark *content* (a slate worktop, a shaded
+  fence, a dark room behind a cake) sits at mean 45+. Summing the two separates
+  them cleanly: chrome stays under 50, content does not.
+*/
+const DARK_BAND_SPREAD = 50
+/** Detection re-runs after each trim, since chrome here is layered. */
+const MAX_PASSES = 6
 /** Never eat more than this fraction of a dimension, however flat it looks. */
 const MAX_TRIM_FRACTION = 0.14
 /** Extra pixels shaved past the detected band, to catch anti-aliased boundaries. */
 const OVERSHOOT = 2
+/*
+  A uniform inset taken off all four edges after detection has finished.
+
+  Instagram's chrome does not only appear as full-width bands. Carousel page
+  dots, rounded corner masks, a sliver of the neighbouring post and the odd
+  action icon all sit in the outermost couple of per cent of the frame, and none
+  of them span a whole row or column, so no row-wise test will ever see them.
+  Two per cent is cheap — a few dozen pixels on a 1800px file — and it clears all
+  of them at once. These are screenshots; the outer edge was never the picture.
+*/
+const SAFETY_INSET = 0.02
 
 /**
  * Manual overrides. Detection handles the flat letterbox bands well, but some
@@ -46,11 +64,16 @@ const MANUAL = {
   // Browser bookmarks bar with personal bookmark names in the top band.
   'photo-12': { top: 150, bottom: 150 },
   'photo-13': { top: 95, right: 45, bottom: 20 },
-  'photo-21': { top: 82, right: 44, bottom: 24 },
+  // Carousel page dots and a sliver of the next post along the bottom edge.
+  'photo-21': { top: 95, right: 44, bottom: 95 },
   // Instagram carousel arrow / action icons on the right edge.
-  'photo-05': { right: 48 },
-  'photo-07': { right: 88 },
+  'photo-05': { right: 48, top: 40 },
+  'photo-07': { right: 88, left: 24 },
   'photo-09': { right: 44 },
+  'photo-02': { top: 40 },
+  'photo-04': { left: 24 },
+  'photo-06': { top: 48 },
+  'photo-08': { top: 48 },
   'photo-10': { top: 20, bottom: 20 },
   'photo-16': { right: 34, top: 20, bottom: 14 },
   'photo-17': { right: 100, top: 52, bottom: 24 },
@@ -101,7 +124,8 @@ function detectBand(raw, edge) {
     // with a little noise in it is a screenshot's dark band, which JPEG artefacts
     // keep from ever being perfectly flat.
     const isFlat = stdDev < FLAT_STDDEV
-    const isDarkBand = mean < DARK_BAND_LUMA && stdDev < DARK_BAND_STDDEV
+    const isDarkBand =
+      mean < DARK_BAND_LUMA && mean + stdDev < DARK_BAND_SPREAD
 
     if (isFlat || isDarkBand) band = step + 1
     else break
@@ -119,30 +143,60 @@ async function main() {
   for (const file of files) {
     const id = path.basename(file, '.png')
     const input = path.join(SRC, file)
-    const image = sharp(input)
-    const meta = await image.metadata()
-    const raw = await image
-      .clone()
-      .removeAlpha()
-      .raw()
-      .toBuffer({ resolveWithObject: true })
+    const meta = await sharp(input).metadata()
 
-    const detected = {
-      top: detectBand(raw.info ? { ...raw.info, data: raw.data } : raw, 'top'),
-      bottom: detectBand({ ...raw.info, data: raw.data }, 'bottom'),
-      left: detectBand({ ...raw.info, data: raw.data }, 'left'),
-      right: detectBand({ ...raw.info, data: raw.data }, 'right'),
-    }
+    /*
+      Manual first, then detect — the order matters.
 
+      These screenshots are layered: a strip of Instagram UI sits on top of a
+      black letterbox band, which sits on top of the photograph. Detecting on the
+      original stops at the first row of UI, the manual trim then cuts straight
+      past it, and the black band underneath survives into the final file. So the
+      manual numbers go on first to remove the textured chrome, and detection
+      then runs on what that exposes, repeating until nothing more is found.
+    */
     const manual = MANUAL[id] ?? {}
-    // Take whichever is larger per edge — detection catches flat letterboxing,
-    // the manual table catches textured chrome that detection cannot see.
     const trim = {
-      top: Math.max(detected.top, manual.top ?? 0),
-      bottom: Math.max(detected.bottom, manual.bottom ?? 0),
-      left: Math.max(detected.left, manual.left ?? 0),
-      right: Math.max(detected.right, manual.right ?? 0),
+      top: manual.top ?? 0,
+      bottom: manual.bottom ?? 0,
+      left: manual.left ?? 0,
+      right: manual.right ?? 0,
     }
+
+    for (let pass = 0; pass < MAX_PASSES; pass++) {
+      const width = meta.width - trim.left - trim.right
+      const height = meta.height - trim.top - trim.bottom
+
+      const { data, info } = await sharp(input)
+        .extract({ left: trim.left, top: trim.top, width, height })
+        .removeAlpha()
+        .raw()
+        .toBuffer({ resolveWithObject: true })
+
+      const raw = { ...info, data }
+      const found = {
+        top: detectBand(raw, 'top'),
+        bottom: detectBand(raw, 'bottom'),
+        left: detectBand(raw, 'left'),
+        right: detectBand(raw, 'right'),
+      }
+
+      const total = found.top + found.bottom + found.left + found.right
+      if (total === 0) break
+
+      trim.top += found.top
+      trim.bottom += found.bottom
+      trim.left += found.left
+      trim.right += found.right
+    }
+
+    // Uniform safety inset, applied last, on what detection has left behind.
+    const insetX = Math.round((meta.width - trim.left - trim.right) * SAFETY_INSET)
+    const insetY = Math.round((meta.height - trim.top - trim.bottom) * SAFETY_INSET)
+    trim.left += insetX
+    trim.right += insetX
+    trim.top += insetY
+    trim.bottom += insetY
 
     const width = meta.width - trim.left - trim.right
     const height = meta.height - trim.top - trim.bottom
@@ -158,7 +212,6 @@ async function main() {
       to: `${width}x${height}`,
       ar: (width / height).toFixed(2),
       trim,
-      detected,
     })
   }
 

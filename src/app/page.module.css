@@ -1,0 +1,504 @@
+/* ==========================================================================
+   Home
+   ========================================================================== */
+
+/* ── Hero ────────────────────────────────────────────────────────────────── */
+
+.hero {
+  /* Pulled up under the transparent sticky header. */
+  margin-top: -72px;
+  padding-top: 72px;
+  padding-bottom: var(--s-64);
+}
+
+@media (min-width: 900px) {
+  .hero {
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+    padding-bottom: var(--s-104);
+  }
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-40);
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .heroInner {
+    /* 45 / 55. The photograph takes the larger share; the type sits beside it. */
+    grid-template-columns: 45fr 55fr;
+    gap: var(--s-64);
+    align-items: center;
+  }
+}
+
+/* On mobile the photograph goes first, above the type. */
+.heroFigure {
+  order: -1;
+  margin: 0;
+}
+
+@media (min-width: 900px) {
+  .heroFigure {
+    order: 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+/* The positioning context for the case card — sized to the photograph itself. */
+.heroPhotoWrap {
+  position: relative;
+  display: block;
+}
+
+.heroPhoto {
+  width: 100%;
+  overflow: hidden;
+}
+
+/*
+  The hero photograph is the tallest portrait in the set (AR 0.67). At the full
+  55% column width it would stand over 1000px tall and push the case card — the
+  last beat of the load sequence — below the fold on a laptop. So on desktop it
+  is bounded by HEIGHT rather than width and right-aligned in its column: the
+  photo keeps its native ratio exactly, and the hero still lands near 88vh.
+  Cropping it to fit would have been the other option, and it is not available —
+  cropping into the cake is what the whole pipeline exists to avoid.
+*/
+@media (min-width: 900px) {
+  .heroPhotoWrap {
+    height: min(72vh, 760px);
+  }
+
+  .heroPhoto {
+    height: 100%;
+    width: auto;
+  }
+}
+
+.heroCard {
+  position: relative;
+  z-index: 2;
+  width: min(272px, 82%);
+  /* Sits over the lower-left of the photograph rather than below it. */
+  margin-top: -132px;
+  margin-left: var(--s-16);
+}
+
+@media (min-width: 900px) {
+  .heroCard {
+    position: absolute;
+    /* Breaks the photograph's left edge — one of the two deliberate
+       container breaks on this page. */
+    left: -48px;
+    bottom: 40px;
+    top: auto;
+    margin: 0;
+    width: 288px;
+  }
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-24);
+}
+
+.heroTitle {
+  font-size: var(--t-76);
+  margin: 0;
+}
+
+.heroLede {
+  font-size: var(--t-17);
+  color: var(--stone);
+  max-width: 38ch;
+  margin: 0;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-24);
+  margin-top: var(--s-8);
+}
+
+/* ── The one choreographed load sequence on the site ─────────────────────── */
+
+.heroText > * {
+  animation: settle 700ms var(--ease-out-expo) both;
+}
+
+.heroText > *:nth-child(1) {
+  animation-delay: 60ms;
+}
+.heroText > *:nth-child(2) {
+  animation-delay: 160ms;
+}
+.heroText > *:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.heroPhoto {
+  animation: place 900ms var(--ease-out-expo) 200ms both;
+}
+
+.heroCard {
+  animation: fadeIn 500ms ease 900ms both;
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes place {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroText > *,
+  .heroPhoto,
+  .heroCard {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Promise band ────────────────────────────────────────────────────────── */
+
+.promise {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-16);
+}
+
+@media (min-width: 640px) {
+  .promise {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gutter);
+  }
+}
+
+.promiseItem {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  /* --stone fails 4.5:1 on --shelf; secondary text on this band is --ink. */
+  color: var(--ink);
+  margin: 0;
+  max-width: none;
+}
+
+/* ── Categories ──────────────────────────────────────────────────────────── */
+
+.categories {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-40);
+}
+
+@media (min-width: 560px) {
+  .categories {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-40) var(--gutter);
+  }
+}
+
+@media (min-width: 1000px) {
+  .categories {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/*
+  Equal column WIDTHS, native heights.
+
+  Each block's height is its own width divided by its own aspect ratio, so the
+  four bottom edges land at four different places and the case cards sit on a
+  ragged baseline. Forcing a uniform square across 16 source aspect ratios would
+  mean cropping into the cakes, which the brief forbids outright. The ragged
+  baseline is the layout being honest about the photographs.
+*/
+.category {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  text-decoration: none;
+  color: inherit;
+  align-self: start;
+}
+
+.categoryPhoto {
+  width: 100%;
+  overflow: hidden;
+}
+
+.categoryPhoto img {
+  transition: transform 400ms ease-out;
+}
+
+.category:hover .categoryPhoto img,
+.category:focus-visible .categoryPhoto img {
+  transform: scale(1.03);
+}
+
+.categoryMeta {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--stone);
+  display: flex;
+  align-items: center;
+  gap: var(--s-8);
+}
+
+/* ── Featured ────────────────────────────────────────────────────────────── */
+
+.featured {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-40);
+}
+
+@media (min-width: 560px) {
+  .featured {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-64) var(--gutter);
+  }
+}
+
+@media (min-width: 1000px) {
+  .featured {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+}
+
+.productPhoto {
+  width: 100%;
+  overflow: hidden;
+}
+
+.productPhoto img {
+  transition: transform 400ms ease-out;
+}
+
+.product:hover .productPhoto img {
+  transform: scale(1.03);
+}
+
+/* ── Order steps ─────────────────────────────────────────────────────────── */
+
+.steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-40);
+  counter-reset: step;
+}
+
+@media (min-width: 640px) {
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-64) var(--gutter);
+  }
+}
+
+@media (min-width: 1000px) {
+  .steps {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-16);
+}
+
+.stepNumber {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  padding-bottom: var(--s-16);
+  border-bottom: 1px solid var(--hairline-strong);
+}
+
+.stepTitle {
+  font-size: var(--t-21);
+  margin: 0;
+}
+
+.stepBody {
+  font-size: var(--t-15);
+  color: var(--ink);
+  margin: 0;
+}
+
+/* ── Story ───────────────────────────────────────────────────────────────── */
+
+.story {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-40);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .story {
+    grid-template-columns: 5fr 6fr;
+    gap: var(--s-104);
+  }
+}
+
+.storyBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-24);
+  align-items: flex-start;
+}
+
+.storyBody p {
+  color: var(--ink);
+  margin: 0;
+}
+
+/* ── Photo strip ─────────────────────────────────────────────────────────── */
+
+/* Full-bleed, edge to edge — one of the two deliberate container breaks. */
+.strip {
+  width: 100%;
+  overflow: hidden;
+  padding-block: 0;
+}
+
+.stripTrack {
+  display: flex;
+  gap: 4px;
+  width: max-content;
+  animation: drift 90s linear infinite;
+}
+
+.strip:hover .stripTrack,
+.strip:focus-within .stripTrack {
+  animation-play-state: paused;
+}
+
+.stripItem {
+  flex: 0 0 auto;
+  height: 220px;
+}
+
+@media (min-width: 768px) {
+  .stripItem {
+    height: 320px;
+  }
+}
+
+.stripItem picture {
+  height: 100%;
+  width: auto;
+}
+
+.stripItem img {
+  height: 100%;
+  width: auto;
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* The track renders the set twice; -50% is one full set. */
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stripTrack {
+    animation: none;
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
+/* ── CTA band ────────────────────────────────────────────────────────────── */
+
+.cta {
+  background: var(--currant);
+  color: var(--paper);
+}
+
+.ctaInner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-24);
+}
+
+@media (min-width: 768px) {
+  .ctaInner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-40);
+  }
+}
+
+.ctaTitle {
+  color: var(--paper);
+  font-size: var(--t-36);
+  margin: 0;
+  max-width: 20ch;
+}
+
+/* ── Shared ──────────────────────────────────────────────────────────────── */
+
+.sectionHead {
+  margin-bottom: var(--s-40);
+}
+
+@media (min-width: 768px) {
+  .sectionHead {
+    margin-bottom: var(--s-64);
+  }
+}

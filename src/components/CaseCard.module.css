@@ -1,0 +1,104 @@
+/* ==========================================================================
+   The case card.
+
+   A printed card in a bakery display case: name, one line, a ticket price.
+   It appears in the grid, in the hero and on the detail view, and it is the one
+   element on this site allowed to be decorated. Everything here is deliberate —
+   the hairline weight, the optical left edge, the baseline grid. Nothing else on
+   the page may compete with it.
+   ========================================================================== */
+
+.card {
+  --card-pad: var(--s-16);
+  position: relative;
+  display: block;
+  background: var(--shelf);
+  padding: var(--card-pad);
+  border-radius: 0;
+  /* An 8px baseline grid, so it reads as typeset rather than stacked. */
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+}
+
+@media (min-width: 768px) {
+  .card {
+    --card-pad: 20px;
+  }
+}
+
+/*
+  The rule.
+
+  Drawn as an inset box-shadow, not a border-top. A 1px border on a 2x display
+  resolves to a 0.5px line that the browser antialiases into a soft grey band;
+  an inset shadow stays one device pixel and stays a hairline. It starts at 60%
+  of the card width and extends to 100% when the parent product is hovered.
+*/
+.rule {
+  display: block;
+  width: 60%;
+  height: 1px;
+  background: var(--hairline-strong);
+  transition: width 400ms var(--ease-out-expo);
+}
+
+.card--onPhoto .rule {
+  background: var(--hairline-strong);
+}
+
+.name {
+  font-family: var(--display);
+  font-size: var(--t-21);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  font-variation-settings: 'SOFT' 80, 'WONK' 0, 'opsz' 24;
+  color: var(--ink);
+  /* Fraunces carries a left sidebearing; pull the glyph edge flush with the
+     rule above it so the card's left margin is optical, not metric. */
+  text-indent: -0.02em;
+}
+
+.blurb {
+  font-family: var(--body);
+  font-size: var(--t-15);
+  line-height: 1.45;
+  color: var(--stone);
+  max-width: 34ch;
+  /* Two lines maximum. A third would break the baseline grid below it. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.price {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--stone);
+  margin-top: 0;
+}
+
+/* ── Over a photograph ───────────────────────────────────────────────────── */
+
+/*
+  In the hero the card sits over the lower-left of the photo and breaks its edge.
+  It keeps the --shelf ground rather than going translucent: a frosted panel is
+  on the banned list, and a solid card reads as a real printed thing sitting in
+  front of the cake rather than an overlay drawn on top of it.
+*/
+.card--onPhoto {
+  background: var(--shelf);
+  box-shadow: 0 1px 0 var(--hairline);
+}
+
+/* ── Hover, driven by the parent product ─────────────────────────────────── */
+
+:global(.product):hover .rule,
+:global(.product):focus-within .rule {
+  width: 100%;
+}

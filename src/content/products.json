@@ -10,15 +10,15 @@
       "alt": "Two-tier ivory buttercream cake with flecks of gold leaf running diagonally, a cluster of gold, white and grey spheres up one side, dried palm leaves and two small fondant teddy bears.",
       "featured": true,
       "image": "/img/photo-01",
-      "width": 1436,
-      "height": 1674,
-      "aspectRatio": 0.8578,
+      "width": 1378,
+      "height": 1608,
+      "aspectRatio": 0.857,
       "widths": [
         480,
         768,
         1200
       ],
-      "lqip": "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAACwBACdASoUABcAPtlapE2oJSOiN/qoAQAbCWUAyUwOpW6w5iphyIBucM2V8FgAAP4SrRWyApYMlayuXrE3dwu84gDASrhu607tov3JsCJPGNE2K+c8Gpra0UPLSMF25AAAAA=="
+      "lqip": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAACwBACdASoUABcAPt1YpE2opSOiN/qoARAbiWUAzfwNb1ufKFh2rK6rMt2Hvbb4AP0Q/vTQP5qCSrrlQawzNHXtKM2V95IPL9oqsqnk1J8rtq8T7ri9LVeQHRI0BUzWhR2ec0AA"
     },
     {
       "id": "chocolate-strawberries",
@@ -29,16 +29,16 @@
       "alt": "Two foil trays of whole strawberries dipped in dark and milk chocolate, each finished with a contrasting drizzle, on a kitchen counter beside a window.",
       "featured": true,
       "image": "/img/photo-02",
-      "width": 1785,
-      "height": 1804,
-      "aspectRatio": 0.9895,
+      "width": 1713,
+      "height": 1700,
+      "aspectRatio": 1.0076,
       "widths": [
         480,
         768,
         1200,
         1600
       ],
-      "lqip": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADQBACdASoUABQAPuliq02pJaQiMBgMASAdCWcAzfwJMk1vhcfl6d3yX0gbyLTuAAD7zxkwt1ZcTLFMQn4iMI5Of1kWzYHMZHMQeyyoAVMmOg6Q/2RPGmEOPQwjcAAA"
+      "lqip": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAACwBACdASoUABQAPu1gpk4ppSMiMBgMATAdiWcAzYQJMkMJToUOHqib60kS+XcAAM4LmrqwBCySZS+/8Bi8Gn9911msbDPv5sqfnSuAuFt0b95pxKEnOoqKVbQAAA=="
     },
     {
       "id": "red-rose-two-tier",
@@ -49,15 +49,15 @@
       "alt": "Two-tier white buttercream cake with a diagonal seam of gold leaf, topped and flanked with deep red roses and sprigs of baby's breath.",
       "featured": true,
       "image": "/img/photo-03",
-      "width": 1486,
-      "height": 1798,
-      "aspectRatio": 0.8265,
+      "width": 1426,
+      "height": 1721,
+      "aspectRatio": 0.8286,
       "widths": [
         480,
         768,
         1200
       ],
-      "lqip": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADwBACdASoUABgAPuFepU2opSOiN/VYARAcCWMAvkgGAcroMAZqe6lNbTABQXQg4gAA/iMf1Wv9EWw95NLqnXssGItDOnmpVi4zNOM8CFtLzr6A/XADn1ztSoHZT+2fOUpyOldu0GqlP/xXVb9gAA=="
+      "lqip": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAQBQCdASoUABgAPulcp02pJKOiN/VYASAdCWMAwCgJ3O8JItvW1SPvydTXRGQ2A2AAAP4VCy9NvavH6jKQQFbLgu2E1KsU5mIp4Yj7FP5B0fC2kJlepgGBJwMBHA6TdteNile6GWlXVu/AAAA="
     },
     {
       "id": "blueberry-naked",
@@ -68,15 +68,15 @@
       "alt": "Rustic bare-sided layer cake with the sponge and cream layers showing, thick whipped cream on top and a ring of fresh blueberries around a single candle.",
       "featured": false,
       "image": "/img/photo-04",
-      "width": 1388,
-      "height": 1768,
-      "aspectRatio": 0.7851,
+      "width": 1310,
+      "height": 1693,
+      "aspectRatio": 0.7738,
       "widths": [
         480,
         768,
         1200
       ],
-      "lqip": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAAAwBQCdASoUABkAPu1kqU2ppaOiMAgBMB2JYgDG9CP82W7EnL+IhtpR0tJeeGwEtWSGSAD8j1Ouh5/mZpq5JzYbqTByiHIiUq1TkTlFmYTnguryqhwxGAaCEFRZs7WMh4sMkT5F9LwlP8ch8w0BNzZuFn/IAA=="
+      "lqip": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAABQBQCdASoUABoAPuFgqE2opaQiMAwBEBwJQBjehH/8X5srOZ/FwrR5RFtsTzEdwnAA+AAA/fzAmjOOU9qT3I+1q+BtE84XUGopxGbFFd9QVdNIRvx7vMKinviPvDbsaqRz0GF/pCu59hKAOiY9pE7ANF9nrlrjQAA="
     },
     {
       "id": "butterfly-two-tier",
@@ -87,15 +87,15 @@
       "alt": "Two-tier white cake with pink and lavender butterflies climbing one side, large gold butterfly wings behind, a gold Happy Birthday topper and two macarons on the lower tier.",
       "featured": true,
       "image": "/img/photo-05",
-      "width": 1324,
-      "height": 1744,
-      "aspectRatio": 0.7592,
+      "width": 1272,
+      "height": 1648,
+      "aspectRatio": 0.7718,
       "widths": [
         480,
         768,
         1200
       ],
-      "lqip": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADwBACdASoUABoAPu1sqVCppiOiqA1RMB2JZQCzgA2NxTNz1oNnepqj6duUJR2grZAA/tJFiHpwcuUy7awg/HM/KEsyvhcRSIycSgq1jqSRIvMv9I+sbPCGKPn4b6jbXaUxMe2xs1OYhVB3lDzRI9LWf+gAAA=="
+      "lqip": "data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAAAwBQCdASoUABoAPu1mqk8ppaOiKA1RMB2JZQCzgA3qdDYkj21dXHLRB2t2G5K2Hks/AAD+rXolyE96Q0Xwxh9eVlERQap+gkVk4CJw0xL2HvSRdtBQDeGkT/w/5O3rGtcPfZ9RZ6pnqAScryJ/CtGMG/tIMUckslQAAA=="
     },
     {
       "id": "strawberry-blossom",
@@ -106,15 +106,15 @@
       "alt": "Tall cake with vertical piped buttercream ridges flecked with pink, crowned with sliced strawberries and sprigs of small white blossom, lit by direct sunlight.",
       "featured": true,
       "image": "/img/photo-06",
-      "width": 1476,
-      "height": 1652,
-      "aspectRatio": 0.8935,
+      "width": 1357,
+      "height": 1548,
+      "aspectRatio": 0.8766,
       "widths": [
         480,
         768,
         1200
       ],
-      "lqip": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADQBACdASoUABYAPu1qqU+ppiOiKA1RMB2JYwCuHBEOH4B7HLLOo16211ipDiywAAD+3IH3s9CiNcXxedMrQ+3V7CoD5F6hS29jK6dO8S5RyVFEmheyjnJ6CSShgjqX0As4/Krxv9umVfGJSMAAAA=="
+      "lqip": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADwBACdASoUABcAPu1gp04ppSMiMBgMATAdiWMArAAR/Yua+zl0pTupvVXWNf/NG0AA/tDULk8TMZZAbADodeEyIuIGxnJrptSyZeYCifAgMpxGUR6AEF+VRubU09rW2kmNyUf2uy8g79gxobTlpzBZ5kDGT5IA"
     },
     {
       "id": "chocolate-chip-cookies",
@@ -125,15 +125,15 @@
       "alt": "Six thick chocolate chip cookies piled on a white plate with a green floral rim.",
       "featured": false,
       "image": "/img/photo-07",
-      "width": 1326,
-      "height": 1634,
-      "aspectRatio": 0.8115,
+      "width": 1250,
+      "height": 1568,
+      "aspectRatio": 0.7972,
       "widths": [
         480,
         768,
         1200
       ],
-      "lqip": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAAAwBQCdASoUABkAPu1srVEppaQiqAqpMB2JQBhQAesDu/h+2e3Cts88OAWjEpp8JVImAAD+maf0Du3rnOXPhUCFNn1X3mClwt7oOULrGC02v91jjpmDIaUYm67oacyRO/IOwWDkS3v2hwFFQy3X4h7cKMAAAA=="
+      "lqip": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAABQBQCdASoUABkAPu1srFEppaQiqAqpMB2JQBAgaCwGiFiOnj6FIwTCoAh2X4FHo7sAfxgA/sg7p3vKKiq1u/Wq7GqPlG+EWbxK9ciGJ7WMfbE0tTk5iicUyB7GychdHNFJB7Lgp/YdhTrzyVSPX6rrAAA="
     },
     {
       "id": "sprinkle-cake-pops",
@@ -144,15 +144,15 @@
       "alt": "A dozen cake pops coated in white chocolate and scattered with rainbow nonpareil sprinkles, standing on sticks in a white block.",
       "featured": true,
       "image": "/img/photo-08",
-      "width": 1360,
-      "height": 1712,
-      "aspectRatio": 0.7944,
+      "width": 1306,
+      "height": 1618,
+      "aspectRatio": 0.8072,
       "widths": [
         480,
         768,
         1200
       ],
-      "lqip": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAACwBACdASoUABkAPu1srFCppiQiqAqpMB2JZwDH5ArBXQNG7DfBgA4B4qIls5egAMr0pYqaYG3TMb0BNgo7cYwBcwvNgCIfE46u6yUo1vKO9xV3tiyEnS4VZZLqdsTJl8y6EtS+N/7/gt+K/409SC5QAAA="
+      "lqip": "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwBACdASoUABkAPu1srFGppaQiqAqpMB2JZQDH5A1C0hCqzN74bfyNsSbc08YM3sAAzKGJ+EgZhTru+O9Fbf5SpATDxltDjLt1imK4I/IKlLmjhpW4mHxq0FaUrGbPRHXKtAMyq+pjwW+ScoLI2AAA"
     },
     {
       "id": "fruit-cream-drip",
@@ -163,16 +163,16 @@
       "alt": "Round cream-frosted cake with a pale yellow drip down the sides, topped with strawberries, blueberries, pineapple and kiwi and three chocolate cigar rolls.",
       "featured": false,
       "image": "/img/photo-09",
-      "width": 1765,
-      "height": 1636,
-      "aspectRatio": 1.0789,
+      "width": 1695,
+      "height": 1565,
+      "aspectRatio": 1.0831,
       "widths": [
         480,
         768,
         1200,
         1600
       ],
-      "lqip": "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAACwBACdASoUABMAPu1wsVIppiSiqAgBMB2JZgC7AA3a4GeoD0RM26EM10MlC/QAAMqR/j40HcX6AwwULLfJBFmOHBTDsL5it8HZNSnFTj4pkz0DxNkSomugFiARBzR8k6+AJgEiqU6B51wLU7G7AAAA"
+      "lqip": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAACwBACdASoUABIAPu1srFEppaQiqAqpMB2JYgC06BEIPdg/QW+r6IKZO4OgR1PAAOGvTeOBPXdyWoANwrL5pYeC0UQWxm+rxAssl2Ib+c/WlbgZdzumC5UTac5N9QBUfyhRxUopuxpUHmMAAAA="
     },
     {
       "id": "whipped-cream-fruit",
@@ -183,16 +183,16 @@
       "alt": "Round whipped cream cake with piped rosettes and a ring of kiwi, strawberry and peach around the edge, and a birthday message written across the top in chocolate.",
       "featured": false,
       "image": "/img/photo-10",
-      "width": 1814,
-      "height": 1436,
-      "aspectRatio": 1.2632,
+      "width": 1739,
+      "height": 1128,
+      "aspectRatio": 1.5417,
       "widths": [
         480,
         768,
         1200,
         1600
       ],
-      "lqip": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADQAwCdASoUABAAPu1kqk2ppaQiMAgBMB2JZwCnFCHcYxumXZYZZ4AA/u9n3nMEzCRihH8fFpHul2TxR+ss50a3oByoIz4ClhL11ox1VldP/qgAAAA="
+      "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAABwAwCdASoUAA0APu1kq04ppaQiMAgBMB2JZQCdABIfDEKYCHAA+/rImTVNhNeGYpsrSM06qGbVUHxEuvZ85tZxVZ+KDetx4vL4AAAA"
     },
     {
       "id": "oh-baby-ombre",
@@ -203,14 +203,14 @@
       "alt": "Single-tier cake shading from pale blue at the top down to cream at the base, dotted with sugar pearls, with a piped blue crown, a fondant teddy bear and a glittered Oh Baby topper.",
       "featured": false,
       "image": "/img/photo-11",
-      "width": 1190,
-      "height": 1333,
-      "aspectRatio": 0.8927,
+      "width": 1142,
+      "height": 1279,
+      "aspectRatio": 0.8929,
       "widths": [
         480,
         768
       ],
-      "lqip": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAACQBACdASoUABYAPu1ur1IppiQiqAgBMB2JQBS1gb49AFtRQAy8GJARwmtdOgAA/tDF78/ixdoq+lMx4YOCPl6RPdOcO8i+AIdFBI8zGZoJJhHxkiUYC0muubLg4oIH1309uZ0RzNV1i4S205EAAA=="
+      "lqip": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAADwBACdASoUABYAPu1crU4ppKSiMBgMATAdiUAUkAIuevMXQHty39pIliKZ8yY65AAA/sFGS4tmawi0DRXJzs3pwhHVKb3q3gPeQWesztdlbxWmpbT2Yt5MEc07diud/kv3/qq9qaW28AAA"
     },
     {
       "id": "fruit-ring-overhead",
@@ -221,15 +221,15 @@
       "alt": "Overhead view of a round cream-frosted cake edged with a ring of sliced kiwi, strawberries and pineapple alternating with piped cream rosettes.",
       "featured": false,
       "image": "/img/photo-12",
-      "width": 1552,
-      "height": 1451,
-      "aspectRatio": 1.0696,
+      "width": 1490,
+      "height": 1290,
+      "aspectRatio": 1.155,
       "widths": [
         480,
         768,
         1200
       ],
-      "lqip": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAAAwBQCdASoUABMAPuFiq02opiQiMAwBEBwJZgDCgBtra65LR7E3Kps0YRiSionAkYV7AAD+6VigAhG5VhPzK1a/zaYSLmZZFqih8Dd06HE561bmbHzNWinDhyhEnnVCFo48fBOMjcu7Shb98gAAAA=="
+      "lqip": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAAAQBQCdASoUABEAPu1iqE2ppaOiMBgMATAdiWIAuwANGWhl3sk8r6WJjdyM30DYvvJAAP6/aNAi+55kvJdIu+EGo0vVvPpRO/xtAFetqfTgdsyCpzmqhilU/5ZfIeivMB9k1b4chwNQAA=="
     },
     {
       "id": "wrapped-cake-pops",
@@ -240,16 +240,16 @@
       "alt": "Cake pops in pink and white, each sealed in a clear cellophane bag tied with gold ribbon, standing upright on sticks in a white block.",
       "featured": true,
       "image": "/img/photo-13",
-      "width": 1717,
-      "height": 1707,
-      "aspectRatio": 1.0059,
+      "width": 1649,
+      "height": 1639,
+      "aspectRatio": 1.0061,
       "widths": [
         480,
         768,
         1200,
         1600
       ],
-      "lqip": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAACQBACdASoUABQAPu1qqk8ppiOjMBgIATAdiWUAxNgQ9LeKDGigGYpMw3N33YAA/urYNU3W7yDHllSQ/5eeyRRDm+P19GiRrduWODFvEYAAAA=="
+      "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAADQBACdASoUABQAPu1mqU2ppaOiMAgBMB2JZQC90CHgB9UY277Q583n336R9iJ9wAD+7VZAfrg3CavPI696OeBw4GobuZaGV3FG66WApL3ScAAA"
     },
     {
       "id": "chocolate-overload",
@@ -260,15 +260,15 @@
       "alt": "Cake with dark chocolate ganache pooled on top and dripping down white buttercream sides, loaded with Oreos, chocolate bars, malt balls and a striped wafer straw.",
       "featured": true,
       "image": "/img/photo-14",
-      "width": 1548,
-      "height": 1782,
-      "aspectRatio": 0.8687,
+      "width": 1486,
+      "height": 1705,
+      "aspectRatio": 0.8716,
       "widths": [
         480,
         768,
         1200
       ],
-      "lqip": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAADQBACdASoUABcAPu1qrlCppaQiqAqpMB2JYwC+SBEA6DzzJdmzpMua0pGHVtT4AAD+tb8Z4zEGSKCGsdAQlj9sioCGkuOE5n8IcGSpAAYVPoTVgYR0h5TiYRBTBeS612KUBkuQp2fvhmrk+AA="
+      "lqip": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAADQBACdASoUABcAPu1qrlAppiQiqAqpMB2JYwCzgBEA/kgSu1Affk1LxLu/Tb/AgAD+1mXgnJkYv6xUbK8E+vMN00x5fP5HkDIKUMFDJnac+8o1WXZ2XD+2vwD7MQI8roakiAttMfCrx9CDvCkocNEwAAA="
     },
     {
       "id": "building-block",
@@ -279,15 +279,15 @@
       "alt": "Round cake covered in coloured fondant bricks with a child's name piped across the front, a number seven topper and small figurines arranged around the top edge.",
       "featured": false,
       "image": "/img/photo-15",
-      "width": 1568,
-      "height": 1288,
-      "aspectRatio": 1.2174,
+      "width": 1506,
+      "height": 1166,
+      "aspectRatio": 1.2916,
       "widths": [
         480,
         768,
         1200
       ],
-      "lqip": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAACwAwCdASoUABAAPu1krU6ppaSiMAgBMB2JYwAAUri6kCIx/CvEKAD+p68DunkYuFSIXSfv38VCjg30Ru2WPhFBJSoq4XkLCBh5BaoAAAA="
+      "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACQAwCdASoUAA8APu1mq04ppaQiMAgBMB2JYwCo9BsKdViwolwAAP6AGat7bHOOa0FqwjBqXwdO+9HOaxzXVy4GAqTAE6rhZ5C/tdW6C0zstdAA"
     },
     {
       "id": "cookies-and-cream-drip",
@@ -298,16 +298,16 @@
       "alt": "Cake with a chocolate drip over pale buttercream, topped with Oreos and white and dark chocolate pieces, with chocolate chips pressed around the base.",
       "featured": true,
       "image": "/img/photo-16",
-      "width": 1730,
-      "height": 1504,
-      "aspectRatio": 1.1503,
+      "width": 1635,
+      "height": 1290,
+      "aspectRatio": 1.2674,
       "widths": [
         480,
         768,
         1200,
         1600
       ],
-      "lqip": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAACQBACdASoUABEAPu1urlKppiQiqAgBMB2JYwCqXA9l5usl28vLUn0Ople18qgA9HeObRhmJMbPU7J0DM0dCwBM55UU6VTil2lGyWL6RyxABIgutR+6/zM1RvrBClC+AC/6D+AA"
+      "lqip": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAACQAwCdASoUABAAPu1iqk4ppaQiMAgBMB2JYwAAPhhbjLE+sHxQAP63i9Szm+tgj0D0S3od4SAhCw+Cn6t3D6m+7rBXiCBfAYnFIKAAAAA="
     },
     {
       "id": "fresh-fruit-cream",
@@ -318,16 +318,16 @@
       "alt": "Round cream-frosted cake with a piped shell border around the base and a crown of sliced strawberries, kiwi and pineapple arranged on top.",
       "featured": false,
       "image": "/img/photo-17",
-      "width": 1816,
-      "height": 1376,
-      "aspectRatio": 1.3198,
+      "width": 1709,
+      "height": 1275,
+      "aspectRatio": 1.3404,
       "widths": [
         480,
         768,
         1200,
         1600
       ],
-      "lqip": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADQAwCdASoUAA8APu1mqk4ppaOiMAgBMB2JYgCdACHekdlRxc3UKgAA/ZuiqW6+UtebK32a+GV0hhExk5vbQVmLLb3VGCjHpxJa209nq33GLGwAAAA="
+      "lqip": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAABwAwCdASoUAA8APu1iqk4ppaQiMAgBMB2JYgCdABmHlFfslAAA9jAGIKZFcy40bK+ftryNcHZnMOPbXwGULu8PTG7mEZY15Vjae0eEJiE5bOlaeBG6AAAA"
     },
     {
       "id": "ruffle-and-bloom",
@@ -338,16 +338,16 @@
       "alt": "Single-tier cake with vertically combed ivory buttercream, pink and white flowers up one side, a gold pleated fan topper and a small pink plaque, photographed outdoors.",
       "featured": true,
       "image": "/img/photo-18",
-      "width": 1788,
-      "height": 1574,
-      "aspectRatio": 1.136,
+      "width": 1651,
+      "height": 1512,
+      "aspectRatio": 1.0919,
       "widths": [
         480,
         768,
         1200,
         1600
       ],
-      "lqip": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAACwBACdASoUABIAPt1YpU2opSOiN/qoARAbiWMAAFM+E4+8jnVpH0lzWSbs28QAAP7svqE9ie+boS4Rw5EYdyop3Xs5Mrw/8RLjoG1fFdmKr55+jeR9arCcmlkh6sEAAAA="
+      "lqip": "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAACQBACdASoUABIAPu1qqU8ppiOiMBgIATAdiUAYG4F7qQWPGvOv8LwttFKgTgAA/uM5JB1cNwgRSTcfahKtUzkf1WjVaistKIaMO0YuKQD1dm0SDopqi2mwAI2dDinQwgAAAA=="
     },
     {
       "id": "match-day",
@@ -358,15 +358,15 @@
       "alt": "Round cake covered in green fondant with a pale drip down the sides, decorated with black and white fondant footballs, a number five medallion and a mirrored Happy Birthday topper.",
       "featured": true,
       "image": "/img/photo-19",
-      "width": 1520,
-      "height": 1828,
-      "aspectRatio": 0.8315,
+      "width": 1460,
+      "height": 1754,
+      "aspectRatio": 0.8324,
       "widths": [
         480,
         768,
         1200
       ],
-      "lqip": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAADwBACdASoUABgAPu1kp06ppaMiMBgMATAdiUAYmwFaQ/OObagYNhbj446DsVxzUHQA/c74j+q4sChgyOfQ/H3Pwugc7WPuw6CDvVkl5vTE2Ul9kRjqqexa/rrW5qJLrnHRA5pzZHqT/Q+EtFhVVyzwAAA="
+      "lqip": "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAADwBACdASoUABgAPu1oq0+ppiOiKA1RMB2JQBbfZDAhtuyCT2AWPlOWt1LYhENWEgAA/c713TNbstDc/8OzuGLsoLOhqTumaV7Kapt9UdcJE0poemz4elW8lAYDk8dluILje3C9EsQycAa3v5aolOc4UC0YGHrtwfwaEsvIAAA="
     },
     {
       "id": "strawberries-overhead",
@@ -377,15 +377,15 @@
       "alt": "Overhead view of whole strawberries heaped on top of a white cake, surrounded by a ring of small white blossom.",
       "featured": false,
       "image": "/img/photo-20",
-      "width": 1574,
-      "height": 1628,
-      "aspectRatio": 0.9668,
+      "width": 1421,
+      "height": 1545,
+      "aspectRatio": 0.9197,
       "widths": [
         480,
         768,
         1200
       ],
-      "lqip": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAACwBACdASoUABUAPt1WpU2opKOiN/qoARAbiWgAvdAeJgkcgxVrpSAdM8/4YagAAP7nbctTVdwg/5NOYPPO9m/3ADx69Yppm+4aVV5cAywVBEw6G0JltbZh41kwjlv5KnhcGAAA"
+      "lqip": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADwBACdASoUABYAPu1kqU2ppaQiMBgMATAdiWoAuwAPS4hUD65N0h9cxrZ6kraeAAAA/t9f8NtNAVrSBBKuNznqBM56ZXtzbnARcCc9FyruV6lKGC+Q8oXn5XslfIeqPYczwVI95mgJmaCTbpWtLMcPY6WfgAAA"
     },
     {
       "id": "bearly-wait",
@@ -396,15 +396,14 @@
       "alt": "Two-tier white cake dotted with small gold stars, trimmed with pink, blue and gold spheres and macarons, with a fondant teddy bear seated on the lower tier and a gold baby shower topper on top.",
       "featured": true,
       "image": "/img/photo-21",
-      "width": 1228,
-      "height": 1852,
-      "aspectRatio": 0.6631,
+      "width": 1178,
+      "height": 1698,
+      "aspectRatio": 0.6938,
       "widths": [
         480,
-        768,
-        1200
+        768
       ],
-      "lqip": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAADwBACdASoUAB4APu1urVGppqQiqAqpMB2JZQC/OBEOQV2U9Co48/p75SYtpQVWjyAA/uerYd4sIqfQgNQupA41anqrlixbCmBPtj8SE2GpNcRCGaW4j08cV5GnTDKYxgMbD4kAfZ5gAA=="
+      "lqip": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAACwBACdASoUAB0APu1krVAppSQisBgIATAdiWUArAAQ5GPBs4eKCUw4QK+FvpEAAP7v0S5pkUFj8tIf9HeLBnV/+anPdYfkBZN0xhfvvcgFa8sICPlU/a4wyesWOvllQ4gS6qaEvAAAAA=="
     }
   ]
 }

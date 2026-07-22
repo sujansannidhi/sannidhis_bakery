@@ -1,0 +1,108 @@
+{
+  "_comment": "Business facts, editable without touching any component. A null value means the fact has not been supplied yet: components omit those rather than inventing a placeholder that could be mistaken for real. Every null here has a matching entry in CONTENT-TODO.md.",
+
+  "name": "Sannidhi's Bakery",
+  "tagline": "Custom cakes, cookies and cake pops, baked to order.",
+
+  "kitchen": "home",
+  "kitchenNote": "We bake from our home kitchen as a Texas cottage food operation.",
+
+  "ordering": "inquiry",
+  "pricing": "quotes",
+  "priceLine": "Quoted per order",
+
+  "fulfilment": {
+    "pickup": true,
+    "delivery": false,
+    "shipping": false,
+    "note": "Pickup only — we are not delivering at this time."
+  },
+
+  "leadTime": {
+    "cakes": null,
+    "cookies": null,
+    "cakePops": null,
+    "strawberries": null,
+    "summary": null
+  },
+
+  "contact": {
+    "phone": null,
+    "email": null,
+    "instagram": "sannidhis_bakerytx",
+    "instagramUrl": "https://www.instagram.com/sannidhis_bakerytx"
+  },
+
+  "location": {
+    "city": null,
+    "state": "TX",
+    "serviceArea": null
+  },
+
+  "hours": null,
+
+  "dietary": [],
+
+  "deposit": null,
+
+  "domain": null,
+
+  "owner": {
+    "name": null,
+    "nameOnAboutPage": null
+  },
+
+  "reviews": [],
+
+  "servingsGuide": [],
+
+  "categories": [
+    {
+      "id": "cakes",
+      "name": "Cakes",
+      "line": "Tiered, themed or simple. Designed with you.",
+      "cover": "gold-leaf-bears"
+    },
+    {
+      "id": "cookies",
+      "name": "Cookies",
+      "line": "Thick, soft-centred, baked to order.",
+      "cover": "chocolate-chip-cookies"
+    },
+    {
+      "id": "cake-pops",
+      "name": "Cake pops",
+      "line": "Sprinkled or wrapped and tied for favours.",
+      "cover": "sprinkle-cake-pops"
+    },
+    {
+      "id": "strawberries",
+      "name": "Chocolate-covered strawberries",
+      "line": "Dipped, drizzled and packed by the tray.",
+      "cover": "chocolate-strawberries"
+    }
+  ],
+
+  "orderSteps": [
+    {
+      "n": "01",
+      "title": "You send the details",
+      "body": "Date, occasion, how many people, and any design you have in mind."
+    },
+    {
+      "n": "02",
+      "title": "We confirm design and quote",
+      "body": "We reply with what we can make and what it costs. Nothing is fixed until you say so."
+    },
+    {
+      "n": "03",
+      "title": "A deposit holds the date",
+      "body": "A deposit reserves your date. We confirm the amount when we send the quote."
+    },
+    {
+      "n": "04",
+      "title": "Pickup",
+      "body": "We agree a time and you collect it. Pickup only for now."
+    }
+  ]
+}
