@@ -56,6 +56,25 @@ export function Photo({
 
   return (
     <picture className={className} style={style}>
+      {/*
+        For the one priority image per page, tell the browser about it in the
+        head rather than letting it wait for the picture element to be parsed.
+        React 19 hoists this link. It has to carry the same srcset and sizes as
+        the <source> below, or the browser preloads one file and then downloads
+        a different one.
+      */}
+      {priority && (
+        <link
+          rel="preload"
+          as="image"
+          type="image/avif"
+          // eslint-disable-next-line react/no-unknown-property
+          imageSrcSet={srcSet('avif')}
+          // eslint-disable-next-line react/no-unknown-property
+          imageSizes={sizes}
+          fetchPriority="high"
+        />
+      )}
       {FORMATS.map(({ type, ext }) => (
         <source key={ext} type={type} srcSet={srcSet(ext)} sizes={sizes} />
       ))}

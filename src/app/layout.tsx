@@ -3,6 +3,7 @@ import './globals.css'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { site } from '@/lib/site'
+import { StructuredData } from '@/components/StructuredData'
 
 // TODO(owner): set the domain in src/content/site.json so canonical URLs, the
 // sitemap and OG tags point at the real site.
@@ -32,7 +33,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* The hero photograph and the display face are both on the LCP path. */}
+        {/*
+          Only the display face is preloaded. Both faces used to be, and on a
+          throttled connection they competed with the hero photograph for the
+          critical path — the body face is not what the largest element is set
+          in, so it can arrive on its own schedule via font-display: swap.
+        */}
         <link
           rel="preload"
           href="/fonts/fraunces-var.woff2"
@@ -40,15 +46,9 @@ export default function RootLayout({
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        <link
-          rel="preload"
-          href="/fonts/schibsted-grotesk-var.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
       </head>
       <body>
+        <StructuredData />
         <a href="#main" className="skip-link">
           Skip to content
         </a>

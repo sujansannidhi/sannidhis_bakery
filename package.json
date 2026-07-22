@@ -10,7 +10,9 @@
     "lint": "next lint",
     "images:crop": "node scripts/crop-chrome.mjs",
     "images:build": "node scripts/build-images.mjs",
-    "check:images": "node scripts/check-images.mjs"
+    "check:images": "node scripts/check-images.mjs",
+    "fonts:subset": "python3 scripts/subset-fonts.py",
+    "shoot": "node scripts/shoot.mjs"
   },
   "overrides": {
     "sharp": "^0.35.3",
@@ -25,6 +27,8 @@
     "@types/node": "22.10.2",
     "@types/react": "19.0.2",
     "@types/react-dom": "19.0.2",
+    "axe-core": "^4.12.1",
+    "lighthouse": "^13.4.1",
     "playwright": "^1.61.1",
     "sharp": "^0.35.3",
     "typescript": "5.7.2"

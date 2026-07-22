@@ -1,0 +1,261 @@
+/* ── Page layout ─────────────────────────────────────────────────────────── */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-64);
+}
+
+@media (min-width: 1000px) {
+  .layout {
+    grid-template-columns: 5fr 6fr;
+    gap: var(--s-104);
+    align-items: start;
+  }
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-40);
+}
+
+@media (min-width: 1000px) {
+  .aside {
+    position: sticky;
+    top: 104px;
+  }
+}
+
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-24);
+  padding: var(--s-24);
+  background: var(--shelf);
+}
+
+.fact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.factLabel {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  /* --stone fails 4.5:1 on --shelf — labels on this ground are --ink. */
+  color: var(--ink);
+}
+
+.factValue {
+  font-size: var(--t-15);
+  color: var(--ink);
+  margin: 0;
+}
+
+.factPending {
+  font-size: var(--t-15);
+  color: var(--ink);
+  font-style: italic;
+  margin: 0;
+}
+
+/* Three photographs so people can see what they are actually getting. */
+.proof {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-8);
+}
+
+.proof picture {
+  width: 100%;
+}
+
+/* ── Form ────────────────────────────────────────────────────────────────── */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-40);
+}
+
+.fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-24);
+}
+
+.legend {
+  font-family: var(--display);
+  font-size: var(--t-27);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variation-settings: 'SOFT' 80, 'WONK' 0, 'opsz' 36;
+  padding: 0 0 var(--s-16);
+  margin-bottom: var(--s-8);
+  width: 100%;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.hint {
+  font-size: var(--t-15);
+  color: var(--stone);
+  margin-top: -4px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px var(--s-16);
+  background: var(--paper);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  font-family: var(--body);
+  font-size: var(--t-17);
+  color: var(--ink);
+  transition: border-color 150ms ease;
+}
+
+.field textarea {
+  resize: vertical;
+  line-height: 1.5;
+  padding-block: var(--s-16);
+}
+
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+  border-color: var(--ink);
+}
+
+.field input[aria-invalid='true'],
+.field textarea[aria-invalid='true'] {
+  border-color: var(--currant);
+  border-width: 2px;
+}
+
+.error {
+  font-size: var(--t-15);
+  color: var(--currant);
+}
+
+.warning {
+  padding: var(--s-16);
+  background: var(--shelf);
+  border-left: 2px solid var(--gold);
+  font-size: var(--t-15);
+  color: var(--ink);
+  margin: 0;
+  max-width: none;
+}
+
+.failure {
+  padding: var(--s-16);
+  border-left: 2px solid var(--currant);
+  background: var(--sugar);
+  color: var(--ink);
+  font-size: var(--t-15);
+  margin: 0;
+  max-width: none;
+}
+
+.startedFrom {
+  padding: var(--s-16);
+  background: var(--shelf);
+  font-size: var(--t-15);
+  color: var(--ink);
+  margin: 0;
+  max-width: none;
+}
+
+.uploadNote {
+  font-size: var(--t-15);
+  color: var(--stone);
+  margin: 0;
+}
+
+.submit {
+  align-self: flex-start;
+  min-height: 52px;
+  padding-inline: var(--s-40);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.smallprint {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--stone);
+  margin: 0;
+  max-width: none;
+}
+
+/* Off-screen but still a real, labelled input for anything that fills forms. */
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── Success ─────────────────────────────────────────────────────────────── */
+
+.success {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-16);
+  align-items: flex-start;
+  padding: var(--s-40);
+  background: var(--shelf);
+}
+
+.successRule {
+  display: block;
+  width: 88px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.successTitle {
+  font-size: var(--t-36);
+  margin: 0;
+}
+
+.success p {
+  color: var(--ink);
+  margin: 0;
+}
+
+.successNote {
+  font-size: var(--t-15);
+  color: var(--ink);
+}

@@ -39,6 +39,7 @@ export type Site = {
     cakePops: string | null
     strawberries: string | null
     summary: string | null
+    minDays: number | null
   }
   contact: {
     phone: string | null

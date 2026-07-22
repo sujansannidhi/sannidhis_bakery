@@ -1,0 +1,161 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-16);
+  /* Solid ink at high alpha, not a frosted blur panel — backdrop-filter is on
+     the banned list and it would put a haze over the photograph. */
+  background: rgba(42, 33, 29, 0.82);
+  animation: overlayIn 200ms ease both;
+}
+
+.dialog {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  width: min(1040px, 100%);
+  max-height: 92vh;
+  overflow-y: auto;
+  background: var(--paper);
+  border-radius: 0;
+  animation: dialogIn 300ms var(--ease-out-expo) both;
+}
+
+@media (min-width: 900px) {
+  .dialog {
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    overflow: hidden;
+  }
+}
+
+.figure {
+  background: var(--shelf);
+  overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  .figure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 92vh;
+  }
+
+  .figure picture {
+    max-height: 92vh;
+    width: auto;
+    height: 100%;
+  }
+}
+
+.body {
+  position: relative;
+  background: var(--shelf);
+  padding: var(--s-40) var(--s-24) var(--s-40);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+  align-items: flex-start;
+}
+
+@media (min-width: 900px) {
+  .body {
+    padding: var(--s-64) var(--s-40);
+    justify-content: center;
+    overflow-y: auto;
+  }
+}
+
+.close {
+  position: absolute;
+  top: var(--s-8);
+  right: var(--s-8);
+  min-height: 44px;
+  min-width: 44px;
+  padding-inline: var(--s-16);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.close:hover {
+  color: var(--currant);
+}
+
+/* The case card's construction, at detail-view scale. */
+.rule {
+  display: block;
+  width: 60%;
+  height: 1px;
+  background: var(--hairline-strong);
+  margin-bottom: var(--s-8);
+}
+
+.title {
+  font-size: var(--t-36);
+  margin: 0;
+}
+
+.blurb {
+  font-size: var(--t-17);
+  color: var(--stone);
+  margin: 0;
+  max-width: 40ch;
+}
+
+.price {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--stone);
+  margin: 0;
+}
+
+.detail {
+  font-size: var(--t-15);
+  color: var(--ink);
+  margin-top: var(--s-16);
+  max-width: 44ch;
+}
+
+.cta {
+  margin-top: var(--s-24);
+}
+
+@keyframes overlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .dialog {
+    animation: none;
+  }
+}

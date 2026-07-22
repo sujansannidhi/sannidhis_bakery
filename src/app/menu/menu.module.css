@@ -1,0 +1,148 @@
+.intro {
+  max-width: 54ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-16);
+}
+
+.introNote {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--stone);
+  margin: 0;
+}
+
+/* ── Filters ─────────────────────────────────────────────────────────────── */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-8) var(--s-16);
+  padding-block: var(--s-24);
+  margin-bottom: var(--s-40);
+  border-bottom: 1px solid var(--hairline);
+  position: sticky;
+  top: 72px;
+  z-index: 50;
+  background: var(--paper);
+}
+
+.filter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-8);
+  min-height: 44px;
+  padding-inline: var(--s-16);
+  background: none;
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: var(--body);
+  font-size: var(--t-15);
+  color: var(--ink);
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.filter:hover {
+  border-color: var(--ink);
+}
+
+.filter[aria-pressed='true'] {
+  background: var(--currant);
+  border-color: var(--currant);
+  color: var(--paper);
+}
+
+.filterCount {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  letter-spacing: 0.08em;
+  color: var(--stone);
+}
+
+.filter[aria-pressed='true'] .filterCount {
+  color: var(--sugar);
+}
+
+/* ── Groups ──────────────────────────────────────────────────────────────── */
+
+.group {
+  margin-bottom: var(--s-104);
+  /* Clears the sticky header and filter bar when jumped to by anchor. */
+  scroll-margin-top: 150px;
+}
+
+.groupHead {
+  margin-bottom: var(--s-40);
+}
+
+.groupTitle {
+  font-size: var(--t-36);
+  margin: 0 0 var(--s-8);
+}
+
+.groupLine {
+  color: var(--stone);
+  margin: 0;
+}
+
+/*
+  Masonry by columns.
+
+  Each photograph keeps its native ratio and the column packs them, so the grid
+  takes the source set's 16 aspect ratios as an input rather than fighting them.
+  A fixed-ratio card grid here would mean cropping every landscape shot into a
+  portrait frame.
+*/
+.grid {
+  columns: 1;
+  column-gap: var(--gutter);
+}
+
+@media (min-width: 640px) {
+  .grid {
+    columns: 2;
+  }
+}
+
+@media (min-width: 1100px) {
+  .grid {
+    columns: 3;
+  }
+}
+
+.item {
+  break-inside: avoid;
+  margin-bottom: var(--s-40);
+  display: block;
+}
+
+.itemButton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
+
+.itemPhoto {
+  width: 100%;
+  overflow: hidden;
+}
+
+.itemPhoto img {
+  transition: transform 400ms ease-out;
+}
+
+.item:hover .itemPhoto img {
+  transform: scale(1.03);
+}
+
+.empty {
+  color: var(--stone);
+}

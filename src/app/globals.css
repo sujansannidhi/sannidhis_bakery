@@ -171,12 +171,6 @@ h4 {
   line-height: 1.2;
 }
 
-/* WONK — the alternate single-storey g and swashed terminals — earns its place
-   only at display sizes. Applied by opt-in, never globally. */
-.wonk {
-  font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144;
-}
-
 p {
   max-width: 68ch;
   text-wrap: pretty;

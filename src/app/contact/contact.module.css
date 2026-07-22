@@ -1,0 +1,168 @@
+.head {
+  max-width: 58ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-24);
+  margin-bottom: var(--s-64);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-64);
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: 4fr 7fr;
+    gap: var(--s-104);
+    align-items: start;
+  }
+}
+
+/* ── Details ─────────────────────────────────────────────────────────────── */
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-24);
+  align-items: flex-start;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: var(--s-16);
+  border-bottom: 1px solid var(--hairline);
+  width: 100%;
+}
+
+.detailLabel {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--stone);
+}
+
+.detail a,
+.detail span:not(.detailLabel) {
+  font-size: var(--t-17);
+  color: var(--ink);
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.detail a {
+  color: var(--currant);
+}
+
+.pending {
+  color: var(--stone);
+  font-style: italic;
+}
+
+.cta {
+  margin-top: var(--s-16);
+}
+
+/* ── FAQ ─────────────────────────────────────────────────────────────────── */
+
+.faqTitle {
+  font-size: var(--t-36);
+  margin-bottom: var(--s-40);
+}
+
+.faq {
+  border-top: 1px solid var(--hairline);
+}
+
+.faqItem {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.faqHeading {
+  margin: 0;
+  font-size: inherit;
+  font-family: inherit;
+  letter-spacing: normal;
+  line-height: inherit;
+}
+
+.faqTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-24);
+  width: 100%;
+  min-height: 60px;
+  padding-block: var(--s-16);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--display);
+  font-size: var(--t-21);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-variation-settings: 'SOFT' 80, 'WONK' 0, 'opsz' 24;
+  color: var(--ink);
+}
+
+.faqTrigger:hover {
+  color: var(--currant);
+}
+
+.faqMarker {
+  font-family: var(--mono);
+  font-size: var(--t-21);
+  color: var(--stone);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.faqPanel {
+  padding-bottom: var(--s-24);
+}
+
+.faqPanel p {
+  color: var(--ink);
+  margin: 0;
+  max-width: 62ch;
+}
+
+/* ── Servings ────────────────────────────────────────────────────────────── */
+
+.servings {
+  margin-top: var(--s-104);
+}
+
+.table {
+  border-collapse: collapse;
+  margin-top: var(--s-24);
+  width: 100%;
+  max-width: 480px;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: var(--s-16) var(--s-24) var(--s-16) 0;
+  border-bottom: 1px solid var(--hairline);
+  font-size: var(--t-17);
+}
+
+.table thead th {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--stone);
+  font-weight: 400;
+}
+
+.table tbody th {
+  font-weight: 500;
+}

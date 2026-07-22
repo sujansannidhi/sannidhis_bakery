@@ -23,7 +23,9 @@
     "cookies": null,
     "cakePops": null,
     "strawberries": null,
-    "summary": null
+    "summary": null,
+    "_minDaysComment": "Set minDays to a number and the order form starts warning people whose event date is sooner than that. Left null, the form accepts any future date without comment.",
+    "minDays": null
   },
 
   "contact": {
