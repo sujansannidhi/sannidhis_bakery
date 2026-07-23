@@ -1,8 +1,15 @@
-import { NextResponse } from 'next/server'
+import { NextResponse, after } from 'next/server'
 import { enquirySchema, fieldErrors } from '@/lib/validation'
 import { clientIp, createEnquiry, rateLimit } from '@/lib/enquiries'
 import { isFirebaseConfigured } from '@/lib/firebase'
-import { confirmationEmail, isMailConfigured, sendMail } from '@/lib/mail'
+import {
+  confirmationEmail,
+  fetchAttachment,
+  isMailConfigured,
+  ownerNotification,
+  sendMail,
+  type Attachment,
+} from '@/lib/mail'
 
 /**
  * Order intake.
@@ -93,18 +100,41 @@ export async function POST(request: Request) {
   const notified = await forwardToFormspree(enquiry)
 
   /*
-    Confirmation to the customer, best effort.
+    Email the owner, on every submission, with the cake design and any photo
+    attached — Formspree cannot carry attachments, so this is our own Gmail.
+    Best-effort and non-blocking: the enquiry is already stored and the customer
+    should never see an error because a mail send was slow.
 
-    Deliberately after the store and the owner's notification, and deliberately
-    not able to fail the request: someone who has just filled in a form should
-    never see an error because our mail server had a bad moment. The enquiry is
-    already safe by this point.
+    Attachments are awaited inside the fire-and-forget so a slow image fetch
+    does not hold up the response.
   */
   if (isMailConfigured()) {
-    const { subject, text } = confirmationEmail(enquiry)
-    void sendMail({ to: enquiry.Email, subject, text }).then((result) => {
-      if (!result.ok) {
-        console.error('[orders] confirmation email failed:', result.message)
+    after(async () => {
+      const attachments: Attachment[] = []
+      if (enquiry.cakeDesignImageUrl) {
+        const a = await fetchAttachment(enquiry.cakeDesignImageUrl, 'cake-design.png')
+        if (a) attachments.push(a)
+      }
+      if (enquiry.inspirationPhotoUrl) {
+        const a = await fetchAttachment(enquiry.inspirationPhotoUrl, 'inspiration.jpg')
+        if (a) attachments.push(a)
+      }
+
+      const owner = ownerNotification(enquiry)
+      const toOwner = await sendMail({
+        to: process.env.GMAIL_USER as string,
+        subject: owner.subject,
+        text: owner.text,
+        replyTo: owner.replyTo,
+        attachments,
+      })
+      if (!toOwner.ok) console.error('[orders] owner email failed:', toOwner.message)
+
+      // The customer's confirmation.
+      const { subject, text } = confirmationEmail(enquiry)
+      const toCustomer = await sendMail({ to: enquiry.Email, subject, text })
+      if (!toCustomer.ok) {
+        console.error('[orders] confirmation email failed:', toCustomer.message)
       }
     })
   }

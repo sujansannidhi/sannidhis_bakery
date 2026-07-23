@@ -21,6 +21,10 @@ export type EnquiryRecord = Enquiry & {
   lastEmailedAt?: string | null
 }
 
+/* The cake designer's output lives on the enquiry via the validated payload
+   (validation.ts), so no extra field is needed here — it arrives as part of
+   Enquiry. The admin reads e.cakeDesignImageUrl / e.inspirationPhotoUrl. */
+
 type StoredEnquiry = Omit<EnquiryRecord, 'id'>
 
 export async function createEnquiry(enquiry: Enquiry): Promise<string> {

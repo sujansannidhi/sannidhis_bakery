@@ -1,10 +1,19 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { submitOrder } from '@/lib/submit-order'
 import { site } from '@/lib/site'
 import type { Category, Product } from '@/lib/content'
+import {
+  DEFAULT_DESIGN,
+  isDesigned,
+  summarise,
+  type CakeDesign,
+} from '@/lib/cake-design'
+import { downscale } from '@/lib/downscale'
+import { CakeDesigner } from './CakeDesigner'
+import { svgElementToPngDataUrl } from './rasterize'
 import styles from './order.module.css'
 
 type Errors = Record<string, string>
@@ -53,9 +62,46 @@ export function OrderForm({
   const [failure, setFailure] = useState<string | null>(null)
   const [eventDate, setEventDate] = useState('')
 
+  // Controlled so the cake designer can appear when a cake is chosen. Seeded
+  // from the product they arrived via, if any.
+  const [category, setCategory] = useState(requestedProduct?.category ?? '')
+  const [design, setDesign] = useState<CakeDesign>(DEFAULT_DESIGN)
+  const exportRef = useRef<HTMLDivElement | null>(null)
+
+  // The chosen category is a display name ("Cakes"); the product record carries
+  // an id ("cakes"). Match on either so the designer shows for both paths.
+  const isCake = /cake(?!\s*pop)/i.test(category) && !/cake\s*pop/i.test(category)
+
+  const [inspirationUrl, setInspirationUrl] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+
   const minDays = site.leadTime.minDays
   const tooSoon =
     minDays !== null && eventDate !== '' && daysUntil(eventDate) < minDays
+
+  async function uploadFile(file: File, kind: 'photo' | 'design'): Promise<string | null> {
+    const shrunk = await downscale(file)
+    const body = new FormData()
+    body.append('file', shrunk, kind === 'design' ? 'cake-design.png' : 'photo.jpg')
+    body.append('kind', kind)
+    const response = await fetch('/api/enquiry-upload', { method: 'POST', body })
+    const result = await response.json().catch(() => null)
+    if (!response.ok || !result?.ok) throw new Error(result?.message ?? 'Upload failed.')
+    return result.url as string
+  }
+
+  async function onInspirationChange(file: File) {
+    setUploading(true)
+    setUploadError(null)
+    try {
+      setInspirationUrl(await uploadFile(file, 'photo'))
+    } catch (e) {
+      setUploadError(e instanceof Error ? e.message : 'That did not upload.')
+    } finally {
+      setUploading(false)
+    }
+  }
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -100,6 +146,27 @@ export function OrderForm({
       if (k !== '_gotcha') payload[k] = String(v)
     })
     if (requestedProduct) payload['Started from'] = requestedProduct.name
+
+    // If they designed a cake, rasterise it and attach the summary + spec.
+    if (isCake && isDesigned(design)) {
+      payload['Cake design'] = summarise(design)
+      payload.cakeDesign = JSON.stringify(design)
+      try {
+        const svg = exportRef.current?.querySelector('svg')
+        if (svg) {
+          const png = await svgElementToPngDataUrl(svg as SVGSVGElement)
+          const blob = await (await fetch(png)).blob()
+          const url = await uploadFile(new File([blob], 'design.png', { type: 'image/png' }), 'design')
+          if (url) payload.cakeDesignImageUrl = url
+        }
+      } catch (e) {
+        // A failed picture must not lose the enquiry — the summary still rides
+        // along, and the owner still gets everything else.
+        console.warn('[cake] could not attach design image:', e)
+      }
+    }
+
+    if (inspirationUrl) payload.inspirationPhotoUrl = inspirationUrl
 
     const result = await submitOrder(payload)
     setSending(false)
@@ -271,7 +338,8 @@ export function OrderForm({
             id="Category"
             name="Category"
             data-field="Category"
-            defaultValue={requestedProduct?.category ?? ''}
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
           >
             <option value="">Choose one</option>
             {categories.map((c) => (
@@ -281,6 +349,23 @@ export function OrderForm({
             ))}
           </select>
         </Field>
+
+        {isCake && (
+          <div className={styles.designerWrap}>
+            <div className={styles.designerHead}>
+              <h3 className={styles.designerTitle}>Design your cake</h3>
+              <p className={styles.designerIntro}>
+                A rough idea helps us quote accurately — sketch it here, or upload
+                a photo below. Neither is required.
+              </p>
+            </div>
+            <CakeDesigner
+              design={design}
+              onChange={setDesign}
+              exportRef={exportRef}
+            />
+          </div>
+        )}
 
         <Field
           id="What you would like"
@@ -340,16 +425,37 @@ export function OrderForm({
         </Field>
       </fieldset>
 
-      {/* TODO(owner): file uploads are a paid Formspree feature. Rather than a
-          field that silently fails on the free plan, we point people at
-          Instagram, which works today. */}
-      <p className={styles.uploadNote}>
-        Have a photo of something you like? Send it to us on{' '}
-        <a href={site.contact.instagramUrl} target="_blank" rel="noopener noreferrer">
-          Instagram
-        </a>{' '}
-        after you submit and we will match it to your enquiry.
-      </p>
+      <div className={styles.upload}>
+        <span className={styles.uploadLabel}>Inspiration photo</span>
+        <span className={styles.uploadHint}>
+          Seen a cake you love? Attach a picture and we will match it.
+        </span>
+        <input
+          type="file"
+          id="inspiration"
+          accept="image/jpeg,image/png,image/webp"
+          className="visually-hidden"
+          disabled={uploading}
+          onChange={(e) => {
+            const file = e.target.files?.[0]
+            if (file) onInspirationChange(file)
+          }}
+        />
+        <label htmlFor="inspiration" className={styles.uploadButton}>
+          {uploading
+            ? 'Uploading…'
+            : inspirationUrl
+              ? 'Photo attached — choose another'
+              : 'Choose a photo'}
+        </label>
+        <span aria-live="polite" className={styles.uploadStatus}>
+          {uploadError ? (
+            <span className={styles.uploadError}>{uploadError}</span>
+          ) : inspirationUrl ? (
+            <span>Attached.</span>
+          ) : null}
+        </span>
+      </div>
 
       {failure && (
         <p className={styles.failure} role="alert">

@@ -17,6 +17,7 @@ const FIELDS: { key: string; label: string }[] = [
   { key: 'Category', label: 'Type' },
   { key: 'Servings', label: 'How many people' },
   { key: 'What you would like', label: 'What they would like' },
+  { key: 'Cake design', label: 'Cake design' },
   { key: 'Dietary', label: 'Allergies / dietary' },
   { key: 'Budget', label: 'Budget' },
   { key: 'Notes', label: 'Anything else' },
@@ -74,6 +75,24 @@ export default async function EnquiryDetail({
 
       <div className={styles.detail}>
         <div>
+          {(record.cakeDesignImageUrl || record.inspirationPhotoUrl) && (
+            <div className={styles.attachments}>
+              {record.cakeDesignImageUrl && (
+                <figure className={styles.attachment}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={record.cakeDesignImageUrl} alt="The cake they designed" />
+                  <figcaption>Their cake design</figcaption>
+                </figure>
+              )}
+              {record.inspirationPhotoUrl && (
+                <figure className={styles.attachment}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={record.inspirationPhotoUrl} alt="Inspiration photo they uploaded" />
+                  <figcaption>Inspiration photo</figcaption>
+                </figure>
+              )}
+            </div>
+          )}
           <div className={styles.fields}>
             <div className={styles.field}>
               <span className={styles.fieldLabel}>Email</span>

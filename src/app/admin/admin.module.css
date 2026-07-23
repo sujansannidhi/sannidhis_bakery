@@ -367,3 +367,34 @@
   margin-bottom: var(--s-16);
   display: inline-block;
 }
+
+/* ── Enquiry attachments (cake design, inspiration photo) ─────────────────── */
+
+.attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-24);
+  margin-bottom: var(--s-24);
+}
+
+.attachment {
+  margin: 0;
+  max-width: 240px;
+}
+
+.attachment img {
+  width: 100%;
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  display: block;
+  background: var(--shelf);
+}
+
+.attachment figcaption {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--stone);
+  margin-top: var(--s-8);
+}

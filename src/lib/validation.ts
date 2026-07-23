@@ -57,6 +57,12 @@ export const enquirySchema = z.object({
   Budget: trimmed(40).optional().or(z.literal('')),
   Notes: trimmed(4000).optional().or(z.literal('')),
   'Started from': trimmed(120).optional().or(z.literal('')),
+
+  // Cake designer output. All optional — a text-only enquiry never sends these.
+  'Cake design': trimmed(600).optional().or(z.literal('')),
+  cakeDesign: trimmed(2000).optional().or(z.literal('')),
+  cakeDesignImageUrl: z.string().url().max(600).optional().or(z.literal('')),
+  inspirationPhotoUrl: z.string().url().max(600).optional().or(z.literal('')),
 })
 
 export type Enquiry = z.infer<typeof enquirySchema>
