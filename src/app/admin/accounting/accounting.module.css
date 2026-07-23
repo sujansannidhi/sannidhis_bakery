@@ -15,13 +15,22 @@
 
 /* ── Month chart ─────────────────────────────────────────────────────────── */
 
+/* Twelve months cannot fit a 390px phone. The chart scrolls inside its own
+   container rather than making the whole page scroll sideways — the same
+   treatment the orders table below already had. */
+.chartWrap {
+  overflow-x: auto;
+  padding-bottom: var(--s-8);
+}
+
 .chart {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: repeat(12, minmax(44px, 1fr));
   gap: var(--s-8);
   align-items: end;
   border-bottom: 1px solid var(--hairline);
   padding-bottom: var(--s-8);
+  min-width: 100%;
 }
 
 .bar { display: flex; flex-direction: column; align-items: center; gap: 4px; }
@@ -87,4 +96,13 @@
   font-size: var(--t-15);
   color: var(--stone);
   max-width: 60ch;
+}
+
+/* These regions are focusable so keyboard users can scroll them; give that
+   focus somewhere visible to land. */
+.chartWrap:focus-visible,
+.tableWrap:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(42, 33, 29, 0.85);
 }

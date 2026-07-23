@@ -71,35 +71,32 @@ export async function updateEnquiry(
  * invocations do not share memory, so an in-process counter would reset
  * constantly and limit nothing.
  *
- * Fails open. If Firestore is unreachable this returns "allowed" rather than
- * locking the owner out of their own admin area or refusing a genuine customer
- * enquiry. The password itself is the real barrier; this only blunts automated
- * guessing.
+ * Split into a read and a write on purpose. Login must *check* the limit before
+ * validating a password but only *record* an attempt when that password was
+ * wrong — counting successes locked the owner out of their own dashboard for
+ * fifteen minutes after a handful of ordinary sign-ins across devices.
+ *
+ * Both fail open. If Firestore is unreachable this allows the request rather
+ * than locking the owner out or refusing a genuine customer enquiry. The
+ * password itself is the real barrier; this only blunts automated guessing.
  */
-export async function rateLimit(
+function windowKey(key: string, windowSeconds: number): string {
+  const bucket = Math.floor(Date.now() / (windowSeconds * 1000))
+  return `${key}:${bucket}`.replace(/\//g, '_')
+}
+
+/** Read the current count without recording an attempt. */
+export async function checkRateLimit(
   key: string,
   { max, windowSeconds }: { max: number; windowSeconds: number }
 ): Promise<{ allowed: boolean; remaining: number }> {
   try {
-    const now = Date.now()
-    const windowStart = Math.floor(now / (windowSeconds * 1000))
-    const docId = `${key}:${windowStart}`.replace(/\//g, '_')
-    const ref = db().collection(RATE_LIMITS).doc(docId)
-
-    const count = await db().runTransaction(async (tx) => {
-      const doc = await tx.get(ref)
-      const current = doc.exists ? ((doc.data()?.count as number) ?? 0) : 0
-      const next = current + 1
-      tx.set(ref, {
-        count: next,
-        // Kept so old windows can be swept up later; Firestore TTL policies can
-        // be pointed at this field.
-        expiresAt: new Date(now + windowSeconds * 2000).toISOString(),
-      })
-      return next
-    })
-
-    return { allowed: count <= max, remaining: Math.max(0, max - count) }
+    const doc = await db()
+      .collection(RATE_LIMITS)
+      .doc(windowKey(key, windowSeconds))
+      .get()
+    const count = doc.exists ? ((doc.data()?.count as number) ?? 0) : 0
+    return { allowed: count < max, remaining: Math.max(0, max - count) }
   } catch (error) {
     console.warn(
       '[rate-limit] check failed, allowing request:',
@@ -109,9 +106,60 @@ export async function rateLimit(
   }
 }
 
-/** Best-effort client IP behind Vercel's proxy. */
+/** Record one attempt and report whether the caller is now over the limit. */
+export async function rateLimit(
+  key: string,
+  { max, windowSeconds }: { max: number; windowSeconds: number }
+): Promise<{ allowed: boolean; remaining: number }> {
+  try {
+    const ref = db().collection(RATE_LIMITS).doc(windowKey(key, windowSeconds))
+
+    const count = await db().runTransaction(async (tx) => {
+      const doc = await tx.get(ref)
+      const current = doc.exists ? ((doc.data()?.count as number) ?? 0) : 0
+      const next = current + 1
+      tx.set(ref, {
+        count: next,
+        // Kept so old windows can be swept up later; a Firestore TTL policy can
+        // be pointed at this field.
+        expiresAt: new Date(Date.now() + windowSeconds * 2000).toISOString(),
+      })
+      return next
+    })
+
+    return { allowed: count <= max, remaining: Math.max(0, max - count) }
+  } catch (error) {
+    console.warn(
+      '[rate-limit] record failed, allowing request:',
+      error instanceof Error ? error.message : error
+    )
+    return { allowed: true, remaining: 0 }
+  }
+}
+
+/**
+ * Client IP, for rate limiting.
+ *
+ * The leftmost value of x-forwarded-for is whatever the *client* claimed, and
+ * anyone can send a different one on every request — which defeats the throttle
+ * entirely. Prefer headers our own proxy sets and a caller cannot forge, and
+ * fall back to the rightmost forwarded value (the hop nearest us) rather than
+ * the leftmost (the hop furthest away, and the one under an attacker's
+ * control).
+ */
 export function clientIp(request: Request): string {
+  // Set by Vercel's edge; client-supplied copies are overwritten.
+  const vercel = request.headers.get('x-vercel-forwarded-for')
+  if (vercel) return vercel.split(',')[0].trim()
+
+  const real = request.headers.get('x-real-ip')
+  if (real) return real.trim()
+
   const forwarded = request.headers.get('x-forwarded-for')
-  if (forwarded) return forwarded.split(',')[0].trim()
-  return request.headers.get('x-real-ip') ?? 'unknown'
+  if (forwarded) {
+    const hops = forwarded.split(',').map((h) => h.trim()).filter(Boolean)
+    if (hops.length > 0) return hops[hops.length - 1]
+  }
+
+  return 'unknown'
 }

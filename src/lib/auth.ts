@@ -137,7 +137,14 @@ export function checkPassword(submitted: string): boolean {
 export const sessionCookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
-  sameSite: 'lax' as const,
+  /*
+    Strict rather than Lax. Lax already blocks cross-site POSTs, so CSRF was
+    covered either way — but Lax still sends the session on a top-level
+    navigation from another site, and there is no reason an admin session should
+    travel on a link someone else wrote. The only cost is that following an
+    /admin link from outside shows the sign-in screen once.
+  */
+  sameSite: 'strict' as const,
   path: '/',
   maxAge: SESSION_MAX_AGE,
 }

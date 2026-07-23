@@ -99,8 +99,14 @@ export function AccountingView({ rows }: { rows: Row[] }) {
       </div>
 
       <h2 className={styles.heading}>By month</h2>
-      <div className={styles.chart}>
-        {months.map((m) => (
+      <div
+        className={styles.chartWrap}
+        tabIndex={0}
+        role="region"
+        aria-label={`Money received by month in ${year}`}
+      >
+        <div className={styles.chart}>
+          {months.map((m) => (
           <div key={m.month} className={styles.bar}>
             <div className={styles.barTrack}>
               <div
@@ -113,14 +119,20 @@ export function AccountingView({ rows }: { rows: Row[] }) {
               {m.received > 0 ? formatMoney(m.received) : '—'}
             </span>
           </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       <h2 className={styles.heading}>Orders</h2>
       {inYear.length === 0 ? (
         <p className={admin.empty}>Nothing recorded for {year} yet.</p>
       ) : (
-        <div className={styles.tableWrap}>
+        <div
+          className={styles.tableWrap}
+          tabIndex={0}
+          role="region"
+          aria-label={`Orders in ${year}`}
+        >
           <table className={styles.table}>
             <thead>
               <tr>

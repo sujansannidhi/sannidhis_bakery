@@ -5,7 +5,7 @@ import {
   SESSION_COOKIE,
   sessionCookieOptions,
 } from '@/lib/auth'
-import { clientIp, rateLimit } from '@/lib/enquiries'
+import { checkRateLimit, clientIp, rateLimit } from '@/lib/enquiries'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -21,7 +21,8 @@ export const dynamic = 'force-dynamic'
 export async function POST(request: Request) {
   const ip = clientIp(request)
 
-  const limit = await rateLimit(`login:${ip}`, { max: 8, windowSeconds: 900 })
+  // Read-only: getting the password right must never count against you.
+  const limit = await checkRateLimit(`login:${ip}`, { max: 8, windowSeconds: 900 })
   if (!limit.allowed) {
     return NextResponse.json(
       { ok: false, message: 'Too many attempts. Try again in a few minutes.' },
@@ -53,6 +54,8 @@ export async function POST(request: Request) {
   }
 
   if (!valid) {
+    // Only a wrong password counts towards the limit.
+    await rateLimit(`login:${ip}`, { max: 8, windowSeconds: 900 })
     // Deliberately vague, and identical for every failure mode.
     return NextResponse.json(
       { ok: false, message: 'That password is not right.' },
