@@ -157,8 +157,15 @@ message about a missing image, run `npm run images:build` and try again — that
 check exists specifically so a broken photo can never reach the live site.
 
 To publish, push the change to the `main` branch and Vercel deploys it
-automatically. If Vercel is not connected yet, run `npx vercel` and follow the
-prompts once.
+automatically.
+
+**If Vercel returns `404: NOT_FOUND`,** its project was connected back when this
+repo was a single `index.html` file, so its Framework Preset is set to "Other"
+and it is trying to serve static files that no longer exist. `vercel.json` in the
+repo root declares the framework as Next.js, which overrides that setting — but
+if a deploy still 404s, open the project's *Settings → Build & Deployment* and
+check that the Framework Preset is **Next.js** and that there is no Output
+Directory override. Then redeploy.
 
 ### Environment variables
 
