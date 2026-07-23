@@ -35,16 +35,20 @@ function transport() {
 
 export type SendResult = { ok: true } | { ok: false; message: string }
 
+export type Attachment = { filename: string; content: Buffer; contentType: string }
+
 export async function sendMail({
   to,
   subject,
   text,
   replyTo,
+  attachments,
 }: {
   to: string
   subject: string
   text: string
   replyTo?: string
+  attachments?: Attachment[]
 }): Promise<SendResult> {
   if (!isMailConfigured()) {
     return { ok: false, message: 'Email is not configured yet.' }
@@ -57,12 +61,80 @@ export async function sendMail({
       subject,
       text,
       replyTo: replyTo ?? process.env.GMAIL_USER,
+      attachments,
     })
     return { ok: true }
   } catch (error) {
     const detail = error instanceof Error ? error.message : 'Unknown error.'
     console.error('[mail] send failed:', detail)
     return { ok: false, message: detail }
+  }
+}
+
+/**
+ * Fetch an uploaded image (design PNG or inspiration photo) so it can ride along
+ * as an email attachment. Best-effort: a fetch failure returns null and the
+ * email still sends, just with the URL in the body instead.
+ */
+export async function fetchAttachment(
+  url: string,
+  filename: string
+): Promise<Attachment | null> {
+  try {
+    const response = await fetch(url)
+    if (!response.ok) return null
+    const contentType = response.headers.get('content-type') ?? 'image/png'
+    const content = Buffer.from(await response.arrayBuffer())
+    return { filename, content, contentType }
+  } catch {
+    return null
+  }
+}
+
+/**
+ * The notification to the owner, sent on every submission. Repeats the whole
+ * enquiry in plain text and carries the cake design / photo as attachments —
+ * this is the "email me every time" requirement, met by our own Gmail rather
+ * than Formspree, which cannot attach anything.
+ */
+export function ownerNotification(enquiry: Record<string, string | undefined>): {
+  subject: string
+  text: string
+  replyTo: string | undefined
+} {
+  const rows: [string, string | undefined][] = [
+    ['Name', enquiry.Name],
+    ['Email', enquiry.Email],
+    ['Phone', enquiry.Phone],
+    ['Event date', enquiry['Event date']],
+    ['Occasion', enquiry.Occasion],
+    ['Type', enquiry.Category],
+    ['How many', enquiry.Servings],
+    ['What they would like', enquiry['What you would like']],
+    ['Cake design', enquiry['Cake design']],
+    ['Allergies / dietary', enquiry.Dietary],
+    ['Budget', enquiry.Budget],
+    ['Anything else', enquiry.Notes],
+    ['Started from', enquiry['Started from']],
+  ]
+
+  const body = rows
+    .filter(([, v]) => v && v.trim())
+    .map(([label, v]) => `${label}: ${v}`)
+    .join('\n')
+
+  const attached: string[] = []
+  if (enquiry.cakeDesignImageUrl) attached.push('their cake design')
+  if (enquiry.inspirationPhotoUrl) attached.push('an inspiration photo')
+  const note = attached.length
+    ? `\n\n${attached.join(' and ')} ${attached.length === 1 ? 'is' : 'are'} attached.`
+    : ''
+
+  return {
+    subject: `New enquiry — ${enquiry.Name ?? 'someone'}${enquiry['Event date'] ? `, ${enquiry['Event date']}` : ''}`,
+    text: `A new order enquiry came in.\n\n${body}${note}\n\nReply straight to this email to reach them.`,
+    // So the owner can hit reply and reach the customer directly.
+    replyTo: enquiry.Email,
   }
 }
 

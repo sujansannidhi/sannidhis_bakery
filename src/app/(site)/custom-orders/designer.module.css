@@ -1,0 +1,196 @@
+.designer {
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  padding: var(--s-24);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-40);
+  background: var(--paper);
+}
+
+@media (min-width: 760px) {
+  .designer {
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: var(--s-40);
+    align-items: start;
+  }
+}
+
+/* ── Preview ─────────────────────────────────────────────────────────────── */
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+}
+
+@media (min-width: 760px) {
+  .preview {
+    position: sticky;
+    top: 88px;
+  }
+}
+
+.previewInner {
+  background: var(--shelf);
+  border-radius: 2px;
+  padding: var(--s-16);
+}
+
+.previewNote {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--stone);
+  margin: 0;
+  text-align: center;
+}
+
+/* ── Controls ────────────────────────────────────────────────────────────── */
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-24);
+}
+
+.group {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+}
+
+.groupLabel {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  padding: 0;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-8);
+}
+
+.choice {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 44px;
+  padding: 6px var(--s-16);
+  background: var(--paper);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: var(--body);
+  font-size: var(--t-15);
+  color: var(--ink);
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.choice:hover {
+  border-color: var(--ink);
+}
+
+.choice[aria-pressed='true'] {
+  background: var(--currant);
+  border-color: var(--currant);
+  color: var(--paper);
+}
+
+.choiceSub {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  opacity: 0.75;
+}
+
+/* ── Swatches ────────────────────────────────────────────────────────────── */
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-8);
+}
+
+.swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--hairline-strong);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.swatch:hover {
+  transform: scale(1.08);
+}
+
+.swatch[aria-pressed='true'] {
+  border-color: var(--currant);
+  box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--currant);
+}
+
+/* ── Decorations / checks ────────────────────────────────────────────────── */
+
+.decorations {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-8);
+}
+
+.decoration,
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--s-8);
+  min-height: 40px;
+  font-size: var(--t-15);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.decoration input,
+.check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--currant);
+  flex-shrink: 0;
+}
+
+/* ── Text ────────────────────────────────────────────────────────────────── */
+
+.text {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px var(--s-16);
+  background: var(--paper);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  font-family: var(--body);
+  font-size: var(--t-17);
+  color: var(--ink);
+}
+
+.text:hover {
+  border-color: var(--ink);
+}
+
+/* Off-screen export surface: present in the DOM so it can be serialised, but
+   never seen and never in the layout. Fixed size so the raster is predictable. */
+.exportSurface {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  width: 360px;
+  height: 340px;
+  pointer-events: none;
+}

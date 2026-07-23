@@ -259,3 +259,88 @@
   font-size: var(--t-15);
   color: var(--ink);
 }
+
+/* ── Cake designer wrapper ───────────────────────────────────────────────── */
+
+.designerWrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-16);
+}
+
+.designerHead {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.designerTitle {
+  font-size: var(--t-21);
+  margin: 0;
+}
+
+.designerIntro {
+  font-size: var(--t-15);
+  color: var(--stone);
+  margin: 0;
+  max-width: 52ch;
+}
+
+/* ── Inspiration upload ──────────────────────────────────────────────────── */
+
+.upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+  align-items: flex-start;
+  padding: var(--s-16);
+  background: var(--shelf);
+  border-radius: 2px;
+}
+
+.uploadLabel {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.uploadHint {
+  font-size: var(--t-15);
+  color: var(--ink);
+}
+
+.uploadButton {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: var(--s-24);
+  background: var(--paper);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: var(--t-15);
+  color: var(--ink);
+  transition: border-color 150ms ease;
+}
+
+.uploadButton:hover {
+  border-color: var(--ink);
+}
+
+.upload input:focus-visible + .uploadButton {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(42, 33, 29, 0.85);
+}
+
+.uploadStatus {
+  font-size: var(--t-15);
+  color: var(--stone);
+  min-height: 20px;
+}
+
+.uploadError {
+  color: var(--currant);
+}
