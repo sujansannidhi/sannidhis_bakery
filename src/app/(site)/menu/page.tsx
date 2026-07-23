@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { MenuBrowser } from './MenuBrowser'
+import { categories, products } from '@/lib/products'
 import { site } from '@/lib/site'
 import styles from './menu.module.css'
 
@@ -9,7 +10,12 @@ export const metadata: Metadata = {
     'Every cake, cookie, cake pop and chocolate-covered strawberry we have made, grouped by category. Everything is quoted per order.',
 }
 
-export default function MenuPage() {
+export default async function MenuPage() {
+  const [allProducts, allCategories] = await Promise.all([
+    products(),
+    categories(),
+  ])
+
   return (
     <section className="section">
       <div className="container">
@@ -27,7 +33,7 @@ export default function MenuPage() {
           </p>
         </div>
 
-        <MenuBrowser />
+        <MenuBrowser products={allProducts} categories={allCategories} />
       </div>
     </section>
   )

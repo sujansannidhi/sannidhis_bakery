@@ -4,7 +4,7 @@ import { useState, type FormEvent } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { submitOrder } from '@/lib/submit-order'
 import { site } from '@/lib/site'
-import { products, categories } from '@/lib/products'
+import type { Category, Product } from '@/lib/content'
 import styles from './order.module.css'
 
 type Errors = Record<string, string>
@@ -36,7 +36,13 @@ function daysUntil(dateStr: string): number {
   return Math.round((target.getTime() - now.getTime()) / 86_400_000)
 }
 
-export function OrderForm() {
+export function OrderForm({
+  products,
+  categories,
+}: {
+  products: Product[]
+  categories: Category[]
+}) {
   const params = useSearchParams()
   const requested = params.get('product')
   const requestedProduct = products.find((p) => p.id === requested)

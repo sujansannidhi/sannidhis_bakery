@@ -3,9 +3,11 @@
 import { useCallback, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Photo } from './Photo'
-import type { Product } from '@/lib/products'
-import { priceLine } from '@/lib/products'
+import type { Product } from '@/lib/content'
+import site from '@/content/site.json'
 import styles from './ProductModal.module.css'
+
+const priceLine = site.priceLine
 
 type Props = {
   product: Product | null
@@ -88,7 +90,8 @@ export function ProductModal({ product, onClose }: Props) {
       >
         <div className={styles.figure}>
           <Photo
-            product={product}
+            image={product.image}
+            alt={product.alt}
             sizes="(min-width: 900px) 46vw, 92vw"
             priority
           />

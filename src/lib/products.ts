@@ -1,54 +1,66 @@
-import data from '@/content/products.json'
+import 'server-only'
+
+import {
+  getCategories,
+  getProducts,
+  productById,
+  productsByCategory,
+  featuredProducts,
+  type Category,
+  type Product,
+  type ProductImage,
+  type Variant,
+} from './content'
 import site from '@/content/site.json'
 
-export type CategoryId = 'cakes' | 'cookies' | 'cake-pops' | 'strawberries'
+/**
+ * Products and categories, read from Firestore.
+ *
+ * These used to be a JSON import, which meant a product could not be added and a
+ * category could not be created without a code change — `CategoryId` was a union
+ * of four literal strings. Both are now data.
+ *
+ * Site settings deliberately did NOT move. They change rarely, they benefit from
+ * living in git where a bad edit can be reverted, and several client components
+ * read them synchronously. Products earn a database because they change often
+ * and carry uploaded photographs; business facts do not.
+ *
+ * Everything here is server-only. Client components receive what they need as
+ * props from the server component above them.
+ */
 
-export type Product = {
-  id: string
-  sourceFile: string
-  name: string
-  category: CategoryId
-  blurb: string
-  alt: string
-  featured: boolean
-  image: string
-  width: number
-  height: number
-  aspectRatio: number
-  widths: number[]
-  lqip: string
-}
+export type { Product, Category, ProductImage, Variant }
 
-export type Category = {
-  id: CategoryId
-  name: string
-  line: string
-  cover: string
-}
+/** Kept as a name for readability; categories are now arbitrary strings. */
+export type CategoryId = string
 
-export const products = data.products as Product[]
+export const products = getProducts
+export const categories = getCategories
 
-export const categories = site.categories as Category[]
-
-export function byId(id: string): Product {
-  const found = products.find((p) => p.id === id)
+export async function byId(id: string): Promise<Product> {
+  const found = await productById(id)
   if (!found) {
     // Loud rather than silent: a bad id would otherwise render an empty box.
-    throw new Error(`Unknown product id "${id}". Check src/content/products.json.`)
+    throw new Error(`Unknown product id "${id}". Check the products collection.`)
   }
   return found
 }
 
-export function byCategory(category: CategoryId): Product[] {
-  return products.filter((p) => p.category === category)
+/** Null instead of throwing, for places where a missing product is survivable. */
+export async function byIdOrNull(id: string): Promise<Product | null> {
+  return productById(id)
 }
 
-export function featured(): Product[] {
-  return products.filter((p) => p.featured)
+export async function byCategory(category: string): Promise<Product[]> {
+  return productsByCategory(category)
 }
 
-export function categoryCount(category: CategoryId): number {
-  return byCategory(category).length
+export async function featured(): Promise<Product[]> {
+  return featuredProducts()
+}
+
+export async function categoryCount(category: string): Promise<number> {
+  return (await productsByCategory(category)).length
 }
 
 /** The price slot on every case card. Quotes-only, so no number is ever shown. */

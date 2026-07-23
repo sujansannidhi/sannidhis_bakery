@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 import { OrderForm } from './OrderForm'
 import { Photo } from '@/components/Photo'
 import { site, serviceArea } from '@/lib/site'
-import { byId } from '@/lib/products'
+import { byId, categories, products } from '@/lib/products'
 import styles from './order.module.css'
 
 export const metadata: Metadata = {
@@ -21,13 +21,20 @@ export const metadata: Metadata = {
  * square never crops through the part of the cake that matters.
  */
 const PROOF = [
-  { product: byId('butterfly-two-tier'), focal: 'center 30%' },
-  { product: byId('match-day'), focal: 'center 38%' },
-  { product: byId('ruffle-and-bloom'), focal: 'center 42%' },
+  { id: 'butterfly-two-tier', focal: 'center 30%' },
+  { id: 'match-day', focal: 'center 38%' },
+  { id: 'ruffle-and-bloom', focal: 'center 42%' },
 ]
 
-export default function CustomOrdersPage() {
+export default async function CustomOrdersPage() {
   const area = serviceArea()
+  const proof = await Promise.all(
+    PROOF.map(async ({ id, focal }) => ({ product: await byId(id), focal }))
+  )
+  const [allProducts, allCategories] = await Promise.all([
+    products(),
+    categories(),
+  ])
 
   return (
     <section className="section">
@@ -44,10 +51,11 @@ export default function CustomOrdersPage() {
         <div className={styles.layout}>
           <aside className={styles.aside}>
             <div className={styles.proof}>
-              {PROOF.map(({ product, focal }) => (
+              {proof.map(({ product, focal }) => (
                 <Photo
                   key={product.id}
-                  product={product}
+                  image={product.image}
+                  alt={product.alt}
                   sizes="(min-width: 1000px) 15vw, 30vw"
                   ratio={1}
                   focal={focal}
@@ -102,7 +110,7 @@ export default function CustomOrdersPage() {
 
           <div>
             <Suspense fallback={null}>
-              <OrderForm />
+              <OrderForm products={allProducts} categories={allCategories} />
             </Suspense>
           </div>
         </div>

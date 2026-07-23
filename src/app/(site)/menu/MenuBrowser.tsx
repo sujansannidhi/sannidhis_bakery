@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import { Photo } from '@/components/Photo'
 import { CaseCard } from '@/components/CaseCard'
 import { ProductModal } from '@/components/ProductModal'
-import { categories, products, type Product } from '@/lib/products'
+import type { Category, Product } from '@/lib/content'
 import styles from './menu.module.css'
 
 /**
@@ -14,13 +14,20 @@ import styles from './menu.module.css'
  * ratio as input — with 16 aspect ratios in the source set, a uniform card grid
  * is only achievable by cropping into the cakes.
  */
-export function MenuBrowser() {
+export function MenuBrowser({
+  products,
+  categories,
+}: {
+  products: Product[]
+  categories: Category[]
+}) {
   const [filter, setFilter] = useState<string>('all')
   const [active, setActive] = useState<Product | null>(null)
 
   const visible = useMemo(
-    () => (filter === 'all' ? products : products.filter((p) => p.category === filter)),
-    [filter]
+    () =>
+      filter === 'all' ? products : products.filter((p) => p.category === filter),
+    [filter, products]
   )
 
   const groups = useMemo(
@@ -31,7 +38,7 @@ export function MenuBrowser() {
           items: visible.filter((p) => p.category === c.id),
         }))
         .filter((g) => g.items.length > 0),
-    [visible]
+    [visible, categories]
   )
 
   return (
@@ -79,7 +86,8 @@ export function MenuBrowser() {
                   onClick={() => setActive(product)}
                 >
                   <Photo
-                    product={product}
+                    image={product.image}
+                    alt={product.alt}
                     className={styles.itemPhoto}
                     sizes="(min-width: 1100px) 30vw, (min-width: 640px) 45vw, 100vw"
                   />

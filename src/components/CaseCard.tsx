@@ -1,5 +1,7 @@
 import styles from './CaseCard.module.css'
-import { priceLine } from '@/lib/products'
+import site from '@/content/site.json'
+
+const priceLine = site.priceLine
 
 type Props = {
   name: string

@@ -11,7 +11,10 @@ export const metadata: Metadata = {
     'A home bakery in Texas making custom cakes, cookies, cake pops and chocolate-covered strawberries to order.',
 }
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const kitchenPhoto = await byId('strawberry-blossom')
+  const makePhoto = await byId('building-block')
+
   return (
     <>
       <section className="section">
@@ -34,7 +37,8 @@ export default function AboutPage() {
         <div className="container">
           <div className={styles.split}>
             <Photo
-              product={byId('strawberry-blossom')}
+              image={kitchenPhoto.image}
+              alt={kitchenPhoto.alt}
               sizes="(min-width: 900px) 45vw, 100vw"
             />
             <div className={styles.body}>
@@ -87,7 +91,8 @@ export default function AboutPage() {
               </Link>
             </div>
             <Photo
-              product={byId('building-block')}
+              image={makePhoto.image}
+              alt={makePhoto.alt}
               sizes="(min-width: 900px) 45vw, 100vw"
             />
           </div>

@@ -5,20 +5,21 @@ import { Photo } from '@/components/Photo'
 import { CaseCard } from '@/components/CaseCard'
 import { Reveal } from '@/components/Reveal'
 import {
+  byCategory,
   byId,
+  byIdOrNull,
   categories,
-  categoryCount,
   featured,
-  type CategoryId,
 } from '@/lib/products'
-
-const hero = byId('red-rose-two-tier')
 
 /**
  * The photo strip. Chosen for variety of subject and ratio rather than rank —
  * it reads as a feed, so a run of near-identical cakes would flatten it.
+ *
+ * Resolved with byIdOrNull because products are editable now: the owner can
+ * delete one, and a strip with a gap in it is better than a page that throws.
  */
-const STRIP = [
+const STRIP_IDS = [
   'match-day',
   'sprinkle-cake-pops',
   'ruffle-and-bloom',
@@ -27,15 +28,33 @@ const STRIP = [
   'butterfly-two-tier',
   'wrapped-cake-pops',
   'building-block',
-].map(byId)
+]
 
-export default function HomePage() {
+export default async function HomePage() {
+  const hero = await byId('red-rose-two-tier')
+  const allCategories = await categories()
+  const strip = (await Promise.all(STRIP_IDS.map(byIdOrNull))).filter(
+    (p) => p !== null
+  )
+
   // A photograph gets one job on this page. Anything already carrying the hero
   // or a category block is excluded, so Featured can never repeat it.
-  const spokenFor = new Set([hero.id, ...categories.map((c) => c.cover)])
-  const featuredProducts = featured()
+  const spokenFor = new Set([hero.id, ...allCategories.map((c) => c.cover)])
+  const featuredProducts = (await featured())
     .filter((p) => !spokenFor.has(p.id))
     .slice(0, 6)
+
+  // Resolved up front so the JSX below stays declarative rather than awaiting
+  // inside a map.
+  const storyPhoto = await byId('ruffle-and-bloom')
+
+  const categoryBlocks = await Promise.all(
+    allCategories.map(async (category) => ({
+      category,
+      cover: category.cover ? await byIdOrNull(category.cover) : null,
+      count: (await byCategory(category.id)).length,
+    }))
+  )
 
   return (
     <>
@@ -66,7 +85,8 @@ export default function HomePage() {
                 breaks the photo's left edge by a fixed amount at any width. */}
             <div className={styles.heroPhotoWrap}>
               <Photo
-                product={hero}
+                image={hero.image}
+                alt={hero.alt}
                 className={styles.heroPhoto}
                 sizes="(min-width: 900px) 46vw, 100vw"
                 priority
@@ -110,30 +130,29 @@ export default function HomePage() {
           </Reveal>
 
           <div className={styles.categories}>
-            {categories.map((category, i) => {
-              const cover = byId(category.cover)
-              const count = categoryCount(category.id as CategoryId)
-              return (
-                <Reveal key={category.id} delay={i * 60}>
-                  <Link
-                    href={`/menu#${category.id}`}
-                    className={`product ${styles.category}`}
-                  >
+            {categoryBlocks.map(({ category, cover, count }, i) => (
+              <Reveal key={category.id} delay={i * 60}>
+                <Link
+                  href={`/menu#${category.id}`}
+                  className={`product ${styles.category}`}
+                >
+                  {cover && (
                     <Photo
-                      product={cover}
+                      image={cover.image}
+                      alt={cover.alt}
                       className={styles.categoryPhoto}
                       sizes="(min-width: 1000px) 25vw, (min-width: 560px) 50vw, 100vw"
                     />
-                    <CaseCard
-                      as="h3"
-                      name={category.name}
-                      blurb={category.line}
-                      price={`${count} ${count === 1 ? 'design' : 'designs'} · View`}
-                    />
-                  </Link>
-                </Reveal>
-              )
-            })}
+                  )}
+                  <CaseCard
+                    as="h3"
+                    name={category.name}
+                    blurb={category.line}
+                    price={`${count} ${count === 1 ? 'design' : 'designs'} · View`}
+                  />
+                </Link>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -150,7 +169,8 @@ export default function HomePage() {
               <Reveal key={product.id} delay={(i % 3) * 60}>
                 <article className={`product ${styles.product}`}>
                   <Photo
-                    product={product}
+                    image={product.image}
+                    alt={product.alt}
                     className={styles.productPhoto}
                     sizes="(min-width: 1000px) 33vw, (min-width: 560px) 50vw, 100vw"
                   />
@@ -187,7 +207,8 @@ export default function HomePage() {
           <div className={styles.story}>
             <Reveal>
               <Photo
-                product={byId('ruffle-and-bloom')}
+                image={storyPhoto.image}
+                alt={storyPhoto.alt}
                 sizes="(min-width: 900px) 45vw, 100vw"
               />
             </Reveal>
@@ -238,10 +259,11 @@ export default function HomePage() {
         {/* The marquee is decorative duplication; every one of these photographs
             also appears with its own alt text on the menu. */}
         <div className={styles.stripTrack} aria-hidden="true">
-          {[...STRIP, ...STRIP].map((product, i) => (
+          {[...strip, ...strip].map((product, i) => (
             <div key={`${product.id}-${i}`} className={styles.stripItem}>
               <Photo
-                product={product}
+                image={product.image}
+                alt={product.alt}
                 sizes="(min-width: 768px) 320px, 220px"
               />
             </div>
