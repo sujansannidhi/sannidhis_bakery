@@ -199,14 +199,30 @@ async function checkGithub() {
       report(FAIL, 'GitHub', `responded ${response.status}`)
     } else {
       report(PASS, 'read access', `can read src/content/site.json on ${branch}`)
-      // Write permission is not testable without writing, so read the scopes.
-      const scopes = response.headers.get('x-accepted-github-permissions') ?? ''
+
+      /*
+        Ask the repository endpoint what the token can do, rather than reading
+        the x-accepted-github-permissions header on the previous response. That
+        header describes what the endpoint *requires* ("contents=read" for a
+        GET), not what the token *holds*, so it reported read-only for a token
+        that could write perfectly well.
+      */
+      const repoResponse = await fetch(`https://api.github.com/repos/${repo}`, {
+        headers: {
+          Accept: 'application/vnd.github+json',
+          Authorization: `Bearer ${token}`,
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+      })
+      const repoData = await repoResponse.json().catch(() => null)
+      const canPush = repoData?.permissions?.push === true
+
       report(
-        scopes.includes('contents=write') || scopes === '' ? PASS : WARN,
+        canPush ? PASS : FAIL,
         'write access',
-        scopes
-          ? 'token grants Contents write'
-          : 'could not confirm write permission — publishing once from the admin page is the real test'
+        canPush
+          ? 'token can commit to this repository'
+          : 'token is read-only. Regenerate it with Contents: Read and write'
       )
     }
   } catch (error) {
