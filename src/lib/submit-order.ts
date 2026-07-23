@@ -1,45 +1,47 @@
 /**
  * The single place the order form talks to the outside world.
  *
- * Currently Formspree, which is a client-side POST. That has one consequence
- * worth being honest about: there is no server-side validation. Everything below
- * runs in the browser and a determined person can bypass it. The honeypot and
- * the client checks stop ordinary spam and ordinary mistakes, which is what this
- * form actually faces.
+ * This now posts to our own route handler at /api/orders rather than straight to
+ * Formspree. That handler validates the enquiry server-side where it cannot be
+ * bypassed, stores it so it appears in the admin area, and then forwards it to
+ * Formspree so the owner's phone notification still arrives.
  *
- * To move to a real server surface later, replace ENDPOINT with a Next.js route
- * handler and validate the same shape there. Nothing outside this file needs to
- * change.
+ * The form component above this knows none of that — it was built with this file
+ * as the only thing aware of where enquiries go, and this is the change it was
+ * designed for.
  */
 
-// To change this, create a form in Formspree and paste its endpoint here. This
-// is the only line in the project that knows where enquiries go.
-const ENDPOINT = 'https://formspree.io/f/xnjebdqe'
+const ENDPOINT = '/api/orders'
 
 export type OrderPayload = Record<string, string>
 
 export type SubmitResult =
   | { ok: true }
-  | { ok: false; message: string }
+  | { ok: false; message: string; errors?: Record<string, string> }
 
 export async function submitOrder(payload: OrderPayload): Promise<SubmitResult> {
   try {
     const response = await fetch(ENDPOINT, {
       method: 'POST',
-      headers: { Accept: 'application/json' },
-      body: toFormData(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
     })
 
-    if (response.ok) return { ok: true }
-
-    // Formspree returns a JSON body describing what it rejected.
     const body = await response.json().catch(() => null)
-    const detail = body?.errors?.[0]?.message
+
+    if (response.ok && body?.ok) return { ok: true }
+
     return {
       ok: false,
-      message: detail
-        ? `We couldn't send that: ${detail}`
-        : "We couldn't send that just now. Please try again, or message us on Instagram.",
+      message:
+        body?.message ??
+        "We couldn't send that just now. Please try again, or message us on Instagram.",
+      // Field-level messages from server-side validation, keyed the same way the
+      // form's own client-side errors are.
+      errors: body?.errors,
     }
   } catch {
     return {
@@ -48,12 +50,4 @@ export async function submitOrder(payload: OrderPayload): Promise<SubmitResult> 
         'That did not send — please check your connection and try again, or message us on Instagram.',
     }
   }
-}
-
-function toFormData(payload: OrderPayload): FormData {
-  const data = new FormData()
-  for (const [key, value] of Object.entries(payload)) {
-    if (value) data.append(key, value)
-  }
-  return data
 }

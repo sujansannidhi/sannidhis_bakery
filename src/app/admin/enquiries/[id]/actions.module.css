@@ -1,0 +1,101 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-40);
+  border: 1px solid var(--hairline);
+  padding: var(--s-24);
+  background: var(--shelf);
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+  align-items: flex-start;
+}
+
+.heading {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  /* --stone fails 4.5:1 on --shelf, so labels on this ground are --ink. */
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.hint {
+  font-size: var(--t-15);
+  color: var(--ink);
+  margin: 0 0 var(--s-8);
+}
+
+.statuses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-8);
+}
+
+.status {
+  min-height: 40px;
+  padding-inline: var(--s-16);
+  background: var(--paper);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: var(--t-15);
+  color: var(--ink);
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.status:hover:not(:disabled) {
+  border-color: var(--ink);
+}
+
+.status[aria-pressed='true'] {
+  background: var(--currant);
+  border-color: var(--currant);
+  color: var(--paper);
+}
+
+.status:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.notes {
+  width: 100%;
+  padding: var(--s-16);
+  background: var(--paper);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  font-family: var(--body);
+  font-size: var(--t-15);
+  line-height: 1.5;
+  color: var(--ink);
+  resize: vertical;
+  margin-bottom: var(--s-8);
+}
+
+.notes:hover {
+  border-color: var(--ink);
+}
+
+.reply {
+  text-decoration: none;
+}
+
+.feedback {
+  min-height: 22px;
+  font-size: var(--t-15);
+}
+
+.error {
+  color: var(--currant);
+}
+
+.ok {
+  color: var(--ink);
+}

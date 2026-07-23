@@ -98,8 +98,21 @@ export function OrderForm() {
     const result = await submitOrder(payload)
     setSending(false)
 
-    if (result.ok) setSent(true)
-    else setFailure(result.message)
+    if (result.ok) {
+      setSent(true)
+      return
+    }
+
+    // The server validates independently of the checks above. If it rejected a
+    // specific field, show it against that field rather than as a vague banner.
+    if (result.errors && Object.keys(result.errors).length > 0) {
+      setErrors(result.errors)
+      const firstField = Object.keys(result.errors)[0]
+      form
+        .querySelector<HTMLElement>(`[data-field="${firstField}"]`)
+        ?.focus()
+    }
+    setFailure(result.message)
   }
 
   if (sent) {
