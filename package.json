@@ -12,25 +12,33 @@
     "images:build": "node scripts/build-images.mjs",
     "check:images": "node scripts/check-images.mjs",
     "fonts:subset": "python3 scripts/subset-fonts.py",
-    "shoot": "node scripts/shoot.mjs"
+    "shoot": "node scripts/shoot.mjs",
+    "check:env": "node scripts/check-env.mjs",
+    "migrate:content": "node scripts/migrate-content.mjs"
   },
   "overrides": {
     "sharp": "^0.35.3",
-    "postcss": "^8.5.6"
+    "postcss": "^8.5.6",
+    "uuid": "^11.1.1"
   },
   "dependencies": {
+    "@vercel/blob": "^2.6.1",
+    "firebase-admin": "^14.2.0",
     "next": "^16.2.11",
+    "nodemailer": "^9.0.3",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "sharp": "^0.35.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "22.10.2",
+    "@types/nodemailer": "^8.0.1",
     "@types/react": "19.0.2",
     "@types/react-dom": "19.0.2",
     "axe-core": "^4.12.1",
     "lighthouse": "^13.4.1",
     "playwright": "^1.61.1",
-    "sharp": "^0.35.3",
     "typescript": "5.7.2"
   }
 }

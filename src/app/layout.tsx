@@ -1,9 +1,16 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { SiteHeader } from '@/components/SiteHeader'
-import { SiteFooter } from '@/components/SiteFooter'
 import { site } from '@/lib/site'
-import { StructuredData } from '@/components/StructuredData'
+
+/**
+ * The root layout is deliberately bare.
+ *
+ * It holds only what every route needs: the document shell, the tokens and the
+ * display font. The public header, footer and structured data live in the
+ * (site) group instead, because the admin area must not inherit them — a
+ * customer-facing "Start a custom order" button and a marketing footer have no
+ * business framing an internal tool.
+ */
 
 // TODO(owner): set the domain in src/content/site.json so canonical URLs, the
 // sitemap and OG tags point at the real site.
@@ -47,15 +54,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body>
-        <StructuredData />
-        <a href="#main" className="skip-link">
-          Skip to content
-        </a>
-        <SiteHeader />
-        <main id="main">{children}</main>
-        <SiteFooter />
-      </body>
+      <body>{children}</body>
     </html>
   )
 }

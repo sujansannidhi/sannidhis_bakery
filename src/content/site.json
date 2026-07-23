@@ -1,63 +1,48 @@
 {
   "_comment": "Business facts, editable without touching any component. A null value means the fact has not been supplied yet: components omit those rather than inventing a placeholder that could be mistaken for real. Every null here has a matching entry in CONTENT-TODO.md.",
-
   "name": "Sannidhi's Bakery",
   "tagline": "Custom cakes, cookies and cake pops, baked to order.",
-
   "kitchen": "home",
   "kitchenNote": "We bake from our home kitchen as a Texas cottage food operation.",
-
   "ordering": "inquiry",
   "pricing": "quotes",
   "priceLine": "Quoted per order",
-
   "fulfilment": {
     "pickup": true,
     "delivery": false,
     "shipping": false,
     "note": "Pickup only — we are not delivering at this time."
   },
-
   "leadTime": {
-    "cakes": null,
-    "cookies": null,
-    "cakePops": null,
-    "strawberries": null,
-    "summary": null,
+    "cakes": "4–7 days",
+    "cookies": "4–7 days",
+    "cakePops": "4–7 days",
+    "strawberries": "4–7 days",
+    "summary": "4–7 days for most orders",
     "_minDaysComment": "Set minDays to a number and the order form starts warning people whose event date is sooner than that. Left null, the form accepts any future date without comment.",
-    "minDays": null
+    "minDays": 4
   },
-
   "contact": {
-    "phone": null,
-    "email": null,
+    "phone": "(919) 452-6994",
+    "email": "sannidhisbakerytx@gmail.com",
     "instagram": "sannidhis_bakerytx",
     "instagramUrl": "https://www.instagram.com/sannidhis_bakerytx"
   },
-
   "location": {
-    "city": null,
+    "city": "Frisco",
     "state": "TX",
-    "serviceArea": null
+    "serviceArea": "Frisco and the DFW area"
   },
-
-  "hours": null,
-
+  "hours": "9am–5pm, every day",
   "dietary": [],
-
   "deposit": null,
-
-  "domain": null,
-
+  "domain": "sannidhis-bakery.vercel.app",
   "owner": {
     "name": null,
     "nameOnAboutPage": null
   },
-
   "reviews": [],
-
   "servingsGuide": [],
-
   "categories": [
     {
       "id": "cakes",
@@ -84,7 +69,6 @@
       "cover": "chocolate-strawberries"
     }
   ],
-
   "orderSteps": [
     {
       "n": "01",
@@ -106,5 +90,14 @@
       "title": "Pickup",
       "body": "We agree a time and you collect it. Pickup only for now."
     }
-  ]
+  ],
+  "payment": "Cash or Zelle.",
+  "certification": {
+    "name": "Texas Food Handler",
+    "issuer": "Learn2Serve",
+    "number": "TX-FH-1168038",
+    "issued": "2026-07-23",
+    "expires": "2028-07-23",
+    "accreditation": "TXDSHS accreditation licence #9"
+  }
 }

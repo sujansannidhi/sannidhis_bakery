@@ -1,7 +1,8 @@
-node_modules/
-.next/
-out/
-.env*.local
-.DS_Store
 *.tsbuildinfo
+.DS_Store
+.env
+.env*.local
+.next/
 /assets/cropped/
+node_modules/
+out/

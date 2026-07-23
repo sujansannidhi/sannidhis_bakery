@@ -203,6 +203,97 @@ Worth knowing:
 
 ---
 
+## The admin area
+
+There is a private admin area at **`/admin`**. You sign in with one password.
+
+### What it does
+
+- **Enquiries** — every custom order that comes through the form, newest first.
+  Open one to see everything they submitted, mark it New / Quoted / Confirmed /
+  Completed / Declined, and keep private notes only you can see. The dashboard
+  shows what is due in the next seven days.
+- **Content** — change your city, lead times, phone, email, hours, deposit terms
+  and every product name and description, without opening a code editor. Saving
+  commits the change to GitHub and the site rebuilds; it goes live in about a
+  minute.
+
+### How it is kept private
+
+Not with a password checked in the browser — that kind only *looks* like
+security, because everything it is hiding has already been sent to the visitor
+and can be read with View Source.
+
+Instead, a check runs **on the server before the page is built**. Someone who is
+not signed in never receives any admin page or any of your customers' details,
+only a redirect to the sign-in screen. Alongside that: the sign-in cookie cannot
+be read by any script, repeated wrong passwords get rate limited, search engines
+are told to stay away, and the database refuses all connections that do not come
+from this website's own server.
+
+**Three things you should know.**
+
+1. **The password is the whole lock.** Use a long random one from a password
+   manager, not something memorable. Anyone who has it has full access.
+2. **There is one password, not accounts.** Everyone who signs in looks the same,
+   so there is no record of who did what. Fine for one person; tell me if more
+   people need access and it should become real accounts.
+3. **If the password ever leaks**, change `ADMIN_SESSION_SECRET` in Vercel. That
+   signs out every device immediately, everywhere.
+
+### Setting it up
+
+Eight values go into Vercel under **Settings → Environment Variables**. None of
+them ever belong in the project files — `.env.example` lists them with notes.
+
+| Variable | Where it comes from |
+|---|---|
+| `ADMIN_PASSWORD` | You choose it. `openssl rand -base64 32` is a good source |
+| `ADMIN_SESSION_SECRET` | `openssl rand -base64 32` again, a different value |
+| `FIREBASE_PROJECT_ID` | Firebase → Project settings → Service accounts → Generate new private key. All three come from that one downloaded file |
+| `FIREBASE_CLIENT_EMAIL` | ditto |
+| `FIREBASE_PRIVATE_KEY` | ditto — paste it exactly, including the `\n` sequences |
+| `BLOB_READ_WRITE_TOKEN` | Vercel → Storage → create a Blob store → connect it to this project. Vercel sets this for you on deployments; you only copy it locally |
+| `GMAIL_USER` | Your Gmail address, for confirmation and quote emails |
+| `GMAIL_APP_PASSWORD` | **Not your Google password.** myaccount.google.com → Security → 2-Step Verification → App passwords. Paste it without the spaces Google shows |
+| `GITHUB_TOKEN` | GitHub → Settings → Developer settings → **Fine-grained** token, scoped to **this repository only**, Contents: read and write |
+| `GITHUB_REPO` | `sujansannidhi/sannidhis_bakery` |
+| `GITHUB_BRANCH` | `main` |
+
+**To check you got it right**, put the same values in a local `.env.local` file
+and run:
+
+```
+npm run check:env
+```
+
+It actually connects — reading from Firestore, writing a test document and
+deleting it again, and asking GitHub whether the token can see the repo. It
+tells you which parts work, which are missing, and which are present but wrong,
+which is the case that is otherwise hardest to diagnose. It never prints a
+secret.
+
+Until those are set, the admin area still loads and tells you exactly which ones
+are missing. **The public site is unaffected either way** — order enquiries keep
+reaching your phone through Formspree.
+
+Also upload `firestore.rules` to Firebase (Firestore → Rules). It denies all
+direct access to the database, which is deliberate: only this website's server
+is allowed to read your customers' details.
+
+### Where enquiries go now
+
+The order form used to post straight to Formspree from the visitor's browser.
+It now goes to this site's own server first, which checks it properly, saves it
+so it appears in the admin area, and then passes it to Formspree — **so your
+phone notification still arrives exactly as before.**
+
+The upside is that the checks can no longer be skipped. Previously someone could
+bypass every rule on the form by using developer tools; now the server rejects a
+bad enquiry regardless of what the browser sends.
+
+---
+
 ## Commands, all of them
 
 | Command | What it does |
@@ -213,6 +304,11 @@ Worth knowing:
 | `npm run images:build` | Generate all the sizes the site serves |
 | `npm run check:images` | Confirm no photo is missing or broken |
 | `npm run fonts:subset` | Only needed if you replace a font file |
+| `npm run check:env` | Check the admin setup is correct — see below |
+
+Local development of the admin area needs a `.env.local` file with the same
+variables. Copy `.env.example` and fill it in — that file is ignored by git and
+will never be committed.
 
 ---
 

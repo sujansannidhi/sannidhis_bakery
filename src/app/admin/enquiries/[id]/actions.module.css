@@ -1,0 +1,206 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-40);
+  border: 1px solid var(--hairline);
+  padding: var(--s-24);
+  background: var(--shelf);
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+  align-items: flex-start;
+}
+
+.heading {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  /* --stone fails 4.5:1 on --shelf, so labels on this ground are --ink. */
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.hint {
+  font-size: var(--t-15);
+  color: var(--ink);
+  margin: 0 0 var(--s-8);
+}
+
+.statuses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-8);
+}
+
+.status {
+  min-height: 40px;
+  padding-inline: var(--s-16);
+  background: var(--paper);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: var(--t-15);
+  color: var(--ink);
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.status:hover:not(:disabled) {
+  border-color: var(--ink);
+}
+
+.status[aria-pressed='true'] {
+  background: var(--currant);
+  border-color: var(--currant);
+  color: var(--paper);
+}
+
+.status:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.notes {
+  width: 100%;
+  padding: var(--s-16);
+  background: var(--paper);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  font-family: var(--body);
+  font-size: var(--t-15);
+  line-height: 1.5;
+  color: var(--ink);
+  resize: vertical;
+  margin-bottom: var(--s-8);
+}
+
+.notes:hover {
+  border-color: var(--ink);
+}
+
+.reply {
+  text-decoration: none;
+}
+
+.feedback {
+  min-height: 22px;
+  font-size: var(--t-15);
+}
+
+.error {
+  color: var(--currant);
+}
+
+.ok {
+  color: var(--ink);
+}
+
+/* ── Money ───────────────────────────────────────────────────────────────── */
+
+.moneyField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  margin-bottom: var(--s-8);
+}
+
+.moneyLabel {
+  font-size: var(--t-15);
+  color: var(--ink);
+}
+
+.moneyInput {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--paper);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  padding-left: var(--s-8);
+  font-family: var(--mono);
+  color: var(--stone);
+}
+
+.moneyInput input {
+  flex: 1;
+  min-height: 44px;
+  border: 0;
+  background: none;
+  padding: 0 var(--s-8);
+  font-family: var(--mono);
+  font-size: var(--t-17);
+  color: var(--ink);
+  width: 100%;
+}
+
+.moneyInput input:focus { outline: none; }
+.moneyInput:focus-within {
+  border-color: var(--ink);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--s-8);
+  min-height: 40px;
+  font-size: var(--t-15);
+  color: var(--ink);
+  width: 100%;
+}
+
+.check input { width: 18px; height: 18px; accent-color: var(--currant); }
+
+.summary {
+  font-size: var(--t-15);
+  color: var(--ink);
+  margin: var(--s-8) 0 var(--s-16);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--hairline);
+  width: 100%;
+}
+
+/* ── Quote composer ──────────────────────────────────────────────────────── */
+
+.composer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-16);
+  width: 100%;
+}
+
+.field { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+
+.field input,
+.field textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px var(--s-16);
+  background: var(--paper);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  font-family: var(--body);
+  font-size: var(--t-15);
+  color: var(--ink);
+}
+
+.field textarea {
+  resize: vertical;
+  line-height: 1.5;
+  font-family: var(--body);
+}
+
+.composerActions { display: flex; gap: var(--s-16); align-items: center; }
+
+.plainLink {
+  font-size: var(--t-15);
+  margin-top: var(--s-8);
+  display: inline-block;
+}

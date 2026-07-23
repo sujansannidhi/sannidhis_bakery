@@ -1,0 +1,346 @@
+.banner {
+  min-height: 26px;
+  margin-bottom: var(--s-16);
+}
+
+.error { color: var(--currant); margin: 0; }
+.ok { color: var(--ink); margin: 0; }
+
+/* ── Sections ────────────────────────────────────────────────────────────── */
+
+.sections {
+  border: 1px solid var(--hairline);
+  margin-bottom: var(--s-40);
+}
+
+.sectionsToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 var(--s-24);
+  background: var(--shelf);
+  border: 0;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.sectionsBody {
+  padding: var(--s-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-40);
+}
+
+.sectionRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-16);
+  padding-bottom: var(--s-24);
+  border-bottom: 1px solid var(--hairline);
+}
+
+@media (min-width: 900px) {
+  .sectionRow {
+    grid-template-columns: 1fr 1.4fr 1fr auto;
+    gap: var(--s-24);
+    align-items: end;
+  }
+}
+
+.sectionActions {
+  display: flex;
+  gap: var(--s-8);
+  align-items: center;
+}
+
+.newSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-16);
+  align-items: flex-start;
+  max-width: 46ch;
+}
+
+.subheading {
+  font-size: var(--t-21);
+  margin: 0;
+}
+
+/* ── Toolbar ─────────────────────────────────────────────────────────────── */
+
+.toolbar { margin-bottom: var(--s-24); }
+
+/* ── Grid of product cards ───────────────────────────────────────────────── */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gutter);
+}
+
+@media (min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+
+.card {
+  border: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+}
+
+.cardPhoto {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  background: var(--shelf);
+}
+
+.cardBody {
+  padding: var(--s-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+  align-items: flex-start;
+  flex: 1;
+}
+
+.cardName {
+  font-family: var(--display);
+  font-size: var(--t-21);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-variation-settings: 'SOFT' 80, 'WONK' 0, 'opsz' 24;
+  margin: 0;
+}
+
+.cardBlurb {
+  font-size: var(--t-15);
+  color: var(--stone);
+  margin: 0;
+}
+
+.cardMeta {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--stone);
+  margin: 0 0 var(--s-8);
+}
+
+.cardEdit {
+  margin-top: auto;
+  min-height: 40px;
+  padding-inline: var(--s-16);
+  background: none;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: var(--t-15);
+  color: var(--ink);
+}
+
+.cardEdit:hover { border-color: var(--ink); }
+
+/* ── Form ────────────────────────────────────────────────────────────────── */
+
+.form {
+  border: 1px solid var(--ink);
+  border-left-width: 3px;
+  padding: var(--s-24);
+  margin-bottom: var(--s-40);
+  background: var(--paper);
+}
+
+@media (min-width: 900px) {
+  .form { padding: var(--s-40); }
+}
+
+.formHeading {
+  font-size: var(--t-27);
+  margin: 0 0 var(--s-24);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-40);
+}
+
+@media (min-width: 900px) {
+  /* The photo pane is fixed; the fields take everything else, so a description
+     gets a readable line length instead of wrapping every three words. */
+  .formGrid { grid-template-columns: 300px minmax(0, 1fr); gap: var(--s-64); }
+}
+
+.formPhoto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-16);
+}
+
+.preview {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--shelf);
+  display: block;
+}
+
+.previewEmpty {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--shelf);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.formFields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-24);
+  align-content: start;
+}
+
+/* Name, section and the featured toggle are short; the two descriptions need
+   the full width. Pairing the short ones stops the form running down the page
+   as one long ribbon. */
+@media (min-width: 700px) {
+  .formFields { grid-template-columns: 1fr 1fr; column-gap: var(--s-24); }
+  .formFields > .fullWidth { grid-column: 1 / -1; }
+}
+
+.field textarea { min-height: 88px; }
+
+.charCount {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  color: var(--stone);
+  align-self: flex-end;
+}
+
+.charCount[data-over='true'] { color: var(--currant); }
+
+.formActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-16);
+  align-items: center;
+  margin-top: var(--s-40);
+  padding-top: var(--s-24);
+  border-top: 1px solid var(--hairline);
+}
+
+.danger {
+  background: none;
+  border: 1px solid var(--currant);
+  border-radius: 2px;
+  color: var(--currant);
+  min-height: 44px;
+  padding-inline: var(--s-16);
+  cursor: pointer;
+  font-size: var(--t-15);
+  margin-left: auto;
+}
+
+.danger:hover { background: var(--currant); color: var(--paper); }
+
+/* ── Fields ──────────────────────────────────────────────────────────────── */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.hint {
+  font-size: var(--t-15);
+  color: var(--stone);
+  margin-top: -4px;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px var(--s-16);
+  background: var(--paper);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  font-family: var(--body);
+  font-size: var(--t-17);
+  color: var(--ink);
+}
+
+.field textarea { resize: vertical; line-height: 1.5; padding-block: var(--s-16); }
+.field input:hover, .field textarea:hover, .field select:hover { border-color: var(--ink); }
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--s-8);
+  min-height: 44px;
+}
+
+.checkbox input { width: 20px; height: 20px; accent-color: var(--currant); }
+.checkbox label { font-size: var(--t-15); }
+
+/* ── Photo picker ────────────────────────────────────────────────────────── */
+
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+}
+
+.pickerButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding-inline: var(--s-24);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: var(--t-15);
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.pickerButton:hover { border-color: var(--ink); }
+.pickerButton[aria-disabled='true'] { opacity: 0.5; cursor: not-allowed; }
+
+/* Keep the visually-hidden file input's focus ring on its visible label. */
+.picker input:focus-visible + .pickerButton {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(42, 33, 29, 0.85);
+}
+
+.pickerStatus {
+  font-size: var(--t-15);
+  color: var(--stone);
+  min-height: 22px;
+}

@@ -96,3 +96,25 @@
   color: var(--stone);
   margin: 0;
 }
+
+.adminLink {
+  margin: var(--s-24) 0 0;
+  text-align: center;
+  font-size: var(--t-13);
+  font-style: italic;
+}
+
+.adminLink a {
+  color: var(--stone);
+  text-decoration: none;
+  /* A real 44px target even though it is small type. */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: var(--s-16);
+}
+
+.adminLink a:hover {
+  color: var(--currant);
+  text-decoration: underline;
+}

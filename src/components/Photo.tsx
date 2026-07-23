@@ -1,13 +1,9 @@
 import type { CSSProperties } from 'react'
-import type { Product } from '@/lib/products'
-
-const FORMATS = [
-  { type: 'image/avif', ext: 'avif' },
-  { type: 'image/webp', ext: 'webp' },
-] as const
+import type { ProductImage } from '@/lib/content'
 
 type Props = {
-  product: Product
+  image: ProductImage
+  alt: string
   /** The `sizes` attribute. Get this right — it is what picks the derivative. */
   sizes: string
   /** True for the hero only. Everything else lazy-loads. */
@@ -23,33 +19,49 @@ type Props = {
 }
 
 /**
- * A photograph, served from the pre-generated derivative set.
+ * A photograph.
  *
  * Native <picture> rather than next/image: the derivatives already exist, so
  * re-optimising is wasted work, and this ships no JavaScript at all. The LQIP
  * sits behind the image as a background so there is never a blank box, and the
  * wrapper reserves the exact aspect ratio so nothing shifts (CLS).
+ *
+ * Sources are now explicit URLs on the image record rather than built from a
+ * filename convention. The original photographs live in public/img and uploaded
+ * ones live in Firebase Storage, whose URLs carry access tokens and cannot be
+ * derived from a stem — so the record carries them and this component just
+ * renders what it is given.
  */
 export function Photo({
-  product,
+  image,
+  alt,
   sizes,
   priority = false,
   className,
   focal,
   ratio,
 }: Props) {
-  const { image, widths, alt, width, height, lqip, aspectRatio } = product
+  const variants = [...(image.variants ?? [])].sort((a, b) => a.width - b.width)
 
-  const srcSet = (ext: string) =>
-    widths.map((w) => `${image}-${w}.${ext} ${w}w`).join(', ')
+  if (variants.length === 0) {
+    // A product with no usable image should be visibly absent, not a broken icon.
+    return null
+  }
 
-  // The widest derivative is the <img> fallback, so a browser with no srcset
-  // support still gets a real file rather than a broken reference.
-  const fallbackWidth = widths[widths.length - 1]
+  const srcSetFor = (format: 'avif' | 'webp' | 'jpg') => {
+    const usable = variants.filter((v) => v[format])
+    if (usable.length === 0) return null
+    return usable.map((v) => `${v[format]} ${v.width}w`).join(', ')
+  }
+
+  const avif = srcSetFor('avif')
+  const webp = srcSetFor('webp')
+  const jpg = srcSetFor('jpg')
+  const widest = variants[variants.length - 1]
 
   const style: CSSProperties = {
-    aspectRatio: String(ratio ?? aspectRatio),
-    backgroundImage: `url("${lqip}")`,
+    aspectRatio: String(ratio ?? image.aspectRatio),
+    backgroundImage: image.lqip ? `url("${image.lqip}")` : undefined,
     backgroundSize: 'cover',
     backgroundPosition: focal ?? 'center',
   }
@@ -59,32 +71,33 @@ export function Photo({
       {/*
         For the one priority image per page, tell the browser about it in the
         head rather than letting it wait for the picture element to be parsed.
-        React 19 hoists this link. It has to carry the same srcset and sizes as
-        the <source> below, or the browser preloads one file and then downloads
+        React hoists this link. It carries the same srcset and sizes as the
+        <source> below, or the browser would preload one file then download
         a different one.
       */}
       {priority && (
         <link
           rel="preload"
           as="image"
-          type="image/avif"
+          type={avif ? 'image/avif' : 'image/jpeg'}
           // eslint-disable-next-line react/no-unknown-property
-          imageSrcSet={srcSet('avif')}
+          imageSrcSet={avif ?? jpg ?? undefined}
           // eslint-disable-next-line react/no-unknown-property
           imageSizes={sizes}
           fetchPriority="high"
         />
       )}
-      {FORMATS.map(({ type, ext }) => (
-        <source key={ext} type={type} srcSet={srcSet(ext)} sizes={sizes} />
-      ))}
+
+      {avif && <source type="image/avif" srcSet={avif} sizes={sizes} />}
+      {webp && <source type="image/webp" srcSet={webp} sizes={sizes} />}
+
       <img
-        src={`${image}-${fallbackWidth}.jpg`}
-        srcSet={srcSet('jpg')}
+        src={widest.jpg}
+        srcSet={jpg ?? undefined}
         sizes={sizes}
         alt={alt}
-        width={width}
-        height={height}
+        width={image.width}
+        height={image.height}
         loading={priority ? 'eager' : 'lazy'}
         decoding={priority ? 'sync' : 'async'}
         fetchPriority={priority ? 'high' : 'auto'}
