@@ -82,6 +82,23 @@ export default function ContactPage() {
               <span>{site.fulfilment.note}</span>
             </div>
 
+            {site.payment && (
+              <div className={styles.detail}>
+                <span className={styles.detailLabel}>Payment</span>
+                <span>{site.payment}</span>
+              </div>
+            )}
+
+            {site.certification && (
+              <div className={styles.detail}>
+                <span className={styles.detailLabel}>Food handler</span>
+                <span>
+                  {site.certification.name} certified &middot;{' '}
+                  {site.certification.number}
+                </span>
+              </div>
+            )}
+
             <Link href="/custom-orders" className={`btn ${styles.cta}`}>
               Start a custom order
             </Link>

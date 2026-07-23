@@ -98,6 +98,13 @@ export default async function CustomOrdersPage() {
                 </p>
               </div>
 
+              {site.payment && (
+                <div className={styles.fact}>
+                  <span className={styles.factLabel}>Payment</span>
+                  <p className={styles.factValue}>{site.payment}</p>
+                </div>
+              )}
+
               <div className={styles.fact}>
                 <span className={styles.factLabel}>Pricing</span>
                 <p className={styles.factValue}>

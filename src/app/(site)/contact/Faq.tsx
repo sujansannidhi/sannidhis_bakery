@@ -65,8 +65,37 @@ const ITEMS: { q: string; a: React.ReactNode }[] = [
     ),
   },
   {
+    q: 'How do I pay?',
+    a: site.payment ? (
+      <p>
+        {site.payment} We confirm the amount with your quote, and the deposit is
+        what reserves your date.
+      </p>
+    ) : (
+      <p>We will confirm how to pay when we send your quote.</p>
+    ),
+  },
+  {
     q: 'Do you deliver?',
     a: <p>{site.fulfilment.note}</p>,
+  },
+  {
+    q: 'Are you food handler certified?',
+    a: site.certification ? (
+      <p>
+        Yes. The person baking your order holds a {site.certification.name}{' '}
+        certificate from {site.certification.issuer}, certificate number{' '}
+        {site.certification.number}, valid to{' '}
+        {new Date(site.certification.expires).toLocaleDateString('en-US', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        })}
+        .
+      </p>
+    ) : (
+      <p>Ask us when you enquire.</p>
+    ),
   },
   {
     q: 'Can you make something eggless, vegan or nut-free?',

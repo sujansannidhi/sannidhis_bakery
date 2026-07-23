@@ -27,6 +27,10 @@ export function StructuredData() {
   if (site.contact.phone) data.telephone = site.contact.phone
   if (site.contact.email) data.email = site.contact.email
   if (site.hours) data.openingHours = site.hours
+  if (site.payment) {
+    // "Cash or Zelle." -> ["Cash", "Zelle"] for schema.org.
+    data.paymentAccepted = site.payment.replace(/\.$/, '')
+  }
 
   if (area) {
     data.areaServed = { '@type': 'Place', name: area }

@@ -62,6 +62,20 @@ export default async function AboutPage() {
                 We are a family business, and the person who bakes your order is
                 the person who replies to your enquiry.
               </p>
+
+              {site.certification && (
+                <p className={styles.credential}>
+                  <strong>Food handler certified.</strong> The person baking your
+                  order holds a {site.certification.name} certificate from{' '}
+                  {site.certification.issuer} (certificate{' '}
+                  {site.certification.number}), valid to{' '}
+                  {new Date(site.certification.expires).toLocaleDateString(
+                    'en-US',
+                    { day: 'numeric', month: 'long', year: 'numeric' }
+                  )}
+                  . {site.certification.accreditation}.
+                </p>
+              )}
             </div>
           </div>
         </div>

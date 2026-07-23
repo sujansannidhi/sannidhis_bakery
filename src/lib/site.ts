@@ -53,6 +53,15 @@ export type Site = {
     serviceArea: string | null
   }
   hours: string | null
+  payment: string | null
+  certification: {
+    name: string
+    issuer: string
+    number: string
+    issued: string
+    expires: string
+    accreditation: string
+  } | null
   dietary: string[]
   deposit: string | null
   domain: string | null
