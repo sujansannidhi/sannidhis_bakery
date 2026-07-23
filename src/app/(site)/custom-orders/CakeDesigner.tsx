@@ -29,7 +29,7 @@ import styles from './designer.module.css'
  * A hidden, export-ready copy of the preview sits off-screen; the parent grabs
  * its <svg> at submit time to rasterise. Keeping it in the DOM (rather than
  * building one on the fly) means the exported picture is exactly what the
- * customer seed — same maths, just a system font.
+ * customer sees — same maths, just a system font.
  */
 export function CakeDesigner({
   design,
@@ -164,7 +164,24 @@ export function CakeDesigner({
             maxLength={30}
             placeholder="e.g. Happy Birthday Sarah"
             value={design.writing}
-            onChange={(e) => set('writing', e.target.value)}
+            onChange={(e) => {
+              const writing = e.target.value
+              // Show the text on the cake as soon as it is typed, rather than
+              // waiting for a placement click. Once they have chosen a
+              // placement we leave it alone; clearing the field hides it again.
+              const nowHasText = writing.trim() !== ''
+              const hadText = design.writing.trim() !== ''
+              onChange({
+                ...design,
+                writing,
+                writingPlacement:
+                  nowHasText && !hadText && design.writingPlacement === 'none'
+                    ? 'top'
+                    : !nowHasText
+                      ? 'none'
+                      : design.writingPlacement,
+              })
+            }}
             aria-label="Writing on the cake"
           />
           {design.writing.trim() !== '' && (
