@@ -257,6 +257,19 @@ them ever belong in the project files — `.env.example` lists them with notes.
 | `GITHUB_REPO` | `sujansannidhi/sannidhis_bakery` |
 | `GITHUB_BRANCH` | `main` |
 
+**To check you got it right**, put the same values in a local `.env.local` file
+and run:
+
+```
+npm run check:env
+```
+
+It actually connects — reading from Firestore, writing a test document and
+deleting it again, and asking GitHub whether the token can see the repo. It
+tells you which parts work, which are missing, and which are present but wrong,
+which is the case that is otherwise hardest to diagnose. It never prints a
+secret.
+
 Until those are set, the admin area still loads and tells you exactly which ones
 are missing. **The public site is unaffected either way** — order enquiries keep
 reaching your phone through Formspree.
@@ -288,6 +301,7 @@ bad enquiry regardless of what the browser sends.
 | `npm run images:build` | Generate all the sizes the site serves |
 | `npm run check:images` | Confirm no photo is missing or broken |
 | `npm run fonts:subset` | Only needed if you replace a font file |
+| `npm run check:env` | Check the admin setup is correct — see below |
 
 Local development of the admin area needs a `.env.local` file with the same
 variables. Copy `.env.example` and fill it in — that file is ignored by git and

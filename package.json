@@ -12,7 +12,8 @@
     "images:build": "node scripts/build-images.mjs",
     "check:images": "node scripts/check-images.mjs",
     "fonts:subset": "python3 scripts/subset-fonts.py",
-    "shoot": "node scripts/shoot.mjs"
+    "shoot": "node scripts/shoot.mjs",
+    "check:env": "node scripts/check-env.mjs"
   },
   "overrides": {
     "sharp": "^0.35.3",
