@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { enquirySchema, fieldErrors } from '@/lib/validation'
 import { clientIp, createEnquiry, rateLimit } from '@/lib/enquiries'
 import { isFirebaseConfigured } from '@/lib/firebase'
+import { confirmationEmail, isMailConfigured, sendMail } from '@/lib/mail'
 
 /**
  * Order intake.
@@ -90,6 +91,23 @@ export async function POST(request: Request) {
   }
 
   const notified = await forwardToFormspree(enquiry)
+
+  /*
+    Confirmation to the customer, best effort.
+
+    Deliberately after the store and the owner's notification, and deliberately
+    not able to fail the request: someone who has just filled in a form should
+    never see an error because our mail server had a bad moment. The enquiry is
+    already safe by this point.
+  */
+  if (isMailConfigured()) {
+    const { subject, text } = confirmationEmail(enquiry)
+    void sendMail({ to: enquiry.Email, subject, text }).then((result) => {
+      if (!result.ok) {
+        console.error('[orders] confirmation email failed:', result.message)
+      }
+    })
+  }
 
   if (!stored && !notified) {
     // Both paths failed — the enquiry is genuinely lost, so say so rather than

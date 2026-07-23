@@ -6,7 +6,7 @@ import styles from './content.module.css'
 type Json = Record<string, unknown>
 
 /**
- * Editors for the two content files.
+ * Editor for the site's business facts.
  *
  * Deliberately field-by-field rather than a JSON textarea: the person using this
  * should never have to know what a JSON file is, and a stray comma should not be
@@ -135,45 +135,12 @@ function set(obj: Json, path: string[], value: unknown): Json {
 
 export function ContentEditor({
   site,
-  products,
   canPublish,
 }: {
   site: Json
-  products: Json
   canPublish: boolean
 }) {
-  const [tab, setTab] = useState<'site' | 'products'>('site')
-
-  return (
-    <>
-      <div className={styles.tabs} role="tablist" aria-label="Content sections">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={tab === 'site'}
-          className={styles.tab}
-          onClick={() => setTab('site')}
-        >
-          Site details
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={tab === 'products'}
-          className={styles.tab}
-          onClick={() => setTab('products')}
-        >
-          Products
-        </button>
-      </div>
-
-      {tab === 'site' ? (
-        <SiteEditor initial={site} canPublish={canPublish} />
-      ) : (
-        <ProductsEditor initial={products} canPublish={canPublish} />
-      )}
-    </>
-  )
+  return <SiteEditor initial={site} canPublish={canPublish} />
 }
 
 function usePublisher(file: 'site' | 'products') {
@@ -302,134 +269,6 @@ function SiteEditor({ initial, canPublish }: { initial: Json; canPublish: boolea
               </div>
             )
           })}
-        </fieldset>
-      ))}
-
-      <PublishBar
-        saving={saving}
-        result={result}
-        disabled={!canPublish}
-        onPublish={() => publish(data)}
-      />
-    </>
-  )
-}
-
-type ProductRecord = {
-  id: string
-  name: string
-  blurb: string
-  alt: string
-  category: string
-  featured: boolean
-  [key: string]: unknown
-}
-
-function ProductsEditor({
-  initial,
-  canPublish,
-}: {
-  initial: Json
-  canPublish: boolean
-}) {
-  const [data, setData] = useState<Json>(initial)
-  const { saving, result, publish } = usePublisher('products')
-
-  const products = (data.products as ProductRecord[]) ?? []
-
-  function updateProduct(index: number, key: string, value: unknown) {
-    setData((current) => {
-      const next = structuredClone(current)
-      const list = next.products as ProductRecord[]
-      list[index] = { ...list[index], [key]: value }
-      return next
-    })
-  }
-
-  return (
-    <>
-      <p className={styles.intro}>
-        Photographs are managed on your computer, not here — see{' '}
-        <code>README.md</code>. What you can change is the words that go with
-        them.
-      </p>
-
-      {products.map((product, index) => (
-        <fieldset key={product.id} className={styles.fieldset}>
-          <legend className={styles.legend}>{product.name}</legend>
-
-          <div className={styles.field}>
-            <label className={styles.label} htmlFor={`${product.id}-name`}>
-              Name
-            </label>
-            <input
-              id={`${product.id}-name`}
-              type="text"
-              value={product.name}
-              onChange={(e) => updateProduct(index, 'name', e.target.value)}
-            />
-          </div>
-
-          <div className={styles.field}>
-            <label className={styles.label} htmlFor={`${product.id}-blurb`}>
-              One-line description
-            </label>
-            <span className={styles.hint}>
-              Under about 14 words, or it gets cut off on the card.
-            </span>
-            <textarea
-              id={`${product.id}-blurb`}
-              rows={2}
-              value={product.blurb}
-              onChange={(e) => updateProduct(index, 'blurb', e.target.value)}
-            />
-          </div>
-
-          <div className={styles.field}>
-            <label className={styles.label} htmlFor={`${product.id}-alt`}>
-              Photo description
-            </label>
-            <span className={styles.hint}>
-              Read aloud to blind visitors and read by Google. Describe what is
-              actually in the photograph.
-            </span>
-            <textarea
-              id={`${product.id}-alt`}
-              rows={3}
-              value={product.alt}
-              onChange={(e) => updateProduct(index, 'alt', e.target.value)}
-            />
-          </div>
-
-          <div className={styles.row}>
-            <div className={styles.field}>
-              <label className={styles.label} htmlFor={`${product.id}-category`}>
-                Category
-              </label>
-              <select
-                id={`${product.id}-category`}
-                value={product.category}
-                onChange={(e) => updateProduct(index, 'category', e.target.value)}
-              >
-                <option value="cakes">Cakes</option>
-                <option value="cookies">Cookies</option>
-                <option value="cake-pops">Cake pops</option>
-                <option value="strawberries">Chocolate-covered strawberries</option>
-              </select>
-            </div>
-
-            <div className={styles.checkboxField}>
-              <input
-                id={`${product.id}-featured`}
-                type="checkbox"
-                checked={Boolean(product.featured)}
-                onChange={(e) => updateProduct(index, 'featured', e.target.checked)}
-              />
-              <label htmlFor={`${product.id}-featured`}>
-                Can appear on the home page
-              </label>
-            </div>
-          </div>
         </fieldset>
       ))}
 

@@ -9,6 +9,16 @@ export type EnquiryRecord = Enquiry & {
   adminNotes: string
   createdAt: string
   updatedAt: string
+  /* Money, in whole cents. Null means "not recorded yet", which is different
+     from zero — a job quoted at nothing and a job not yet quoted are not the
+     same thing and must not add up the same way. */
+  quotedAmount?: number | null
+  depositAmount?: number | null
+  depositPaid?: boolean
+  finalAmount?: number | null
+  paidInFull?: boolean
+  quotedAt?: string | null
+  lastEmailedAt?: string | null
 }
 
 type StoredEnquiry = Omit<EnquiryRecord, 'id'>
@@ -46,7 +56,7 @@ export async function getEnquiry(id: string): Promise<EnquiryRecord | null> {
 
 export async function updateEnquiry(
   id: string,
-  patch: { status?: EnquiryStatus; adminNotes?: string }
+  patch: Partial<Omit<EnquiryRecord, 'id'>>
 ): Promise<void> {
   await db()
     .collection(ENQUIRIES)

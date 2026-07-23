@@ -15,11 +15,13 @@ export const dynamic = 'force-dynamic'
  */
 const WRITABLE = {
   site: 'src/content/site.json',
-  products: 'src/content/products.json',
 } as const
 
 const bodySchema = z.object({
-  file: z.enum(['site', 'products']),
+  // Products moved to Firestore and are edited at /admin/menu. Accepting them
+  // here as well would write a file nothing reads, so the owner's edits would
+  // vanish with a success message.
+  file: z.enum(['site']),
   // Sent as an object and re-serialised here, so malformed JSON cannot be
   // committed and formatting stays consistent with what the build expects.
   data: z.record(z.string(), z.unknown()),
@@ -60,7 +62,7 @@ export async function POST(request: Request) {
       path,
       content: next,
       sha: current.sha,
-      message: `Update ${file === 'site' ? 'site details' : 'products'} from admin`,
+      message: 'Update site details from admin',
     })
 
     return NextResponse.json({ ok: true, commitUrl })

@@ -8,7 +8,10 @@ import styles from './admin.module.css'
 const NAV = [
   { href: '/admin', label: 'Dashboard' },
   { href: '/admin/enquiries', label: 'Enquiries' },
-  { href: '/admin/content', label: 'Content' },
+  { href: '/admin/calendar', label: 'Calendar' },
+  { href: '/admin/menu', label: 'Menu' },
+  { href: '/admin/accounting', label: 'Accounting' },
+  { href: '/admin/content', label: 'Details' },
 ]
 
 export function AdminBar() {

@@ -4,6 +4,8 @@ import { getEnquiry } from '@/lib/enquiries'
 import { ErrorNotice, missingFirebaseVars, SetupNotice } from '../../SetupNotice'
 import { formatDate } from '../../page'
 import { EnquiryActions } from './EnquiryActions'
+import { isMailConfigured, quoteTemplate } from '@/lib/mail'
+import { formatMoney } from '@/lib/money'
 import styles from '../../admin.module.css'
 
 export const dynamic = 'force-dynamic'
@@ -101,6 +103,18 @@ export default async function EnquiryDetail({
           adminNotes={enquiry.adminNotes ?? ''}
           email={enquiry.Email}
           name={enquiry.Name}
+          money={{
+            quotedAmount: enquiry.quotedAmount ?? null,
+            depositAmount: enquiry.depositAmount ?? null,
+            depositPaid: Boolean(enquiry.depositPaid),
+            finalAmount: enquiry.finalAmount ?? null,
+            paidInFull: Boolean(enquiry.paidInFull),
+          }}
+          quoteDraft={quoteTemplate(
+            record,
+            formatMoney(enquiry.quotedAmount ?? null)
+          )}
+          mailReady={isMailConfigured()}
         />
       </div>
     </>

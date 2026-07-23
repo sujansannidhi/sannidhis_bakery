@@ -154,6 +154,95 @@ async function checkFirebase() {
   }
 }
 
+async function checkStorage() {
+  console.log('\nFirebase Storage (holds uploaded photographs)')
+
+  if (!process.env.FIREBASE_PROJECT_ID) {
+    report(WARN, 'not configured', 'photo uploads will not work yet')
+    return
+  }
+
+  try {
+    const { cert, getApps, initializeApp } = await import('firebase-admin/app')
+    const { getStorage } = await import('firebase-admin/storage')
+
+    const app = getApps().length
+      ? getApps()[0]
+      : initializeApp({
+          credential: cert({
+            projectId: process.env.FIREBASE_PROJECT_ID,
+            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+            privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+          }),
+        })
+
+    const storage = getStorage(app)
+    const candidates = process.env.FIREBASE_STORAGE_BUCKET
+      ? [process.env.FIREBASE_STORAGE_BUCKET]
+      : [
+          `${process.env.FIREBASE_PROJECT_ID}.firebasestorage.app`,
+          `${process.env.FIREBASE_PROJECT_ID}.appspot.com`,
+        ]
+
+    for (const name of candidates) {
+      const [exists] = await storage.bucket(name).exists().catch(() => [false])
+      if (exists) {
+        report(PASS, 'bucket', name)
+        return
+      }
+    }
+
+    report(
+      FAIL,
+      'no bucket found',
+      `tried ${candidates.join(', ')}. Open the Firebase console, choose ` +
+        'Build -> Storage and click Get started. Photo uploads need it; nothing else does'
+    )
+  } catch (error) {
+    report(FAIL, 'storage', error instanceof Error ? error.message : String(error))
+  }
+}
+
+async function checkMail() {
+  console.log('\nEmail (confirmations and quotes)')
+
+  const user = process.env.GMAIL_USER
+  const pass = process.env.GMAIL_APP_PASSWORD
+
+  if (!user && !pass) {
+    report(WARN, 'not configured', 'no confirmation or quote emails will be sent')
+    return
+  }
+  if (!user || !pass) {
+    report(FAIL, 'partly configured', 'both GMAIL_USER and GMAIL_APP_PASSWORD are needed')
+    return
+  }
+  if (!user.includes('@')) {
+    report(FAIL, 'GMAIL_USER', 'should be a full email address')
+    return
+  }
+  // Google shows app passwords in groups of four; people often paste the spaces.
+  if (/\s/.test(pass)) {
+    report(WARN, 'GMAIL_APP_PASSWORD', 'contains a space — Google displays it in groups of four, but paste it without spaces')
+  }
+
+  try {
+    const nodemailer = (await import('nodemailer')).default
+    const transport = nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user, pass: pass.replace(/\s/g, '') },
+    })
+    await transport.verify()
+    report(PASS, 'connection', `signed in to Gmail as ${user}`)
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error)
+    const hint = /Username and Password not accepted|BadCredentials/i.test(detail)
+      ? 'Google rejected it. An ordinary account password will not work — it must be an app password, which needs 2-factor turned on'
+      : ''
+    report(FAIL, 'connection', `${detail.split('\n')[0]}${hint ? ` | ${hint}` : ''}`)
+  }
+}
+
 async function checkGithub() {
   console.log('\nGitHub (publishes content changes)')
 
@@ -240,6 +329,8 @@ async function main() {
 
   await checkAdminSecrets()
   await checkFirebase()
+  await checkStorage()
+  await checkMail()
   await checkGithub()
 
   console.log(

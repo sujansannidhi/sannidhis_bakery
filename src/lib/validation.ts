@@ -79,9 +79,17 @@ export const STATUS_LABELS: Record<EnquiryStatus, string> = {
   declined: 'Declined',
 }
 
+/** Money is stored in whole cents to avoid floating-point rounding on totals. */
+const cents = z.number().int().min(0).max(100_000_00).nullable()
+
 export const enquiryUpdateSchema = z.object({
   status: z.enum(ENQUIRY_STATUSES).optional(),
   adminNotes: z.string().trim().max(4000).optional(),
+  quotedAmount: cents.optional(),
+  depositAmount: cents.optional(),
+  depositPaid: z.boolean().optional(),
+  finalAmount: cents.optional(),
+  paidInFull: z.boolean().optional(),
 })
 
 /** Turns a Zod error into the `{ field: message }` shape the form already renders. */

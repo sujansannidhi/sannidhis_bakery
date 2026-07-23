@@ -1,5 +1,4 @@
 import siteContent from '@/content/site.json'
-import productsContent from '@/content/products.json'
 import { missingGithubVars } from '@/lib/github'
 import { ContentEditor } from './ContentEditor'
 import styles from '../admin.module.css'
@@ -12,7 +11,7 @@ export default function ContentPage() {
   return (
     <>
       <div className={styles.pageHead}>
-        <h1 className={styles.pageTitle}>Content</h1>
+        <h1 className={styles.pageTitle}>Business details</h1>
       </div>
 
       {missing.length > 0 && (
@@ -35,9 +34,14 @@ export default function ContentPage() {
         </div>
       )}
 
+      <p className={styles.empty} style={{ paddingBlock: 0, marginBottom: '2.5rem' }}>
+        Products and sections have moved to <strong>Menu</strong>, where you can
+        also upload photographs. This page is for the business facts that appear
+        across the site.
+      </p>
+
       <ContentEditor
         site={siteContent as Record<string, unknown>}
-        products={productsContent as Record<string, unknown>}
         canPublish={missing.length === 0}
       />
     </>
