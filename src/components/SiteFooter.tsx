@@ -108,6 +108,12 @@ export function SiteFooter() {
           </p>
           <p>&copy; {year} Sannidhi&rsquo;s Bakery</p>
         </div>
+
+        {/* The owner's way in. Deliberately quiet — it is a staff door, not a
+            customer one — and noindex on the admin keeps it out of search. */}
+        <p className={styles.adminLink}>
+          <Link href="/admin">Admin</Link>
+        </p>
       </div>
     </footer>
   )

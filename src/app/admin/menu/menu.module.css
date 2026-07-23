@@ -153,9 +153,14 @@
 
 .form {
   border: 1px solid var(--ink);
+  border-left-width: 3px;
   padding: var(--s-24);
   margin-bottom: var(--s-40);
   background: var(--paper);
+}
+
+@media (min-width: 900px) {
+  .form { padding: var(--s-40); }
 }
 
 .formHeading {
@@ -170,7 +175,9 @@
 }
 
 @media (min-width: 900px) {
-  .formGrid { grid-template-columns: 280px 1fr; }
+  /* The photo pane is fixed; the fields take everything else, so a description
+     gets a readable line length instead of wrapping every three words. */
+  .formGrid { grid-template-columns: 300px minmax(0, 1fr); gap: var(--s-64); }
 }
 
 .formPhoto {
@@ -202,10 +209,30 @@
 }
 
 .formFields {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: var(--s-24);
+  align-content: start;
 }
+
+/* Name, section and the featured toggle are short; the two descriptions need
+   the full width. Pairing the short ones stops the form running down the page
+   as one long ribbon. */
+@media (min-width: 700px) {
+  .formFields { grid-template-columns: 1fr 1fr; column-gap: var(--s-24); }
+  .formFields > .fullWidth { grid-column: 1 / -1; }
+}
+
+.field textarea { min-height: 88px; }
+
+.charCount {
+  font-family: var(--mono);
+  font-size: var(--t-13);
+  color: var(--stone);
+  align-self: flex-end;
+}
+
+.charCount[data-over='true'] { color: var(--currant); }
 
 .formActions {
   display: flex;

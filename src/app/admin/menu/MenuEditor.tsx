@@ -45,6 +45,8 @@ export function MenuEditor({
   const visible =
     filter === 'all' ? products : products.filter((p) => p.category === filter)
 
+  const editingProduct = products.find((p) => p.id === editing) ?? null
+
   async function refresh() {
     const [p, c] = await Promise.all([
       fetch('/api/admin/products').then((r) => r.json()),
@@ -173,36 +175,59 @@ export function MenuEditor({
         />
       )}
 
+      {/*
+        The edit form sits above the grid at full width, not inside the card.
+        Rendering it in place put it in a one-third-width grid column, which
+        squeezed every label and field into a narrow vertical ribbon.
+      */}
+      {editingProduct && (
+        <ProductForm
+          key={editingProduct.id}
+          heading={`Editing ${editingProduct.name}`}
+          categories={categories}
+          storageReady={storageReady}
+          initial={{
+            name: editingProduct.name,
+            category: editingProduct.category,
+            blurb: editingProduct.blurb,
+            alt: editingProduct.alt,
+            featured: editingProduct.featured,
+          }}
+          currentThumb={thumbOf(editingProduct)}
+          onCancel={() => setEditing(null)}
+          onSubmit={async (draft, image) => {
+            const body: Record<string, unknown> = { ...draft }
+            if (image) body.image = image
+            const ok = await call(
+              `/api/admin/products/${editingProduct.id}`,
+              { method: 'PATCH', body: JSON.stringify(body) },
+              'Saved. The live site updates in a few seconds.'
+            )
+            if (ok) setEditing(null)
+          }}
+          onDelete={async () => {
+            await call(
+              `/api/admin/products/${editingProduct.id}`,
+              { method: 'DELETE' },
+              'Product removed from the site.'
+            )
+            setEditing(null)
+          }}
+        />
+      )}
+
       <div className={styles.grid}>
         {visible.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
             categories={categories}
-            storageReady={storageReady}
             isEditing={editing === product.id}
             onEdit={() => {
               setEditing(product.id)
               setAdding(false)
-            }}
-            onCancel={() => setEditing(null)}
-            onSave={async (draft, image) => {
-              const body: Record<string, unknown> = { ...draft }
-              if (image) body.image = image
-              const ok = await call(
-                `/api/admin/products/${product.id}`,
-                { method: 'PATCH', body: JSON.stringify(body) },
-                'Saved. The live site updates in a few seconds.'
-              )
-              if (ok) setEditing(null)
-            }}
-            onDelete={async () => {
-              await call(
-                `/api/admin/products/${product.id}`,
-                { method: 'DELETE' },
-                'Product removed from the site.'
-              )
-              setEditing(null)
+              // The form appears above the grid, so bring it into view.
+              window.scrollTo({ top: 0, behavior: 'smooth' })
             }}
           />
         ))}
@@ -402,52 +427,28 @@ function SectionRow({
 
 /* ── Product card ─────────────────────────────────────────────────────────── */
 
+function thumbOf(product: Product): string | null {
+  return (
+    [...(product.image?.variants ?? [])].sort((a, b) => a.width - b.width)[0]
+      ?.jpg ?? null
+  )
+}
+
 function ProductCard({
   product,
   categories,
-  storageReady,
   isEditing,
   onEdit,
-  onCancel,
-  onSave,
-  onDelete,
 }: {
   product: Product
   categories: Category[]
-  storageReady: boolean
   isEditing: boolean
   onEdit: () => void
-  onCancel: () => void
-  onSave: (draft: Draft, image: ProductImage | null) => Promise<void>
-  onDelete: () => Promise<void>
 }) {
-  const thumb =
-    [...(product.image?.variants ?? [])].sort((a, b) => a.width - b.width)[0]
-      ?.jpg ?? null
-
-  if (isEditing) {
-    return (
-      <ProductForm
-        heading={product.name}
-        categories={categories}
-        storageReady={storageReady}
-        initial={{
-          name: product.name,
-          category: product.category,
-          blurb: product.blurb,
-          alt: product.alt,
-          featured: product.featured,
-        }}
-        currentThumb={thumb}
-        onCancel={onCancel}
-        onSubmit={onSave}
-        onDelete={onDelete}
-      />
-    )
-  }
+  const thumb = thumbOf(product)
 
   return (
-    <article className={styles.card}>
+    <article className={styles.card} data-editing={isEditing || undefined}>
       {thumb && (
         // A plain img: this is a thumbnail in a private tool, so the derivative
         // machinery the public site uses would be overkill.
@@ -463,7 +464,7 @@ function ProductCard({
           {product.featured && ' · on the home page'}
         </p>
         <button type="button" className={styles.cardEdit} onClick={onEdit}>
-          Edit
+          {isEditing ? 'Editing above' : 'Edit'}
         </button>
       </div>
     </article>
@@ -553,12 +554,13 @@ function ProductForm({
             />
           </div>
 
-          <div className={styles.field}>
+          <div className={`${styles.field} ${styles.fullWidth}`}>
             <label className={styles.label} htmlFor="p-blurb">
               One-line description
             </label>
             <span className={styles.hint}>
-              Under about 14 words, or it gets cut off on the card.
+              Shows under the name on the menu. Keep it under 14 words or it gets
+              cut off.
             </span>
             <textarea
               id="p-blurb"
@@ -566,9 +568,15 @@ function ProductForm({
               value={draft.blurb}
               onChange={(e) => set('blurb', e.target.value)}
             />
+            <span
+              className={styles.charCount}
+              data-over={draft.blurb.trim().split(/\s+/).filter(Boolean).length > 14}
+            >
+              {draft.blurb.trim().split(/\s+/).filter(Boolean).length} words
+            </span>
           </div>
 
-          <div className={styles.field}>
+          <div className={`${styles.field} ${styles.fullWidth}`}>
             <label className={styles.label} htmlFor="p-alt">
               Photo description
             </label>
