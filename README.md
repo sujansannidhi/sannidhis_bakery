@@ -253,6 +253,9 @@ them ever belong in the project files — `.env.example` lists them with notes.
 | `FIREBASE_PROJECT_ID` | Firebase → Project settings → Service accounts → Generate new private key. All three come from that one downloaded file |
 | `FIREBASE_CLIENT_EMAIL` | ditto |
 | `FIREBASE_PRIVATE_KEY` | ditto — paste it exactly, including the `\n` sequences |
+| `BLOB_READ_WRITE_TOKEN` | Vercel → Storage → create a Blob store → connect it to this project. Vercel sets this for you on deployments; you only copy it locally |
+| `GMAIL_USER` | Your Gmail address, for confirmation and quote emails |
+| `GMAIL_APP_PASSWORD` | **Not your Google password.** myaccount.google.com → Security → 2-Step Verification → App passwords. Paste it without the spaces Google shows |
 | `GITHUB_TOKEN` | GitHub → Settings → Developer settings → **Fine-grained** token, scoped to **this repository only**, Contents: read and write |
 | `GITHUB_REPO` | `sujansannidhi/sannidhis_bakery` |
 | `GITHUB_BRANCH` | `main` |

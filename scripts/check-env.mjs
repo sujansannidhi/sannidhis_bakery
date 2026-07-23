@@ -155,51 +155,32 @@ async function checkFirebase() {
 }
 
 async function checkStorage() {
-  console.log('\nFirebase Storage (holds uploaded photographs)')
+  console.log('\nPhoto storage (Vercel Blob)')
 
-  if (!process.env.FIREBASE_PROJECT_ID) {
-    report(WARN, 'not configured', 'photo uploads will not work yet')
+  const token = process.env.BLOB_READ_WRITE_TOKEN
+  if (!token) {
+    report(
+      WARN,
+      'not configured',
+      'photo uploads will not work. In Vercel: Storage -> create a Blob store -> connect it to this project'
+    )
     return
   }
 
   try {
-    const { cert, getApps, initializeApp } = await import('firebase-admin/app')
-    const { getStorage } = await import('firebase-admin/storage')
-
-    const app = getApps().length
-      ? getApps()[0]
-      : initializeApp({
-          credential: cert({
-            projectId: process.env.FIREBASE_PROJECT_ID,
-            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-            privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-          }),
-        })
-
-    const storage = getStorage(app)
-    const candidates = process.env.FIREBASE_STORAGE_BUCKET
-      ? [process.env.FIREBASE_STORAGE_BUCKET]
-      : [
-          `${process.env.FIREBASE_PROJECT_ID}.firebasestorage.app`,
-          `${process.env.FIREBASE_PROJECT_ID}.appspot.com`,
-        ]
-
-    for (const name of candidates) {
-      const [exists] = await storage.bucket(name).exists().catch(() => [false])
-      if (exists) {
-        report(PASS, 'bucket', name)
-        return
-      }
-    }
-
+    const { list } = await import('@vercel/blob')
+    const result = await list({ token, limit: 1 })
     report(
-      FAIL,
-      'no bucket found',
-      `tried ${candidates.join(', ')}. Open the Firebase console, choose ` +
-        'Build -> Storage and click Get started. Photo uploads need it; nothing else does'
+      PASS,
+      'connection',
+      `Blob store reachable (${result.blobs.length === 0 ? 'currently empty' : 'has files'})`
     )
   } catch (error) {
-    report(FAIL, 'storage', error instanceof Error ? error.message : String(error))
+    const detail = error instanceof Error ? error.message : String(error)
+    const hint = /forbidden|unauthorized|invalid token/i.test(detail)
+      ? 'The token was rejected. Re-connect the store to this project in Vercel'
+      : ''
+    report(FAIL, 'connection', `${detail.split('\n')[0]}${hint ? ` | ${hint}` : ''}`)
   }
 }
 
