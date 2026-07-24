@@ -110,32 +110,40 @@ export async function POST(request: Request) {
   */
   if (isMailConfigured()) {
     after(async () => {
-      const attachments: Attachment[] = []
-      if (enquiry.cakeDesignImageUrl) {
-        const a = await fetchAttachment(enquiry.cakeDesignImageUrl, 'cake-design.png')
-        if (a) attachments.push(a)
-      }
-      if (enquiry.inspirationPhotoUrl) {
-        const a = await fetchAttachment(enquiry.inspirationPhotoUrl, 'inspiration.jpg')
-        if (a) attachments.push(a)
-      }
-
-      const owner = ownerNotification(enquiry)
-      const toOwner = await sendMail({
-        to: process.env.GMAIL_USER as string,
-        subject: owner.subject,
-        text: owner.text,
-        replyTo: owner.replyTo,
-        attachments,
-      })
-      if (!toOwner.ok) console.error('[orders] owner email failed:', toOwner.message)
-
-      // The customer's confirmation.
+      // The customer's confirmation carries no attachment, so kick it off first
+      // and do NOT let it wait behind the owner email. Previously both were sent
+      // in sequence with the owner's (attachment-laden, slow) email first; if
+      // the post-response budget ran out during it, the customer's confirmation
+      // — sent second — never fired. Both now go in parallel.
       const { subject, text } = confirmationEmail(enquiry)
-      const toCustomer = await sendMail({ to: enquiry.Email, subject, text })
-      if (!toCustomer.ok) {
-        console.error('[orders] confirmation email failed:', toCustomer.message)
-      }
+      const customerSend = sendMail({ to: enquiry.Email, subject, text }).then(
+        (r) => {
+          if (!r.ok) console.error('[orders] confirmation email failed:', r.message)
+        }
+      )
+
+      const ownerSend = (async () => {
+        const attachments: Attachment[] = []
+        if (enquiry.cakeDesignImageUrl) {
+          const a = await fetchAttachment(enquiry.cakeDesignImageUrl, 'cake-design.png')
+          if (a) attachments.push(a)
+        }
+        if (enquiry.inspirationPhotoUrl) {
+          const a = await fetchAttachment(enquiry.inspirationPhotoUrl, 'inspiration.jpg')
+          if (a) attachments.push(a)
+        }
+        const owner = ownerNotification(enquiry)
+        const r = await sendMail({
+          to: process.env.GMAIL_USER as string,
+          subject: owner.subject,
+          text: owner.text,
+          replyTo: owner.replyTo,
+          attachments,
+        })
+        if (!r.ok) console.error('[orders] owner email failed:', r.message)
+      })()
+
+      await Promise.allSettled([customerSend, ownerSend])
     })
   }
 
