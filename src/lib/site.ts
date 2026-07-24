@@ -54,6 +54,8 @@ export type Site = {
   }
   hours: string | null
   payment: string | null
+  cottageDisclosure: string | null
+  story: string | null
   certification: {
     name: string
     issuer: string

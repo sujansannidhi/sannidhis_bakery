@@ -3,7 +3,13 @@ import 'server-only'
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { db } from './firebase'
 import { deletePrefix } from './storage'
-import { CONTENT_TAG, type Category, type Product, type ProductImage } from './content'
+import {
+  CONTENT_TAG,
+  type Category,
+  type Product,
+  type ProductImage,
+  type Review,
+} from './content'
 
 /**
  * Writes to the content collections, plus the cache invalidation that makes an
@@ -162,5 +168,47 @@ export async function deleteCategory(id: string): Promise<void> {
     )
   }
   await db().collection('categories').doc(id).delete()
+  refresh()
+}
+
+/* ── Reviews ──────────────────────────────────────────────────────────────── */
+
+export type ReviewInput = {
+  quote: string
+  name: string
+  occasion?: string
+  order?: number
+}
+
+export async function listReviews(): Promise<Review[]> {
+  const snapshot = await db().collection('reviews').get()
+  return snapshot.docs
+    .map((doc) => ({ id: doc.id, ...doc.data() }) as Review)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+}
+
+export async function createReview(input: ReviewInput): Promise<string> {
+  const existing = await listReviews()
+  const ref = await db().collection('reviews').add({
+    quote: input.quote,
+    name: input.name,
+    occasion: input.occasion ?? '',
+    order: input.order ?? existing.length,
+    createdAt: new Date().toISOString(),
+  })
+  refresh()
+  return ref.id
+}
+
+export async function updateReview(
+  id: string,
+  patch: Partial<ReviewInput>
+): Promise<void> {
+  await db().collection('reviews').doc(id).update({ ...patch })
+  refresh()
+}
+
+export async function deleteReview(id: string): Promise<void> {
+  await db().collection('reviews').doc(id).delete()
   refresh()
 }

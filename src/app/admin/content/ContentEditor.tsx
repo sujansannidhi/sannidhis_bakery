@@ -23,7 +23,7 @@ type FieldSpec = {
   path: string[]
   label: string
   hint?: string
-  type?: 'text' | 'number' | 'textarea'
+  type?: 'text' | 'number' | 'textarea' | 'list'
   placeholder?: string
 }
 
@@ -99,6 +99,24 @@ const SITE_FIELDS: { group: string; fields: FieldSpec[] }[] = [
         type: 'textarea',
       },
       { path: ['owner', 'name'], label: 'Baker’s name', hint: 'Leave empty to stay unnamed.' },
+      {
+        path: ['story'],
+        label: 'Your story',
+        type: 'textarea',
+        hint: 'Shown on the About page. Who bakes, how long, why you started — 120–180 words in your own voice. Leave empty to keep the default text.',
+      },
+    ],
+  },
+  {
+    group: 'Dietary',
+    fields: [
+      {
+        path: ['dietary'],
+        label: 'What you can make',
+        type: 'list',
+        hint: 'Comma-separated, e.g. Eggless, Nut-free. Answered in the FAQ and About. Leave empty to say "ask us".',
+        placeholder: 'Eggless, Nut-free',
+      },
     ],
   },
   {
@@ -222,7 +240,13 @@ function SiteEditor({ initial, canPublish }: { initial: Json; canPublish: boolea
   function update(field: FieldSpec, raw: string) {
     const trimmed = raw.trim()
     let value: unknown
-    if (trimmed === '') {
+    if (field.type === 'list') {
+      // Comma-separated -> array. Empty stays an empty array, which the pages
+      // treat as "none supplied" and handle gracefully.
+      value = trimmed === ''
+        ? []
+        : raw.split(',').map((s) => s.trim()).filter(Boolean)
+    } else if (trimmed === '') {
       value = null
     } else if (field.type === 'number') {
       const n = Number(trimmed)
@@ -241,8 +265,11 @@ function SiteEditor({ initial, canPublish }: { initial: Json; canPublish: boolea
           {group.fields.map((field) => {
             const id = field.path.join('.')
             const value = get(data, field.path)
-            const stringValue =
-              value === null || value === undefined ? '' : String(value)
+            const stringValue = Array.isArray(value)
+              ? value.join(', ')
+              : value === null || value === undefined
+                ? ''
+                : String(value)
             return (
               <div key={id} className={styles.field}>
                 <label className={styles.label} htmlFor={id}>

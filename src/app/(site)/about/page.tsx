@@ -49,19 +49,30 @@ export default async function AboutPage() {
                 storefront to visit — orders are arranged ahead and collected at
                 an agreed time.
               </p>
-              <p>
-                Almost everything is made to order. People usually come to us
-                with a date, a rough idea and often a photo of something they
-                have seen, and we work out together what is possible before
-                anything is agreed. We would rather tell you a design will not
-                work than deliver something that disappoints.
-              </p>
-              <p>
-                {/* TODO(owner): if you are happy to be named, replace this with
-                    your name and how long you have been baking. */}
-                We are a family business, and the person who bakes your order is
-                the person who replies to your enquiry.
-              </p>
+
+              {site.cottageDisclosure && (
+                <p className={styles.disclosure}>{site.cottageDisclosure}</p>
+              )}
+              {site.story && site.story.trim() ? (
+                site.story
+                  .trim()
+                  .split(/\n\n+/)
+                  .map((para, i) => <p key={i}>{para}</p>)
+              ) : (
+                <>
+                  <p>
+                    Almost everything is made to order. People usually come to us
+                    with a date, a rough idea and often a photo of something they
+                    have seen, and we work out together what is possible before
+                    anything is agreed. We would rather tell you a design will
+                    not work than deliver something that disappoints.
+                  </p>
+                  <p>
+                    We are a family business, and the person who bakes your order
+                    is the person who replies to your enquiry.
+                  </p>
+                </>
+              )}
 
               {site.certification && (
                 <p className={styles.credential}>

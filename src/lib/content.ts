@@ -63,6 +63,14 @@ export type Category = {
   order: number
 }
 
+export type Review = {
+  id: string
+  quote: string
+  name: string
+  occasion?: string
+  order: number
+}
+
 /* ── Reads ────────────────────────────────────────────────────────────────── */
 
 async function fetchProducts(): Promise<Product[]> {
@@ -93,6 +101,26 @@ async function fetchCategories(): Promise<Category[]> {
   }
 }
 
+/**
+ * Reviews are the one kind of content with no committed seed: there are no real
+ * ones yet, and a fabricated review is the single thing on this site that would
+ * actually mislead someone. So this returns an empty list until the owner adds
+ * genuine ones through the admin, and the public section hides itself when the
+ * list is empty rather than showing an empty heading.
+ */
+async function fetchReviews(): Promise<Review[]> {
+  if (!isFirebaseConfigured()) return []
+  try {
+    const snapshot = await db().collection('reviews').get()
+    return snapshot.docs
+      .map((doc) => ({ id: doc.id, ...doc.data() }) as Review)
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+  } catch (error) {
+    console.error('[content] reviews read failed:', message(error))
+    return []
+  }
+}
+
 async function fetchSettings(): Promise<Record<string, unknown>> {
   if (!isFirebaseConfigured()) return seedSite as Record<string, unknown>
   try {
@@ -116,6 +144,11 @@ export const getProducts = unstable_cache(fetchProducts, ['products'], {
 })
 
 export const getCategories = unstable_cache(fetchCategories, ['categories'], {
+  tags: [CONTENT_TAG],
+  revalidate: 3600,
+})
+
+export const getReviews = unstable_cache(fetchReviews, ['reviews'], {
   tags: [CONTENT_TAG],
   revalidate: 3600,
 })
