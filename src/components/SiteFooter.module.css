@@ -118,3 +118,13 @@
   color: var(--currant);
   text-decoration: underline;
 }
+
+.disclosure {
+  margin: var(--s-24) 0 0;
+  padding-top: var(--s-16);
+  border-top: 1px solid var(--hairline);
+  font-size: var(--t-13);
+  color: var(--stone);
+  max-width: 70ch;
+  line-height: 1.5;
+}

@@ -4,6 +4,8 @@ import { site } from '@/lib/site'
 import { Photo } from '@/components/Photo'
 import { CaseCard } from '@/components/CaseCard'
 import { Reveal } from '@/components/Reveal'
+import { Reviews } from '@/components/Reviews'
+import { getReviews } from '@/lib/content'
 import {
   byCategory,
   byId,
@@ -47,6 +49,7 @@ export default async function HomePage() {
   // Resolved up front so the JSX below stays declarative rather than awaiting
   // inside a map.
   const storyPhoto = await byId('ruffle-and-bloom')
+  const reviews = await getReviews()
 
   const categoryBlocks = await Promise.all(
     allCategories.map(async (category) => ({
@@ -237,22 +240,18 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/*
-        ── Reviews ──────────────────────────────────────────────────────────
-
-        Built but not shipped. The brief is explicit that testimonials must be
-        real and attributed, and none have been supplied. Add them to
-        src/content/site.json → reviews and uncomment this block. Do not write
-        placeholder quotes here — a fabricated review is the one thing on this
-        site that would actually mislead someone.
-
+      {/* ── Reviews ─────────────────────────────────────────────────────── */}
+      {/* Renders only when real reviews exist; managed in Admin → Reviews. */}
+      {reviews.length > 0 && (
         <section className="section section--shelf">
           <div className="container">
-            <h2>What people say</h2>
-            <Reviews items={site.reviews} />
+            <Reveal as="div" className={styles.sectionHead}>
+              <h2>What people say</h2>
+            </Reveal>
+            <Reviews items={reviews} />
           </div>
         </section>
-      */}
+      )}
 
       {/* ── Photo strip ─────────────────────────────────────────────────── */}
       <section className={styles.strip} aria-label="Photographs of recent orders">

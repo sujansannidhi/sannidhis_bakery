@@ -109,6 +109,12 @@ export function SiteFooter() {
           <p>&copy; {year} Sannidhi&rsquo;s Bakery</p>
         </div>
 
+        {/* Texas cottage food law requires this disclosure. Stated plainly
+            rather than buried — it is also reassuring, not just obligatory. */}
+        {site.cottageDisclosure && (
+          <p className={styles.disclosure}>{site.cottageDisclosure}</p>
+        )}
+
         {/* The owner's way in. Deliberately quiet — it is a staff door, not a
             customer one — and noindex on the admin keeps it out of search. */}
         <p className={styles.adminLink}>
