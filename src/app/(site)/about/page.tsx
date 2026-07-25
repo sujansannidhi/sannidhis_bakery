@@ -5,6 +5,20 @@ import { site } from '@/lib/site'
 import { byId } from '@/lib/products'
 import styles from './about.module.css'
 
+
+/** The owner's kitchen — a one-off photo, not a product, so its image record is
+ *  built here rather than coming from the products collection. */
+const KITCHEN_IMAGE = {
+  variants: [
+    { width: 480, avif: '/img/kitchen-480.avif', webp: '/img/kitchen-480.webp', jpg: '/img/kitchen-480.jpg' },
+    { width: 640, avif: '/img/kitchen-640.avif', webp: '/img/kitchen-640.webp', jpg: '/img/kitchen-640.jpg' },
+  ],
+  width: 640,
+  height: 426,
+  aspectRatio: 1.502,
+  lqip: 'data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAACQAwCdASoUAA0APu1mqk4ppaOiMAgBMB2JZwCsAB48wS+2ux2AAP5T8tPm81urI4F4IALEqC5RcOKdpkXkAA==',
+}
+
 export const metadata: Metadata = {
   title: 'About',
   description:
@@ -12,7 +26,6 @@ export const metadata: Metadata = {
 }
 
 export default async function AboutPage() {
-  const kitchenPhoto = await byId('strawberry-blossom')
   const makePhoto = await byId('building-block')
 
   return (
@@ -37,8 +50,8 @@ export default async function AboutPage() {
         <div className="container">
           <div className={styles.split}>
             <Photo
-              image={kitchenPhoto.image}
-              alt={kitchenPhoto.alt}
+              image={KITCHEN_IMAGE}
+              alt="Our home kitchen, where every order is baked."
               sizes="(min-width: 900px) 45vw, 100vw"
             />
             <div className={styles.body}>
